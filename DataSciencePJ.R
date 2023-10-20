@@ -12,6 +12,7 @@ ae_data %>%
 ae_data %>%
   filter(TreatmentLocation == "G306H")
 
-ae_data %>%
+ae_data <- ae_data %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
-  select(-Country) %all the countries are the same (Scotland)
+  select(-Country)
+ae_data
