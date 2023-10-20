@@ -19,6 +19,5 @@ a_e_data %>%
   group_by(HBT) %>%
   count()
 
- 
 
     
