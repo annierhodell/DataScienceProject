@@ -11,3 +11,6 @@ ae_data %>%
 
 ae_data %>%
   filter(TreatmentLocation == "G306H")
+
+ae_data %>%
+  mutate(WeekEndingDate = ymd(WeekEndingDate))
