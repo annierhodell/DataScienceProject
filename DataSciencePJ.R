@@ -11,8 +11,7 @@ ae_data %>%
 
 ae_data %>%
   filter(TreatmentLocation == "G306H")
-
-ae_data <- ae_data %>%
+a_e_data <- ae_data %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
-  select(-Country)
-ae_data
+  select(-Country, -DepartmentType)
+
