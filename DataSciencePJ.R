@@ -19,6 +19,10 @@ a_e_data %>%
   group_by(HBT) %>%
   count()
 
- 
+A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
+
+
+
+  
 
     
