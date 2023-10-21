@@ -19,13 +19,6 @@ a_e_data %>%
   group_by(HBT) %>%
   count()
 
-<<<<<<< HEAD
 A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
-
-
-
-  
-=======
->>>>>>> 53662d8a5dc802b99e2c8cc95c6c7a0ceb060fec
 
     
