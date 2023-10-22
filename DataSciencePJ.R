@@ -35,4 +35,5 @@ a_e_data %>%
 A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
 view(A_E_Data)
 
-    
+A_E_Data %>% 
+  relocate(Name, .before = TreatmentLocation)
