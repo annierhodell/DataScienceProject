@@ -19,6 +19,10 @@ a_e_data %>%
   group_by(HBT) %>%
   count()
 
+a_e_data %>%
+  group_by(TreatmentLocation) %>%
+  summarise(average = mean(NumberOfAttendancesEpisode)) #showing what the average n. of attendance episodes is for each hospital across the whole time period
+
 A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
 
     
