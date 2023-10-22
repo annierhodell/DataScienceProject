@@ -46,6 +46,7 @@ AE_Data <- A_E_Data %>%
          digits = 1)) %>%
   relocate(PercentageOver4HoursEpisode, .before = NumberOver8HoursEpisode)
 
+#rename section so we can dicuss what we can rename columns togethers
 #rename("HealthBoardAreaCode" = "HBT", "HealthBoardAreaName" = "Name", 
          #"No.AttendencesEp" = "NumberOfAttendancesEpisode", 
          #"No.within_4hr_Ep" = "NumberWithin4HoursEpisode", "No.Over_4hr_Ep" = "NumberOver4HoursEpisode",
