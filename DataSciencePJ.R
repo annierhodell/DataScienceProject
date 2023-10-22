@@ -44,7 +44,7 @@ AE_Data <- A_E_Data %>%
   relocate(PercentageWithin4HoursEpisode, .before = NumberOver4HoursEpisode) %>%
   mutate(PercentageOver4HoursEpisode = round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100,
          digits = 1)) %>%
-  relocate(PercentageOver4HoursEpisode, .before = NumberOver4HoursEpisode)
+  relocate(PercentageOver4HoursEpisode, .before = NumberOver8HoursEpisode)
 
 #rename("HealthBoardAreaCode" = "HBT", "HealthBoardAreaName" = "Name", 
          #"No.AttendencesEp" = "NumberOfAttendancesEpisode", 
