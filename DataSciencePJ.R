@@ -35,5 +35,23 @@ a_e_data %>%
 A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
 view(A_E_Data)
 
-A_E_Data %>% 
+AE_Data <- A_E_Data %>% 
   relocate(Name, .before = TreatmentLocation)
+
+library(dplyr)
+AE_Data <- A_E_Data %>% 
+  relocate(Name, .before = TreatmentLocation) %>%
+  relocate(PercentageWithin4HoursEpisode, .before = NumberOver4HoursEpisode) %>%
+  mutate(PercentageOver4HoursEpisode = round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100,
+         digits = 1)) %>%
+  relocate(PercentageOver4HoursEpisode, .before = NumberOver4HoursEpisode)
+
+#rename("HealthBoardAreaCode" = "HBT", "HealthBoardAreaName" = "Name", 
+         #"No.AttendencesEp" = "NumberOfAttendancesEpisode", 
+         #"No.within_4hr_Ep" = "NumberWithin4HoursEpisode", "No.Over_4hr_Ep" = "NumberOver4HoursEpisode",
+         #"%_within_4hr_Ep" = "PercentageWithin4HoursEpisode", "No.Over_8hr_Ep" = "NumberOver8HoursEpisode",
+         #"%_Over_8hr_Ep" = "PercentageOver8HoursEpisode", "No.Over_12hr_Ep" = "NumberOver12HoursEpisode",
+         #"%_Over_12hr_Ep" = "PercentageOver12HoursEpisode")
+?ceiling
+view(AE_Data)
+
