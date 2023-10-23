@@ -72,10 +72,15 @@ AE_Data %>%
 AE_Data %>%
   select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
   group_by(WeekEndingDate) %>%
-  summarise(Sum_NumberOfAttendancesEpisode = sum(NumberOfAttendancesEpisode))%>%
-  ggplot() +
-  geom_bar()
+  summarise(Sum_NumberOfAttendancesEpisode = sum(NumberOfAttendancesEpisode)) %>%
+  ggplot(aes(x = WeekEndingDate, 
+            )) +
+  geom_histogram(bins = 100)
   
 
 view(AE_Data)
 
+
+AE_Data %>%
+  count(Name, TreatmentLocation) %>%
+  count(Name)
