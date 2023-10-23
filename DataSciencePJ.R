@@ -73,9 +73,9 @@ AE_Data %>%
   select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
   group_by(WeekEndingDate) %>%
   summarise(Sum_NumberOfAttendancesEpisode = sum(NumberOfAttendancesEpisode)) %>%
-  ggplot(aes(x = WeekEndingDate, 
+  ggplot(aes(x = WeekEndingDate, y = Sum_NumberOfAttendancesEpisode 
             )) +
-  geom_histogram(bins = 100)
+  geom_col()
   
 
 view(AE_Data)
