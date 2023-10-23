@@ -57,6 +57,16 @@ AE_Data <- A_E_Data %>%
          #"%_within_4hr_Ep" = "PercentageWithin4HoursEpisode", "No.Over_8hr_Ep" = "NumberOver8HoursEpisode",
          #"%_Over_8hr_Ep" = "PercentageOver8HoursEpisode", "No.Over_12hr_Ep" = "NumberOver12HoursEpisode",
          #"%_Over_12hr_Ep" = "PercentageOver12HoursEpisode")
-?ceiling
+grouped_AE_Data <- AE_Data %>%
+  group_by(Name) %>%
+  summarise(mean_attendances = mean(NumberOfAttendancesEpisode),
+            mean_within_4_hours = mean(NumberWithin4HoursEpisode),
+            mean_over_four_hours = mean(NumberOver4HoursEpisode),
+            mean_over_8_hours = mean(NumberOver8HoursEpisode),
+            mean_over_12_hours = mean(NumberOver12HoursEpisode))
+
+AE_Data %>%
+  count(Name, TreatmentLocation)
+
 view(AE_Data)
 
