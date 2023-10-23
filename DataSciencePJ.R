@@ -79,8 +79,13 @@ AE_Data %>%
 
 view(AE_Data)
 
-YearsData <- AE_Data %>%
-  select(WeekEndingDate, NumberOfAttendancesEpisode)
+AE_Data %>%
+    select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
+    mutate(Month = month(WeekEndingDate) %>%
+    ggplot(aes(x = Month, y = NumberOfAttendancesEpisode, 
+               colour = year(WeekEndingDate))) +
+             geom_col() 
+    
 
 Data_2015 <- YearsData %>%
   filter(year(WeekEndingDate) == 2015) %>%
