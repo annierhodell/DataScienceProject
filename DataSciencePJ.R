@@ -81,7 +81,7 @@ view(AE_Data)
 
 AE_Data %>%
     select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
-    mutate(Month = month(WeekEndingDate) %>%
+    mutate(Month = month(WeekEndingDate)) %>%
     ggplot(aes(x = Month, y = NumberOfAttendancesEpisode, 
                colour = year(WeekEndingDate))) +
              geom_col() 
