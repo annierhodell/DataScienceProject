@@ -66,7 +66,16 @@ grouped_AE_Data <- AE_Data %>%
             mean_over_12_hours = mean(NumberOver12HoursEpisode))
 
 AE_Data %>%
-  count(Name, TreatmentLocation)
+  count(Name,TreatmentLocation) %>%
+  count(Name)
+
+AE_Data %>%
+  select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
+  group_by(WeekEndingDate) %>%
+  summarise(Sum_NumberOfAttendancesEpisode = sum(NumberOfAttendancesEpisode))%>%
+  ggplot() +
+  geom_bar()
+  
 
 view(AE_Data)
 
