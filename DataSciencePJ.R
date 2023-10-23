@@ -76,6 +76,7 @@ AE_Data %>%
   filter(year(WeekEndingDate) == 2020) %>%
   ggplot(aes(x = WeekEndingDate, y = Sum_NumberOfAttendancesEpisode)) +
   geom_line()
+
   
 
 view(AE_Data)
