@@ -83,9 +83,8 @@ AE_Data %>%
     select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
     mutate(Month = month(WeekEndingDate)) %>%
     mutate(Year = year(WeekEndingDate)) %>%
-    filter(Year = 2020)
-    ggplot(aes(x = WeekEndingDate, y = NumberOfAttendancesEpisode, 
-               colour = year(WeekEndingDate))) +
+    filter(Year == 2020) %>%
+    ggplot(aes(x = WeekEndingDate, y = NumberOfAttendancesEpisode)) +
              geom_line() 
     
 
