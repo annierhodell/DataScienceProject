@@ -73,9 +73,9 @@ AE_Data %>%
   select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
   group_by(WeekEndingDate) %>%
   summarise(Sum_NumberOfAttendancesEpisode = sum(NumberOfAttendancesEpisode)) %>%
-  ggplot(aes(x = WeekEndingDate, 
-            )) +
-  geom_histogram(bins = 100)
+  filter(year(WeekEndingDate) == 2020) %>%
+  ggplot(aes(x = WeekEndingDate, y = Sum_NumberOfAttendancesEpisode)) +
+  geom_line()
   
 
 view(AE_Data)
