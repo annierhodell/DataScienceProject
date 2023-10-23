@@ -119,5 +119,5 @@ Data_2015
 
 Treatement_Location_names%>%
   rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
-  A_E_Data <- full_join(A_E_Data, Treatement_Location_names, by ="TreatmentLocation")
+  full_join(A_E_Data, Treatement_Location_names, by ="TreatmentLocation")
 
