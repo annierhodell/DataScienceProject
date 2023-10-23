@@ -81,6 +81,3 @@ AE_Data %>%
 view(AE_Data)
 
 
-AE_Data %>%
-  count(Name, TreatmentLocation) %>%
-  count(Name)
