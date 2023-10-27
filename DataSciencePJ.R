@@ -1,48 +1,37 @@
 library(tidyverse)
 library(ggplot2)
+library(dplyr)
 ae_data <- weekly_ae_activity_20231008
 
-ae_data %>%
-  group_by(WeekEndingDate) %>%
-  count()
-
-ae_data %>%
-  group_by(TreatmentLocation) %>%
-  count()
-
-ae_data %>%
-  filter(TreatmentLocation == "G306H")
+#tidying ae_data to become a_e_data
 a_e_data <- ae_data %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
   select(-Country, -DepartmentType) 
 
-a_e_data %>%
-  group_by(HBT) %>%
-  count()
-
+#showing what the average n. of attendance episodes is for each hospital across the whole time period
 a_e_data %>%
   group_by(TreatmentLocation) %>%
-  summarise(average = mean(NumberOfAttendancesEpisode)) #showing what the average n. of attendance episodes is for each hospital across the whole time period
+  summarise(average = mean(NumberOfAttendancesEpisode)) 
 
-grouped_a_e_data <- a_e_data %>%
-  group_by(HBT) %>%
+A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
+view(A_E_Data)
+
+A_E_Data %>% 
+  relocate(Name, .before = TreatmentLocation)
+
+#looking at locations
+grouped_A_E_Data <- A_E_Data %>%
+  group_by(Name) %>%
   summarise(mean_attendances = mean(NumberOfAttendancesEpisode),
             mean_within_4_hours = mean(NumberWithin4HoursEpisode),
             mean_over_four_hours = mean(NumberOver4HoursEpisode),
             mean_over_8_hours = mean(NumberOver8HoursEpisode),
             mean_over_12_hours = mean(NumberOver12HoursEpisode)) # average by HBT not including the percentages
-grouped_a_e_data %>%
+grouped_A_E_Data %>%
   ggplot() +
-  geom_col(mapping = aes(x = mean_attendances, y = HBT)) # bar plot of the averages grouped by HBT
-  
+  geom_col(mapping = aes(x = mean_attendances, y = Name)) # bar plot of the averages grouped by names of the hospital location
 
-A_E_Data <- left_join(a_e_data, HBT_codes, by ="HBT")
-view(A_E_Data)
 
-AE_Data <- A_E_Data %>% 
-  relocate(Name, .before = TreatmentLocation)
-
-library(dplyr)
 AE_Data <- A_E_Data %>% 
   relocate(Name, .before = TreatmentLocation) %>%
   relocate(PercentageWithin4HoursEpisode, .before = NumberOver4HoursEpisode) %>%
@@ -86,32 +75,6 @@ AE_Data %>%
     ggplot(aes(x = WeekEndingDate, y = NumberOfAttendancesEpisode)) +
              geom_col() 
     
-
-Data_2015 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2015) %>%
-  mutate(month(WeekEndingDate))
-Data_2016 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2016)
-Data_2017 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2017)
-Data_2018 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2018)
-Data_2019 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2019)
-Data_2020 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2020)
-Data_2021 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2021)
-Data_2022 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2022)
-Data_2023 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2023)
-
-Years <- (c(Data_2015, Data_2016, Data_2017, Data_2018, 
-           Data_2019, Data_2020, Data_2021, Data_2022, Data_2023))
-
-ggplot(Years, aes(x = month(WeekEndingDate), y = NumberOfAttendancesEpisode)) +
-         geom_line()
        
 Data_2015
 
