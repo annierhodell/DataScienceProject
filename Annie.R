@@ -17,7 +17,6 @@ col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLoc
                "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
                "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
 
-data.ordered <- data.TLnames[, col_order]
-colnames(data.ordered)
+data <- data.TLnames[, col_order]
 
-view(ae_data)
+view(data)
