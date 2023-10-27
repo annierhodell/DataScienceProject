@@ -6,7 +6,7 @@ tidy.data <- weekly_ae_activity_20231008 %>%
   mutate(PercentageOver4HoursEpisode = 
            round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
 
-data.HBT.pop <- left_join(data, HBT_area_names_and_population, by ="HBT")
+data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
 
 data.TLnames <- Treatement_Location_names%>%
   rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
