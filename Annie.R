@@ -10,7 +10,7 @@ data.HBT.pop <- left_join(data, HBT_area_names_and_population, by ="HBT")
 
 data.TLnames <- Treatement_Location_names%>%
   rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
-  left_join(data2, Treatement_Location_names, by ="TreatmentLocation")
+  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
 
 col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
                "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
