@@ -1,9 +1,9 @@
-AE_Data_new <- AE_Data %>%
+data_graph_1 <- data %>%
   mutate(Year = year(WeekEndingDate)) %>%
   mutate(date = yday(WeekEndingDate))
 
 
-AE_Data_new %>% 
+data_graph_1 %>% 
   group_by(WeekEndingDate) %>%
   summarise(sumdat=sum(NumberOfAttendancesEpisode), Year, date) %>% 
   ggplot(aes(x = date, y = sumdat, colour = as.factor(Year))) +
