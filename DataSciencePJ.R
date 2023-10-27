@@ -82,10 +82,9 @@ view(AE_Data)
 AE_Data %>%
     select(WeekEndingDate, NumberOfAttendancesEpisode) %>%
     mutate(Month = month(WeekEndingDate)) %>%
-    mutate(Year = year(WeekEndingDate)) %>%
-    filter(Year == 2020) %>%
+    mutate(Year = year(WeekEndingDate))  %>%
     ggplot(aes(x = WeekEndingDate, y = NumberOfAttendancesEpisode)) +
-             geom_line() 
+             geom_col() 
     
 
 Data_2015 <- YearsData %>%
