@@ -1,5 +1,6 @@
 library(tidyverse)
 library(ggplot2)
+library(dplyr)
 ae_data <- weekly_ae_activity_20231008
 
 #tidying ae_data to become a_e_data
@@ -31,9 +32,6 @@ grouped_A_E_Data %>%
   geom_col(mapping = aes(x = mean_attendances, y = Name)) # bar plot of the averages grouped by names of the hospital location
 
 
-
-
-library(dplyr)
 AE_Data <- A_E_Data %>% 
   relocate(Name, .before = TreatmentLocation) %>%
   relocate(PercentageWithin4HoursEpisode, .before = NumberOver4HoursEpisode) %>%
@@ -77,32 +75,6 @@ AE_Data %>%
     ggplot(aes(x = WeekEndingDate, y = NumberOfAttendancesEpisode)) +
              geom_col() 
     
-
-Data_2015 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2015) %>%
-  mutate(month(WeekEndingDate))
-Data_2016 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2016)
-Data_2017 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2017)
-Data_2018 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2018)
-Data_2019 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2019)
-Data_2020 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2020)
-Data_2021 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2021)
-Data_2022 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2022)
-Data_2023 <- YearsData %>%
-  filter(year(WeekEndingDate) == 2023)
-
-Years <- (c(Data_2015, Data_2016, Data_2017, Data_2018, 
-           Data_2019, Data_2020, Data_2021, Data_2022, Data_2023))
-
-ggplot(Years, aes(x = month(WeekEndingDate), y = NumberOfAttendancesEpisode)) +
-         geom_line()
        
 Data_2015
 
