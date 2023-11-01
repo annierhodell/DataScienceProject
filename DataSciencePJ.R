@@ -19,6 +19,23 @@ col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLoc
                "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
                "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
 
-data <- data.TLnames[, col_order]
+data.order <- data.TLnames[, col_order]
+
+data <- data.order %>%
+  rename("Week_Ending_Date" = "WeekEndingDate",
+         "Health_Board_Area_Code" = "HBT", 
+         "Health_Board_Area_Name" = "Area name", 
+         "Area_Population" = "Population", 
+         "Treatment_Location_Code" = "TreatmentLocation", 
+         "Treatment_Location_Name" = "Name of Treatement Location",
+         "Total_Attendees" = "NumberOfAttendancesEpisode", 
+         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
+         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
+         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
+         "%_Over_4hr" = "PercentageWithin4HoursEpisode",
+         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
+         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
+         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
+         "%_Over_12hr" = "PercentageOver12HoursEpisode")
 
 view(data)
