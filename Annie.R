@@ -1,5 +1,6 @@
 library(tidyverse)
 library(ggplot2)
+<<<<<<< HEAD
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
@@ -21,3 +22,5 @@ col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLoc
 data <- data.TLnames[, col_order]
 
 view(data)
+=======
+>>>>>>> c4fd45b514a270e47b896b8408341f28dcccc23e
