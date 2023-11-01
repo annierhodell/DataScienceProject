@@ -15,7 +15,8 @@ data.TLnames <- Treatement_Location_names%>%
 col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
                "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
                "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
-               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
+               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", 
+               "PercentageOver12HoursEpisode")
 
 data <- data.TLnames[, col_order]
 
