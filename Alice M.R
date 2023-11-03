@@ -3,6 +3,7 @@
 # also might want to look at each year individually, or remove 2020,2021 or make there own graph
 #using old dataset needs to be changed to tidy one,
 # do better titles and subtitles
+# make it look more pretty
 data_graph_2 <- data %>%
   group_by(Health_Board_Area_Name) %>%
   summarise(mean_attendances = mean(Total_Attendees),
