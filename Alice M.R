@@ -1,5 +1,7 @@
-#looking at locations
+#looking at mean attendances in each location per week.
 #we want to add in population data so we get mean attendances as a proportion of population
+# also might want to look at each year individually, or remove 2020,2021 or make there own graph
+#using old dataset needs to be changed to tidy one,
 grouped_A_E_Data <- A_E_Data %>%
   group_by(Name) %>%
   summarise(mean_attendances = mean(NumberOfAttendancesEpisode),
