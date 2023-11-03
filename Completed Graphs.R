@@ -18,6 +18,7 @@ data_graph_1 %>%
 
 
 
+
 #graph 2
 #looking at mean attendances in each location per week.
 #we want to add in population data so we get mean attendances as a proportion of population
