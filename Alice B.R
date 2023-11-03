@@ -1,3 +1,4 @@
+#graph of yearly total attendees to all hospitals
 data_graph_1 <- data %>%
   mutate(Year = year(Week_Ending_Date)) %>%
   mutate(date = yday(Week_Ending_Date))

@@ -1,4 +1,5 @@
 #looking at locations
+#we want to add in population data so we get mean attendances as a proportion of population
 grouped_A_E_Data <- A_E_Data %>%
   group_by(Name) %>%
   summarise(mean_attendances = mean(NumberOfAttendancesEpisode),
