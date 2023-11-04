@@ -1,3 +1,4 @@
+
 #looking at mean attendances in each location per week.
 #we want to add in population data so we get mean attendances as a proportion of population
 # also might want to look at each year individually, or remove 2020,2021 or make there own graph
@@ -27,3 +28,4 @@ data_graph_2 %>%
   theme_bw() 
 
 # bar plot of the averages grouped by names of the hospital location
+
