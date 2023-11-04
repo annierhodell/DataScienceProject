@@ -29,3 +29,33 @@ data_graph_2 %>%
 
 # bar plot of the averages grouped by names of the hospital location
 
+#population data and graph
+
+data_graph_4 <- data %>%
+  group_by(Health_Board_Area_Name) %>%
+  summarise(per_pop = mean(Total_Attendees) / Area_Population) %>%
+  arrange(desc(per_pop))
+
+data %>%
+  group_by(Health_Board_Area_Name) %>%
+  summarise(count(Area_Population)) %>%
+  view()
+
+#attempting to find the whole polulation
+#graph 4
+
+data_graph_4 %>%
+  ggplot() +
+  geom_col(mapping = aes(x = per_pop,
+                         y = reorder(Health_Board_Area_Name, desc(per_pop)))) +
+  labs(title = "Mean Attendances Per Week In Each Area",
+       subtitle = "2015 - 2023",
+       x = "Mean Attendance",
+       y = "Area In Scotland") +
+  guides(fill = FALSE) +
+  theme_bw()
+#making the above graph but in terms of population
+#it wont order properly
+                         
+  
+
