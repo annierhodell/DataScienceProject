@@ -1,14 +1,9 @@
 library(tidyverse)
 library(ggplot2)
 
-#rename section so we can dicuss what we can rename columns togethers
-#rename("HealthBoardAreaCode" = "HBT", "HealthBoardAreaName" = "Name", 
-#"No.AttendencesEp" = "NumberOfAttendancesEpisode", 
-#"No.within_4hr_Ep" = "NumberWithin4HoursEpisode", "No.Over_4hr_Ep" = "NumberOver4HoursEpisode",
-#"%_within_4hr_Ep" = "PercentageWithin4HoursEpisode", "No.Over_8hr_Ep" = "NumberOver8HoursEpisode",
-#"%_Over_8hr_Ep" = "PercentageOver8HoursEpisode", "No.Over_12hr_Ep" = "NumberOver12HoursEpisode",
-#"%_Over_12hr_Ep" = "PercentageOver12HoursEpisode")
-
+#how to change colours
+#scale_colour_manual(values = 
+#                      c("first" = "orange","last" = "forestgreen"))
 
 data <- data.order %>%
   rename("Week_Ending_Date" = "WeekEndingDate",
