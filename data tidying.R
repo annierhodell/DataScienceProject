@@ -32,7 +32,7 @@ data <- data.order %>%
          "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
          "%_within_4hr" = "PercentageWithin4HoursEpisode", 
          "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
-         "%_Over_4hr" = "PercentageWithin4HoursEpisode",
+         "%_Over_4hr" = "PercentageOver4HoursEpisode",
          "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
          "%_Over_8hr" = "PercentageOver8HoursEpisode", 
          "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
