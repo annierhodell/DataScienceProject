@@ -5,6 +5,9 @@ library(ggplot2)
 #scale_colour_manual(values = 
 #                      c("first" = "orange","last" = "forestgreen"))
 
+#having multiple graphs
+#facet_wrap(~ event, scale = "free")
+
 data <- data.order %>%
   rename("Week_Ending_Date" = "WeekEndingDate",
          "Health_Board_Area_Code" = "HBT", 
