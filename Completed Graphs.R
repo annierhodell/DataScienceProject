@@ -91,10 +91,10 @@ data %>%
   scale_colour_manual(values = c("Greater Glasgow and Clyde" = "red",
                                  "Lothian" = "gold", "Ayrshire and Arran" = "pink", 
                                  "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
-                                 "Fife" = "skyblue", "Forth Valley" = "blanchedalmond",
+                                 "Fife" = "skyblue", "Forth Valley" = "cyan",
                                  "Grampian" = "purple", "Highland" = "violet",
                                  "Lanarkshire" = "mediumaquamarine", "Orkney" = "darkblue",
-                                 "Shetland" = "orange","Tayside" = "maroon", 
+                                 "Shetland" = "orange","Tayside" = "maroon",
                                  "Western Isles" = "powderblue")) +
   geom_line()+
   labs(x = "Date",
