@@ -89,10 +89,10 @@ data %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees, colour = Health_Board_Area_Name)) +
   scale_colour_manual(values = c("Greater Glasgow and Clyde" = "red",
-                                 "Lothian" = "gold", "Ayrshire and Arran" = "pink", 
+                                 "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
                                  "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
-                                 "Fife" = "skyblue", "Forth Valley" = "cyan",
-                                 "Grampian" = "purple", "Highland" = "violet",
+                                 "Fife" = "gold", "Forth Valley" = "cyan",
+                                 "Grampian" = "purple", "Highland" = "royalblue",
                                  "Lanarkshire" = "mediumaquamarine", "Orkney" = "darkblue",
                                  "Shetland" = "orange","Tayside" = "maroon",
                                  "Western Isles" = "powderblue")) +
