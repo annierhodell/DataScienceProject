@@ -99,4 +99,5 @@ data %>%
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
-       title = "Number of Attendees Per Year in Each Health Board Area")
+       title = "Number of Attendees Per Year in Each Health Board Area") +
+  theme_bw()
