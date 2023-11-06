@@ -33,13 +33,9 @@ data_graph_2 %>%
 
 data_graph_4 <- data %>%
   group_by(Health_Board_Area_Name) %>%
-  summarise(per_pop = mean(Total_Attendees) / Area_Population) %>%
-  arrange(desc(per_pop))
+  summarise(per_pop = (mean(Total_Attendees) / Area_Population) * 100) %>%
+  
 
-data %>%
-  group_by(Health_Board_Area_Name) %>%
-  summarise(count(Area_Population)) %>%
-  view()
 
 #attempting to find the whole polulation
 #graph 4
@@ -47,15 +43,49 @@ data %>%
 data_graph_4 %>%
   ggplot() +
   geom_col(mapping = aes(x = per_pop,
-                         y = reorder(Health_Board_Area_Name, desc(per_pop)))) +
+                         y = reorder(Health_Board_Area_Name, per_pop))) +
   labs(title = "Mean Attendances Per Week In Each Area",
-       subtitle = "2015 - 2023",
+       subtitle = c("2015 - 2023", "per 100"),
        x = "Mean Attendance",
        y = "Area In Scotland") +
   guides(fill = FALSE) +
   theme_bw()
 #making the above graph but in terms of population
 #it wont order properly
+
+#graph 6?
+#same as graph 5 but per capita
+
+data %>%
+  select(Week_Ending_Date, Total_Attendees_Per_Capita, Health_Board_Area_Name) %>%
+  filter(year(Week_Ending_Date) == 2023) %>%
+  group_by(Week_Ending_Date, Health_Board_Area_Name) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees_Per_Capita)) %>%
+  ggplot(aes(x = Week_Ending_Date,
+             y = Sum_Total_Attendees,
+             colour = Health_Board_Area_Name)) +
+  geom_line()+
+  labs(x = "Date",
+       y = "Sum of Total Attendees",
+       title = "Number of Attendees Per Year in Each Health Board Area",
+       subtitle = "per capita") +
+  theme_bw()
+
+#this graphis looking at waiting over 4 hours
+
+data %>%
+  select(Week_Ending_Date, Attendees_Over_4hrs, Health_Board_Area_Name) %>%
+group_by(Week_Ending_Date, Health_Board_Area_Name) %>%
+  summarise(Sum_Total_Attendees= sum(Attendees_Over_4hrs)) %>%
+  ggplot(aes(x = Week_Ending_Date,
+             y = Sum_Total_Attendees,
+             colour = Health_Board_Area_Name)) +
+  geom_line()+
+  labs(x = "Date",
+       y = "Attendees_Over_12hrs",
+       title = "Number of Attendees Per Year in Each Health Board Area",
+       subtitle = "per capita") +
+  theme_bw()
                          
   
 
