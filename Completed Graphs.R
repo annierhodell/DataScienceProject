@@ -61,3 +61,15 @@ data %>%
   labs(x = "Date",
        y = "Sum of Total Attendees",
        title = "Number of Attendees Per Month In 2020")
+
+#Graph 5
+#Number of Attendees Per Year in Each Health Board Area
+data %>%
+  select(Week_Ending_Date, Total_Attendees, Health_Board_Area_Name) %>%
+  group_by(Week_Ending_Date, Health_Board_Area_Name) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees, colour = Health_Board_Area_Name)) +
+  geom_line()+
+  labs(x = "Date",
+       y = "Sum of Total Attendees",
+       title = "Number of Attendees Per Year in Each Health Board Area")
