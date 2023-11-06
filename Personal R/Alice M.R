@@ -71,7 +71,7 @@ data %>%
        subtitle = "per capita") +
   theme_bw()
 
-#this graphis looking at waiting over 4 hours
+#this graph is looking at waiting over 4 hours
 
 data %>%
   select(Week_Ending_Date, Attendees_Over_4hrs, Health_Board_Area_Name) %>%

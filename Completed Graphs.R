@@ -62,6 +62,25 @@ data %>%
        y = "Sum of Total Attendees",
        title = "Number of Attendees Per Month In 2020")
 
+#graph 4 - mean no of attendees per area as a percentage of the population
+data_graph_4 <- data %>%
+  select(Health_Board_Area_Name, Area_Population, Total_Attendees) %>%
+  group_by(Health_Board_Area_Name) %>%
+  summarise(mean_attendences = mean(Total_Attendees),
+            population = mean(Area_Population)) %>%
+  mutate(Population_Percentage = (mean_attendences/population)*100)
+
+data_graph_4 %>%
+  ggplot() +
+  geom_col(mapping = aes(x = Population_Percentage,
+                         y = reorder(Health_Board_Area_Name, Population_Percentage))) +
+  labs(title = "Mean Attendances Per Week In Each Area",
+       subtitle = "2015 - 2023", 
+       x = "Mean Attendance",
+       y = "Area In Scotland")  +
+  guides(fill = FALSE) +
+  theme_bw()
+
 #Graph 5
 #Number of Attendees Per Year in Each Health Board Area
 data %>%
