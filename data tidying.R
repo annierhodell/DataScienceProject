@@ -36,6 +36,7 @@ data <- data.order %>%
          "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
          "%_Over_8hr" = "PercentageOver8HoursEpisode", 
          "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode")
+         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
+  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
 
 view(data)
