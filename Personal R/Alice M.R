@@ -64,6 +64,7 @@ data %>%
   ggplot(aes(x = Week_Ending_Date,
              y = Sum_Total_Attendees,
              colour = Health_Board_Area_Name)) +
+  scale_colour_manual(values = health_board_area_colours)+
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
@@ -79,7 +80,8 @@ group_by(Week_Ending_Date, Health_Board_Area_Name) %>%
   summarise(Sum_Total_Attendees= sum(Attendees_Over_4hrs)) %>%
   ggplot(aes(x = Week_Ending_Date,
              y = Sum_Total_Attendees,
-             colour = Health_Board_Area_Name)) +
+             colour = Health_Board_Area_Name))+
+  scale_colour_manual(values = health_board_area_colours)+
   geom_line()+
   labs(x = "Date",
        y = "Attendees_Over_12hrs",
