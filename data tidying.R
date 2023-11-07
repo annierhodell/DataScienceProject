@@ -40,3 +40,13 @@ data <- data.order %>%
   mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
 
 view(data)
+
+#The Colours of HBT areas for graphs
+health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
+                               "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
+                               "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
+                               "Fife" = "gold", "Forth Valley" = "cyan",
+                               "Grampian" = "purple", "Highland" = "royalblue",
+                               "Lanarkshire" = "mediumaquamarine", "Orkney" = "darkblue",
+                               "Shetland" = "orange","Tayside" = "maroon",
+                               "Western Isles" = "powderblue")
