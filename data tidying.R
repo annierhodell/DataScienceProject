@@ -2,6 +2,13 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
+#Impact Of Covid-19 On A&E's In Scotland
+# - impact on Scotland as a whole
+# - impact on each region in Scotland
+# - what would happen if covid did not happen
+# - impact on number of cases
+# - impact on the length of time to process each case
+
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
