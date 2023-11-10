@@ -1,5 +1,5 @@
 ---
-title: "Presentation title"
+title: "Impact Of Covid-19 On A&E's In Scotland"
 subtitle: "Presentation subtitle (if any)"
 author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 institute: "University of Edinburgh"
@@ -53,13 +53,13 @@ style_xaringan(
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# Impact On Scotland Overall
 
 ---
 
