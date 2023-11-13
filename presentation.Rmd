@@ -56,10 +56,89 @@ class: center, middle
 
 ---
 
-class: inverse, center, middle
+class: center, middle
 
 # Impact On Scotland Overall
+```{r data, include=FALSE}
+# In this chunk I'm doing a bunch of analysis that I don't want to present 
+# in my slides. But I need the resulting data frame for a plot I want to present.
+weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
+HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
+Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
+tidy.data <- weekly_ae_activity_20231008 %>%
+  select(-Country, -DepartmentType) %>%
+  mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
+  mutate(PercentageOver4HoursEpisode = 
+           round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
+
+data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
+
+data.TLnames <- Treatement_Location_names%>%
+  rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
+  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
+
+col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
+               "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
+               "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
+               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
+
+data.order <- data.TLnames[, col_order]
+
+data <- data.order %>%
+  rename("Week_Ending_Date" = "WeekEndingDate",
+         "Health_Board_Area_Code" = "HBT", 
+         "Health_Board_Area_Name" = "Area name", 
+         "Area_Population" = "Population", 
+         "Treatment_Location_Code" = "TreatmentLocation", 
+         "Treatment_Location_Name" = "Name of Treatement Location",
+         "Total_Attendees" = "NumberOfAttendancesEpisode", 
+         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
+         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
+         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
+         "%_Over_4hr" = "PercentageOver4HoursEpisode",
+         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
+         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
+         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
+         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
+  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
+
+```
+
+```{r plot-graph 1, echo= FALSE}
+#Line graph of all the cases from 2015-2023
+
+data %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
+  geom_line()+
+  labs(x = "Date",
+       y = "Sum of Total Attendees",
+       title = "Number of Attendees Per Month In 2020")+
+  theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
+```
+
+---
+
+## Plot and text
+
+.pull-left[
+- Some text
+- goes here
+]
+.pull-right[
+```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
+# see how I changed out.width and fig.width from defaults
+# to make the figure bigger
+ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
+  geom_boxplot() +
+  theme_minimal()
+```
+]
+
+---
 ---
 
 # Hello World
