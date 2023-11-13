@@ -58,7 +58,7 @@ data_graph_4 %>%
 
 data %>%
   select(Week_Ending_Date, Total_Attendees_Per_Capita, Health_Board_Area_Name) %>%
-  filter(year(Week_Ending_Date) == 2023) %>%
+  filter(year(Week_Ending_Date) == 2020) %>%
   group_by(Week_Ending_Date, Health_Board_Area_Name) %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees_Per_Capita)) %>%
   ggplot(aes(x = Week_Ending_Date,
