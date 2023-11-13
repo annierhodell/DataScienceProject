@@ -1,5 +1,7 @@
 library(tidyverse)
 library(ggplot2)
+install.packages("gridExtra")
+library(gridExtra)
 
 #how to change colours
 #scale_colour_manual(values = 
@@ -46,3 +48,31 @@ data_graph_4 %>%
        y = "Area In Scotland")  +
   guides(fill = FALSE) +
   theme_bw()
+
+predicted
+#Graph 3
+#Graph 3 - Number of attendees per month in 2020
+graph_b <- data %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  filter(year(Week_Ending_Date) < 2023) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
+  geom_point(alpha = 0) +
+  geom_smooth(se = FALSE) +
+  ylim(22500, 27500) +
+  labs(title = "2020 & 2021 Real Statistics")
+
+graph_a <-data %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  filter(year(Week_Ending_Date) != 2020 & year(Week_Ending_Date) != 2021 &
+           year(Week_Ending_Date) < 2023) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
+  geom_point(alpha = 0) +
+  geom_smooth(se = FALSE) +
+  ylim(22500, 27500) +
+  labs(title = "2020 & 2021 Omitted for Predictions")
+
+grid.arrange(graph_a, graph_b)
