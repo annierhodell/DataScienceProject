@@ -2,6 +2,13 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
+#Impact Of Covid-19 On A&E's In Scotland
+# - impact on Scotland as a whole
+# - impact on each region in Scotland
+# - what would happen if covid did not happen
+# - impact on number of cases
+# - impact on the length of time to process each case
+
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
@@ -40,3 +47,13 @@ data <- data.order %>%
   mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
 
 view(data)
+
+#The Colours of HBT areas for graphs
+health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
+                               "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
+                               "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
+                               "Fife" = "gold", "Forth Valley" = "cyan",
+                               "Grampian" = "purple", "Highland" = "royalblue",
+                               "Lanarkshire" = "mediumaquamarine", "Orkney" = "darkblue",
+                               "Shetland" = "orange","Tayside" = "maroon",
+                               "Western Isles" = "powderblue")

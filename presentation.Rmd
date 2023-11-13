@@ -1,7 +1,6 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "Impact Of Covid-19 On A&E's In Scotland"
+author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -53,13 +52,13 @@ style_xaringan(
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# Impact On Scotland Overall
 
 ---
 
@@ -118,27 +117,6 @@ tidy(model)
 glance(model)
 ```
 
----
-
-# Plots
-
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
-```
-
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
-```
-
----
 
 ## Plot and text
 
