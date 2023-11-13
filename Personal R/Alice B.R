@@ -12,6 +12,8 @@ data %>%
            year(Week_Ending_Date) == 2019) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
   geom_line()+
+  annotate("rect", xmin = 2020-03-01, xmax = 2022-01-01, ymin = -Inf, ymax = Inf,
+           alpha = .2, fill = "red")
   labs(x = "Date",
        y = "Sum of Total Attendees",
        title = "Number of Attendees Per Month In 2020")
