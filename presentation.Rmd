@@ -1,6 +1,6 @@
 ---
 title: "Impact Of Covid-19 On A&E's In Scotland"
-author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
+author: "The A-Team <br> Alice Bullard, Alice Miller, Anna Scollay, Annie O'Dell"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -100,8 +100,7 @@ data <- data.order %>%
          "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
          "%_Over_8hr" = "PercentageOver8HoursEpisode", 
          "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
-  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
+         "%_Over_12hr" = "PercentageOver12HoursEpisode")
 
 ```
 
