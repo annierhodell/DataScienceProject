@@ -1,6 +1,6 @@
 ---
 title: "Impact Of Covid-19 On A&E's In Scotland"
-author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
+author: "The A-Team <br> Alice Bullard, Alice Miller, Anna Scollay, Annie O'Dell"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -58,11 +58,16 @@ class: center, middle
 
 ---
 
-class: inverse, center, middle
+class: center, middle
 
 # Impact On Scotland Overall
+```{r data, include=FALSE}
+# In this chunk I'm doing a bunch of analysis that I don't want to present 
+# in my slides. But I need the resulting data frame for a plot I want to present.
+weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
+HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
+Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
-<<<<<<< HEAD
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
@@ -115,12 +120,13 @@ data %>%
        title = "Number of Attendees Per Month In 2020")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
----
+
 ---
 ```{r Map Of Scotland - data, include=FALSE}
 worldmap <- read_csv("data/worldmap.csv")
 ```
-```{r Map Of Scotland- plot, echo=FALSE}
+
+```{r Map Of Scotland- plot, out.width="100%", fig.width=10, echo=FALSE}
 worldmap %>%
   ggplot() + 
   geom_polygon(data = worldmap, 
@@ -132,10 +138,10 @@ worldmap %>%
               xlim = c(-9,1), 
               ylim = c(54.8, 61))+
   theme_bw()+
-  geom_text(aes(x = -6, y = 60,
-                label = "Map of Scotland's HBT Areas"),
+  labs(title = "Map of Scotland's HBT Areas",
             stat = "unique",
-            size = 5, color = "blue")+
+            size = 5,
+            color = "blue")+
   geom_text(aes(x = -0.2, y = 60.5,
                 label = "Shetland"),
             stat = "unique",
@@ -202,8 +208,6 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
-=======
->>>>>>> b3676fc36f26212eef9f54cc047b346a3eb580c0
 ---
 
 # Hello World
