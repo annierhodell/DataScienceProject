@@ -25,6 +25,7 @@ install.packages('xaringan')
 
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
+install.packages("maps")
 library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
