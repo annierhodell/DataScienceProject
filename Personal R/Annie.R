@@ -3,6 +3,8 @@ library(ggplot2)
 install.packages("gridExtra")
 library(gridExtra)
 
+colnames(data)
+
 #how to change colours
 #scale_colour_manual(values = 
 #                      c("first" = "orange","last" = "forestgreen"))
@@ -56,10 +58,9 @@ graph_b <- data %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
-  filter(year(Week_Ending_Date) < 2023) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_point(alpha = 0) +
-  geom_smooth(se = FALSE) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
   ylim(22500, 27500) +
   labs(title = "2020 & 2021 Real Statistics")
 
@@ -68,10 +69,10 @@ graph_a <-data %>%
   group_by(Week_Ending_Date) %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
   filter(year(Week_Ending_Date) != 2020 & year(Week_Ending_Date) != 2021 &
-           year(Week_Ending_Date) < 2023) %>%
+           year(Week_Ending_Date) != 2022) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_point(alpha = 0) +
-  geom_smooth(se = FALSE) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
   ylim(22500, 27500) +
   labs(title = "2020 & 2021 Omitted for Predictions")
 
