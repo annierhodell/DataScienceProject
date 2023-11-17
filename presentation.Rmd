@@ -56,12 +56,15 @@ class: center, middle
 
 ## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
-------
+---
+These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
 ```{r Map Of Scotland - data, include=FALSE}
-worldmap <- read_csv("data/worldmap.csv")
+#data for the world map
+worldmap <- read_csv("Data/Data Files/worldmap.csv")
 ```
 
 ```{r Map Of Scotland- plot, out.width="100%", fig.width=10, echo=FALSE}
+#map of Scotland with HBT areas
 worldmap %>%
   ggplot() + 
   geom_polygon(data = worldmap, 
@@ -148,11 +151,12 @@ class: center, middle
 
 # Impact On Scotland Overall
 ```{r data, include=FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
-HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
-Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
+
+#Data for the graph of the overall number of attendees for every year
+
+weekly_ae_activity_20231008 <- read_csv("Data/Data Files/weekly_ae_activity_20231008.csv")
+HBT_area_names_and_population <- read_csv("Data/Data Files/HBT area names and population.csv")
+Treatement_Location_names <- read_csv("Data/Data Files/Treatement Location names.csv")
 
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
@@ -293,20 +297,7 @@ kable(head(iris), format = "html")
 
 ---
 
-# Images
 
-```{r castle, echo = FALSE, out.width = "55%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("img/edinburgh-castle.jpg")
-```
-
-Or you can also include a full page image. See next slide.
-
----
-
-
-class: inverse, center, middle
-background-image: url(img/edinburgh-castle.jpg)
-background-size: contain
 ---
 
 # Math Expressions
