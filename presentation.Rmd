@@ -1,6 +1,6 @@
 ---
 title: "Impact Of Covid-19 On A&E's In Scotland"
-author: "The A-Team <br> Alice Bullard, Alice Miller, Anna Scollay, Annie O'Dell"
+author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -58,16 +58,11 @@ class: center, middle
 
 ---
 
-class: center, middle
+class: inverse, center, middle
 
 # Impact On Scotland Overall
-```{r data, include=FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
-HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
-Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
+<<<<<<< HEAD
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
@@ -207,6 +202,8 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
+=======
+>>>>>>> b3676fc36f26212eef9f54cc047b346a3eb580c0
 ---
 
 # Hello World
