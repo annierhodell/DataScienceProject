@@ -57,7 +57,9 @@ class: center, middle
 ## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
+##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
+---
 ```{r Map Of Scotland - data, include=FALSE}
 #data for the world map
 worldmap <- read_csv("Data/Data Files/worldmap.csv")
