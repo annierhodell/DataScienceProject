@@ -1,6 +1,7 @@
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
+library(tidymodels)
 
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%

@@ -7,7 +7,7 @@ health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
                                "Shetland" = "orange","Tayside" = "maroon",
                                "Western Isles" = "powderblue")
 
-#Line graph of all the cases from 2015-2023
+#Line graph of all the attendees from 2015-2023
 data %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
@@ -103,7 +103,31 @@ ggplot() +
             stat = "unique",
             size = 3, color = "black")
   
-  
-  
+#graph of the mean time it took to process cases across all years
+data %>%
+  select(Week_Ending_Date, Attendees_within_4hrs, 
+         Attendees_Over_4hrs, Attendees_Over_8hrs, Attendees_Over_12hrs) %>%
+  group_by(Week_Ending_Date) %>%
+  ggplot(aes(x = Week_Ending_Date,
+             y = Attendees_Over_8hrs, Attendees_within_4hrs, Attendees_Over_12hrs,Attendees_Over_4hrs,
+             colour = Attendees_Over_8hrs,Attendees_within_4hrs, Attendees_Over_12hrs,Attendees_Over_4hrs))+
+  geom_line()+
+  geom_line(aes(x = Week_Ending_Date, y = 400))+
+  labs(x = "Date",
+       y = "Time Taken To Process Case",
+       title = "Length of Time Cases Took To Process Each Year")+
+  theme_minimal()
+
+
+
+data_graph_8 <- data %>%
+  select("Week_Ending_Date", "%_within_4hr", "%_Over_4hr", "Total_Attendees")%>%
+  mutate("Mean_Total_Attendees" = mean(Total_Attendees)
+
+data_graph_8%>%
+  ggplot(aes(x = Week_Ending_Date, y = mean(Total_Attendees/ye))+
+  geom_line()
+
+
 
 
