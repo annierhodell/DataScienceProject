@@ -209,7 +209,7 @@ data %>%
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
-       title = "Number of Attendees Per Month In 2020")+
+       title = "Number of Attendees From 2015 - 2023")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
 
