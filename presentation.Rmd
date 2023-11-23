@@ -59,6 +59,10 @@ class: center, middle
 ---
 ##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
+
+```{r Scotland Information, echo = FALSE}
+kable(head(iris), format = "html")
+```
 ---
 ```{r Map Of Scotland - data, include=FALSE}
 #data for the world map

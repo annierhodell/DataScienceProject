@@ -128,6 +128,9 @@ data_graph_8%>%
   ggplot(aes(x = Week_Ending_Date, y = mean(Total_Attendees/ye))+
   geom_line()
 
-
+data %>%
+  summarise(Health_Board_Area_Name, Area_Population, Total_Attendees, Total_Attendees_Per_Capita)%>%
+  group_by(Health_Board_Area_Name)%>%
+  view()
 
 
