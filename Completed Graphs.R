@@ -72,7 +72,7 @@ data_graph_4 <- data %>%
   summarise(mean_attendences = mean(Total_Attendees),
             population = mean(Area_Population)) %>%
   mutate(Population_Percentage = (mean_attendences/population)*100)
-
+?round
 data_graph_4 %>%
   ggplot()
   geom_col(mapping = aes(x = Population_Percentage,
