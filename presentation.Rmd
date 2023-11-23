@@ -240,20 +240,12 @@ data %>%
 ]
 
 ---
----
----
 
 # Hello World
 
 - Click the `Knit` button to compile your presentation
 
 - Make sure to commit and push all resulting files to your GitHub repo
-
----
-
-class: inverse, middle, center
-
-# Using xaringan
 
 ---
 
