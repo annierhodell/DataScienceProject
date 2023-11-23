@@ -19,7 +19,6 @@ output:
 # Copy and paste the following code into your console to download and install
 # the `xaringan` package that contains all of the code which allows you 
 # to create presentation slides in Rmarkdown
-install.packages('xaringan')
 ```
 
 
@@ -30,6 +29,7 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(maps)
 ```
 
 ```{r setup, include=FALSE}
@@ -39,7 +39,45 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 ```{r load-data, include=FALSE}
 # Load your data here
+weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
+HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
+Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
+tidy.data <- weekly_ae_activity_20231008 %>%
+  select(-Country, -DepartmentType) %>%
+  mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
+  mutate(PercentageOver4HoursEpisode = 
+           round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
+
+data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
+
+data.TLnames <- Treatement_Location_names%>%
+  rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
+  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
+
+col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
+               "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
+               "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
+               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
+
+data.order <- data.TLnames[, col_order]
+
+data <- data.order %>%
+  rename("Week_Ending_Date" = "WeekEndingDate",
+         "Health_Board_Area_Code" = "HBT", 
+         "Health_Board_Area_Name" = "Area name", 
+         "Area_Population" = "Population", 
+         "Treatment_Location_Code" = "TreatmentLocation", 
+         "Treatment_Location_Name" = "Name of Treatement Location",
+         "Total_Attendees" = "NumberOfAttendancesEpisode", 
+         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
+         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
+         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
+         "%_Over_4hr" = "PercentageOver4HoursEpisode",
+         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
+         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
+         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
+         "%_Over_12hr" = "PercentageOver12HoursEpisode")
 ```
 
 ```{r include=FALSE}
@@ -55,12 +93,18 @@ class: center, middle
 ## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
-<<<<<<< HEAD
 ##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
+```{r Information on Scotland Data, include=FALSE}
+data_table_1 <- data %>%
+  group_by(Health_Board_Area_Name, Area_Population) %>%
+  summarise(mean_attendances = round(mean(Total_Attendees), digits = 2)) %>%
+  arrange(desc(mean_attendances))
+
+```
 
 ```{r Scotland Information, echo = FALSE}
-kable(head(iris), format = "html")
+kable(head(data_table_1), format = "html")
 ```
 ---
 ```{r Map Of Scotland - data, include=FALSE}
@@ -151,61 +195,12 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
-=======
->>>>>>> 9dae36807767c1c17668206ca3365e4bcb777b6e
 
 class: center, middle
 
 # Impact On Scotland Overall
-```{r data, include=FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
-HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
-Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
-tidy.data <- weekly_ae_activity_20231008 %>%
-  select(-Country, -DepartmentType) %>%
-  mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
-  mutate(PercentageOver4HoursEpisode = 
-           round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
-
-data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
-
-data.TLnames <- Treatement_Location_names%>%
-  rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
-  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
-
-col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
-               "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
-               "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
-               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
-
-data.order <- data.TLnames[, col_order]
-
-data <- data.order %>%
-  rename("Week_Ending_Date" = "WeekEndingDate",
-         "Health_Board_Area_Code" = "HBT", 
-         "Health_Board_Area_Name" = "Area name", 
-         "Area_Population" = "Population", 
-         "Treatment_Location_Code" = "TreatmentLocation", 
-         "Treatment_Location_Name" = "Name of Treatement Location",
-         "Total_Attendees" = "NumberOfAttendancesEpisode", 
-         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
-         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
-         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
-         "%_Over_4hr" = "PercentageOver4HoursEpisode",
-         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
-         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
-         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
-  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
-
-```
-
-```{r plot-graph 1, echo= FALSE}
-#Line graph of all the cases from 2015-2023
-
+```{r plot-graph 1, echo=FALSE}
 data %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
@@ -214,158 +209,49 @@ data %>%
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
-       title = "Number of Attendees Per Month In 2020")+
+       title = "Number of A&E Attendees per Month",
+       subtitle = 2015-2023)+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
-
 ---
 
-## Plot and text
+class: centre, middle
 
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
+# Separating each year
 
----
----
-
-# Hello World
-
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
-
----
-
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-# Code
-
-```{r boring-regression}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
+```{r plot-graph-data 2, include=FALSE}
+data_graph_1 <- data %>%
+  mutate(Year = year(Week_Ending_Date)) %>%
+  mutate(date = yday(Week_Ending_Date))
 ```
 
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
-
----
-
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
+```{r plot-graph-2, echo=FALSE, message=FALSE, warning=FALSE}
+data_graph_1 %>% 
+  group_by(Week_Ending_Date) %>%
+  summarise(sumdat=sum(Total_Attendees), Year, date) %>% 
+  ggplot(aes(x = date, y = sumdat, colour = as.factor(Year))) +
+  geom_line()+
+  labs(x = "Day of Year",
+       y = "Number of Attendees Across Scotland",
+       title = "Number of A&E Attendees across each year",
+       colour = "Year")
 ```
 
 ---
+class: centre, middle
+# Taking a Closer Look at 2020
 
-# Images
-
-```{r castle, echo = FALSE, out.width = "55%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("img/edinburgh-castle.jpg")
+```{r plot-graph 3, echo = FALSE, message=FALSE, warning=FALSE}
+data %>%
+  filter(year(Week_Ending_Date) == 2020) %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
+  geom_line()+
+  labs(x = "Date",
+       y = "Sum of Total Attendees",
+       title = "Number of Attendees Per Week In 2020")+
+  theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
-
-Or you can also include a full page image. See next slide.
-
 ---
-
-
-class: inverse, center, middle
-background-image: url(img/edinburgh-castle.jpg)
-background-size: contain
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
-
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcome to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
