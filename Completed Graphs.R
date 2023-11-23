@@ -58,7 +58,7 @@ data %>%
   filter(year(Week_Ending_Date) == 2020|
            year(Week_Ending_Date) == 2021|
            year(Week_Ending_Date) == 2022|
-           year(Week_Ending_Date) == 2019) %>%
+           year(Week_Ending_Date) ==) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
   geom_line()+
   labs(x = "Date",

@@ -97,21 +97,22 @@ cities <- data%>%
            Health_Board_Area_Name == "Dumfries and Galloway")%>%
   mutate(city_or_highland = "city")
 
-Highland <- data%>%
-  filter(Health_Board_Area_Name != "Ayrshire and Arran"|
-           Health_Board_Area_Name != "Borders"|
+Highland_Isles <- data%>%
+  filter(Health_Board_Area_Name != "Ayrshire and Arran"&
+           Health_Board_Area_Name != "Borders"&
          Health_Board_Area_Name != "Dumfries and Galloway")%>%
-  mutate(city_or_highland = "Highland")
+  mutate(city_or_highland = "Highland Isles")
 
-full_join(cities, Highland, by = "city_or_highland")%>%
-  select(Week_Ending_Date.x, Total_Attendees.x, Health_Board_Area_Name.x, city_or_highland) %>%
-  group_by(Week_Ending_Date.x, Health_Board_Area_Name.x) %>%
-  summarise(Sum_Total_Attendees= sum(Total_Attendees.x)) %>%
-  ggplot(aes(x = Week_Ending_Date.x, y = Sum_Total_Attendees.x))+
+full_join(cities, Highland_Isles)%>%
+  select(Week_Ending_Date, Total_Attendees, Health_Board_Area_Name, city_or_highland) %>%
+  group_by(Week_Ending_Date, Health_Board_Area_Name, city_or_highland) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees, colour = Health_Board_Area_Name))+
+  scale_color_manual(value = health_board_area_colours)+
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
        title = "Number of Attendees Per Year in Each Health Board Area") +
   theme_bw() +
-  facet_grid(~city_or_highland, scales = "free_y")
+  facet_wrap(~city_or_highland, scales = "free_y")
 
