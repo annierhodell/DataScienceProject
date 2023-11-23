@@ -1,26 +1,50 @@
-#make graph of average waiting times per year
-#make the per capita attendees grouped by week ending date
-
-
-data %>%
+data_mod_1 <- data %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
-  filter(year(Week_Ending_Date) == 2020|
-           year(Week_Ending_Date) == 2021|
-           year(Week_Ending_Date) == 2022|
-           year(Week_Ending_Date) == 2019) %>%
-  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_line()+
-  annotate("rect", xmin = 2020-03-01,
-           xmax = 2022-01-02,
-           ymin = -Inf,
-           ymax = Inf,
-           fill = "red",
-           alpha = 0.2) +
+  filter(year(Week_Ending_Date) < 2023)
+
+data_mod_2 <- data %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  filter(year(Week_Ending_Date) < 2020)
+
+data_mod_2020 <- data %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  filter(year(Week_Ending_Date) == 2020)
   
-  labs(x = "Date",
-       y = "Sum of Total Attendees",
-       title = "Number of Attendees Per Month In 2020")
+year_mod <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Sum_Total_Attendees ~ Week_Ending_Date, data = data_mod_2)
+tidy(year_mod)  
 
+year_2020_mod <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Sum_Total_Attendees ~ Week_Ending_Date, data = data_mod_2020)
+tidy(year_2020_mod) 
 
+ggplot() +
+  geom_line(data = data_mod_1,
+            mapping = aes(x = Week_Ending_Date,
+                          y = Sum_Total_Attendees)) +
+  geom_smooth(data = data_mod_2,
+              mapping = aes(x = Week_Ending_Date,
+                            y = Sum_Total_Attendees),
+              method = "lm")
+
+mod_aug <- augment(year_mod$fit)
+ggplot(mod_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_line(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted Total Attendees", y = "Residuals")
+glance(year_mod)$r.squared
+
+mod_2020_aug <- augment(year_2020_mod$fit)
+ggplot(mod_2020_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_line(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted Total Attendees", y = "Residuals")
+glance(year_2020_mod)$r.squared
