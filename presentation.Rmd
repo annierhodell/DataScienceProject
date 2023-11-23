@@ -93,6 +93,9 @@ class: center, middle
 ## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
+# our data/ ho we tidied it etc/ where we got it, all that jazz
+---
+
 ##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
 ```{r Information on Scotland Data, include=FALSE}
@@ -210,7 +213,7 @@ data %>%
   labs(x = "Date",
        y = "Sum of Total Attendees",
        title = "Number of A&E Attendees per Month",
-       subtitle = 2015-2023)+
+       subtitle = 2015-2023) +
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
 ---
@@ -254,4 +257,8 @@ data %>%
        title = "Number of Attendees Per Week In 2020")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
+---
+#average by hbt area
+---
+#number of attendees per area as a percentage of the population
 ---
