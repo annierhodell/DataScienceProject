@@ -1,6 +1,6 @@
 ---
-title: "Project title"
-author: "by Team-Name: User1, User2, User3, User4 & User5"
+title: "Impact Of Covid-19 On A&E's In Scotland"
+author: "by the A-Team: Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -12,9 +12,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load-lib, include = FALSE}
 library(tidyverse)
-# Add any other libraries here
-
-
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+library(knitr)
+library(xaringanthemer)
 
 ```
 
@@ -31,6 +33,8 @@ library(tidyverse)
 
 ## Research Question
 
+What effect did covid 19 have on the number of attendees in emergency centers across Scotland, and did this vary by location.
+
 Describe your research question here. Include why this question might be of interest. 
 
 
@@ -38,6 +42,20 @@ Describe your research question here. Include why this question might be of inte
 
 
 ## Data
+
+main data set: Weekly A&E Activity and Waiting Times.
+
+This dataset looks at the weekly attendances of each emergency centre in Scotland. the dataset includes the total amount of attendees and well as data and proportion for those who were seen within 4 hours, and over 4,8 and 12 hours.
+
+variables after tidying:
+
+- Week_Ending_Date is the the date at the end of the week(sunday) when the data was take from spanning from 3 March 2015 to
+- Health_Board_Area_code is the code assigned to each HBT area e.g 	
+S08000015 is for Ayrshire and Arran
+- Health_Board_Area_Name the name which correlates to each HBT code. we got this information from a different dataset. ()
+- Area_Population the population for each HBT area
+- Total Attendees the total amount of attendees per week in each treatment location. 
+
 
 Briefly describe your dataset here - include a description of the key variables you will be investigating. 
 Include a citation for your data. 
@@ -72,6 +90,8 @@ Make sure to hide your code with  `echo = FALSE` unless the point you are trying
 
 
 ## References
+
+PHS Unscheduled Care Team 2023, *Weekly A&E Activity and Waiting Times*, data file
 
 List any references here. You should, at a minimum, list your data source.
 
