@@ -58,7 +58,7 @@ graph_b <- data %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
   filter(year(Week_Ending_Date) < 2023) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_point(alpha = 0) +
+  geom_point(alpha = 1) +
   geom_smooth(se = FALSE) +
   ylim(22500, 27500) +
   labs(title = "2020 & 2021 Real Statistics")
@@ -70,7 +70,7 @@ graph_a <-data %>%
   filter(year(Week_Ending_Date) != 2020 & year(Week_Ending_Date) != 2021 &
            year(Week_Ending_Date) < 2023) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_point(alpha = 0) +
+  geom_point(alpha = 1) +
   geom_smooth(se = FALSE) +
   ylim(22500, 27500) +
   labs(title = "2020 & 2021 Omitted for Predictions")
