@@ -19,7 +19,6 @@ output:
 # Copy and paste the following code into your console to download and install
 # the `xaringan` package that contains all of the code which allows you 
 # to create presentation slides in Rmarkdown
-install.packages('xaringan')
 ```
 
 
@@ -30,6 +29,7 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(maps)
 ```
 
 ```{r setup, include=FALSE}
@@ -81,12 +81,20 @@ data <- data.order %>%
   mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
 ```
 
+```{r include=FALSE}
+
+#Background image
+style_xaringan(
+  title_slide_background_image = "img/confetti.jpg"
+)
+```
 
 class: center, middle
 
 ## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
+<<<<<<< HEAD
 ##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
 ```{r Information on Scotland Data, include=FALSE}
@@ -189,6 +197,9 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
+=======
+>>>>>>> 9dae36807767c1c17668206ca3365e4bcb777b6e
+
 class: center, middle
 
 # Impact On Scotland Overall
