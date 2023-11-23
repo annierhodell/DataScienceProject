@@ -39,7 +39,46 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 ```{r load-data, include=FALSE}
 # Load your data here
+weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
+HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
+Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
+tidy.data <- weekly_ae_activity_20231008 %>%
+  select(-Country, -DepartmentType) %>%
+  mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
+  mutate(PercentageOver4HoursEpisode = 
+           round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
+
+data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
+
+data.TLnames <- Treatement_Location_names%>%
+  rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
+  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
+
+col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
+               "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
+               "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
+               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
+
+data.order <- data.TLnames[, col_order]
+
+data <- data.order %>%
+  rename("Week_Ending_Date" = "WeekEndingDate",
+         "Health_Board_Area_Code" = "HBT", 
+         "Health_Board_Area_Name" = "Area name", 
+         "Area_Population" = "Population", 
+         "Treatment_Location_Code" = "TreatmentLocation", 
+         "Treatment_Location_Name" = "Name of Treatement Location",
+         "Total_Attendees" = "NumberOfAttendancesEpisode", 
+         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
+         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
+         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
+         "%_Over_4hr" = "PercentageOver4HoursEpisode",
+         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
+         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
+         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
+         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
+  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
 ```
 
 
@@ -50,9 +89,16 @@ class: center, middle
 ---
 ##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
+```{r Information on Scotland Data, include=FALSE}
+data_table_1 <- data %>%
+  group_by(Health_Board_Area_Name, Area_Population) %>%
+  summarise(mean_attendances = round(mean(Total_Attendees),digits = 2)) %>%
+  arrange(desc(mean_attendances))
+
+```
 
 ```{r Scotland Information, echo = FALSE}
-kable(head(iris), format = "html")
+kable(head(data_table_1), format = "html")
 ```
 ---
 ```{r Map Of Scotland - data, include=FALSE}
@@ -146,51 +192,6 @@ worldmap %>%
 class: center, middle
 
 # Impact On Scotland Overall
-```{r data, include=FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
-HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
-Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
-
-tidy.data <- weekly_ae_activity_20231008 %>%
-  select(-Country, -DepartmentType) %>%
-  mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
-  mutate(PercentageOver4HoursEpisode = 
-           round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
-
-data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
-
-data.TLnames <- Treatement_Location_names%>%
-  rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
-  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
-
-col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
-               "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
-               "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
-               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
-
-data.order <- data.TLnames[, col_order]
-
-data <- data.order %>%
-  rename("Week_Ending_Date" = "WeekEndingDate",
-         "Health_Board_Area_Code" = "HBT", 
-         "Health_Board_Area_Name" = "Area name", 
-         "Area_Population" = "Population", 
-         "Treatment_Location_Code" = "TreatmentLocation", 
-         "Treatment_Location_Name" = "Name of Treatement Location",
-         "Total_Attendees" = "NumberOfAttendancesEpisode", 
-         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
-         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
-         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
-         "%_Over_4hr" = "PercentageOver4HoursEpisode",
-         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
-         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
-         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
-  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
-
-```
 
 ```{r plot-graph 1, echo= FALSE}
 #Line graph of all the cases from 2015-2023
