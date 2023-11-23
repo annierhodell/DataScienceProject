@@ -201,9 +201,7 @@ class: center, middle
 
 # Impact On Scotland Overall
 
-```{r plot-graph 1, echo= FALSE}
-#Line graph of all the cases from 2015-2023
-
+```{r plot-graph 1, echo=FALSE}
 data %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
@@ -212,15 +210,23 @@ data %>%
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
-       title = "Number of Attendees Per Month In 2020")+
+       title = "Number of A&E Attendees per Month",
+       subtitle = 2015-2023)+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
 ---
-#Taking a closer look at each year
-```{r plot-graph 2, echo= FALSE}
+
+class: centre, middle
+
+# Separating each year
+
+```{r plot-graph-data 2, include=FALSE}
 data_graph_1 <- data %>%
   mutate(Year = year(Week_Ending_Date)) %>%
   mutate(date = yday(Week_Ending_Date))
+```
+
+```{r plot-graph-2, echo=FALSE, message=FALSE, warning=FALSE}
 data_graph_1 %>% 
   group_by(Week_Ending_Date) %>%
   summarise(sumdat=sum(Total_Attendees), Year, date) %>% 
@@ -231,14 +237,14 @@ data_graph_1 %>%
        title = "Number of A&E Attendees across each year",
        colour = "Year")
 ```
+
 ---
----
+class: centre, middle
 # Taking a Closer Look at 2020
 
-```{r plot-graph 3, echo= FALSE}
-#Line graph of all the cases from 2015-2023
-
+```{r plot-graph 3, echo = FALSE, message=FALSE, warning=FALSE}
 data %>%
+  filter(year(Week_Ending_Date) == 2020) %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
@@ -246,7 +252,7 @@ data %>%
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
-       title = "Number of Attendees Per Month In 2020")+
+       title = "Number of Attendees Per Week In 2020")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
 
