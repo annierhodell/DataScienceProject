@@ -215,15 +215,27 @@ data %>%
        title = "Number of Attendees Per Month In 2020")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
-
 ---
-# Taking a Closer Look at Each Year
-.pull-left[
-- comparing each year, we can see that 2020 had a drastic decrease in a&e attendances.
-- naturally this would be due to covid so we want to predict how 2020 would fair if covid hadn't been a factor
-]
-.pull-right[
+#Taking a closer look at each year
 ```{r plot-graph 2, echo= FALSE}
+data_graph_1 <- data %>%
+  mutate(Year = year(Week_Ending_Date)) %>%
+  mutate(date = yday(Week_Ending_Date))
+data_graph_1 %>% 
+  group_by(Week_Ending_Date) %>%
+  summarise(sumdat=sum(Total_Attendees), Year, date) %>% 
+  ggplot(aes(x = date, y = sumdat, colour = as.factor(Year))) +
+  geom_line()+
+  labs(x = "Day of Year",
+       y = "Number of Attendees Across Scotland",
+       title = "Number of A&E Attendees across each year",
+       colour = "Year")
+```
+---
+---
+# Taking a Closer Look at 2020
+
+```{r plot-graph 3, echo= FALSE}
 #Line graph of all the cases from 2015-2023
 
 data %>%
@@ -237,7 +249,7 @@ data %>%
        title = "Number of Attendees Per Month In 2020")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
-]
+
 
 ---
 
