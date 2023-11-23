@@ -88,6 +88,36 @@ group_by(Week_Ending_Date, Health_Board_Area_Name) %>%
        title = "Number of Attendees Per Year in Each Health Board Area",
        subtitle = "per capita") +
   theme_bw()
+<<<<<<< HEAD:Personal R/Alice M.R
+
+#Graph 6
+#Number of Attendees Per Year in Each Health Board Area, split by city and highlands
+cities <- data%>%
+  filter(Health_Board_Area_Name == "Ayrshire and Arran"|
+           Health_Board_Area_Name == "Borders"|
+           Health_Board_Area_Name == "Dumfries and Galloway")%>%
+  mutate(city_or_highland = "city")
+
+Highland_Isles <- data%>%
+  filter(Health_Board_Area_Name != "Ayrshire and Arran"&
+           Health_Board_Area_Name != "Borders"&
+         Health_Board_Area_Name != "Dumfries and Galloway")%>%
+  mutate(city_or_highland = "Highland Isles")
+
+full_join(cities, Highland_Isles)%>%
+  select(Week_Ending_Date, Total_Attendees, Health_Board_Area_Name, city_or_highland) %>%
+  group_by(Week_Ending_Date, Health_Board_Area_Name, city_or_highland) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees, colour = Health_Board_Area_Name))+
+  scale_color_manual(value = health_board_area_colours)+
+  geom_line()+
+  labs(x = "Date",
+       y = "Sum of Total Attendees",
+       title = "Number of Attendees Per Year in Each Health Board Area") +
+  theme_bw() +
+  facet_wrap(~city_or_highland, scales = "free_y")
+=======
                          
   
+>>>>>>> fce334bd899444918235b4cd72e6bc11d59865d4:Investigation/Alice M.R
 

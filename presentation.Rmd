@@ -1,6 +1,6 @@
 ---
 title: "Impact Of Covid-19 On A&E's In Scotland"
-author: "The A-Team <br> Alice Bullard, Alice Miller, Anna Scollay, Annie O'Dell"
+author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -30,8 +30,6 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
-library(ggplot2)
-library(maps)
 ```
 
 ```{r setup, include=FALSE}
@@ -57,6 +55,7 @@ class: center, middle
 ## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
+<<<<<<< HEAD
 ##Scotland's Health Board Area's
 These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
 
@@ -152,17 +151,18 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
+=======
+>>>>>>> 9dae36807767c1c17668206ca3365e4bcb777b6e
 
 class: center, middle
 
 # Impact On Scotland Overall
 ```{r data, include=FALSE}
-
-#Data for the graph of the overall number of attendees for every year
-
-weekly_ae_activity_20231008 <- read_csv("Data/Data Files/weekly_ae_activity_20231008.csv")
-HBT_area_names_and_population <- read_csv("Data/Data Files/HBT area names and population.csv")
-Treatement_Location_names <- read_csv("Data/Data Files/Treatement Location names.csv")
+# In this chunk I'm doing a bunch of analysis that I don't want to present 
+# in my slides. But I need the resulting data frame for a plot I want to present.
+weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
+HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
+Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
@@ -198,7 +198,8 @@ data <- data.order %>%
          "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
          "%_Over_8hr" = "PercentageOver8HoursEpisode", 
          "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode")
+         "%_Over_12hr" = "PercentageOver12HoursEpisode") %>%
+  mutate(Total_Attendees_Per_Capita = (Total_Attendees / Area_Population))
 
 ```
 
@@ -213,11 +214,30 @@ data %>%
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
-       title = "Number of Attendees From 2015 - 2023")+
+       title = "Number of Attendees Per Month In 2020")+
   theme_bw() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
 
+---
 
+## Plot and text
+
+.pull-left[
+- Some text
+- goes here
+]
+.pull-right[
+```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
+# see how I changed out.width and fig.width from defaults
+# to make the figure bigger
+ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
+  geom_boxplot() +
+  theme_minimal()
+```
+]
+
+---
+---
 
 # Hello World
 
@@ -303,7 +323,20 @@ kable(head(iris), format = "html")
 
 ---
 
+# Images
 
+```{r castle, echo = FALSE, out.width = "55%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
+include_graphics("img/edinburgh-castle.jpg")
+```
+
+Or you can also include a full page image. See next slide.
+
+---
+
+
+class: inverse, center, middle
+background-image: url(img/edinburgh-castle.jpg)
+background-size: contain
 ---
 
 # Math Expressions
