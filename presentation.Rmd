@@ -223,7 +223,7 @@ data %>%
 - naturally this would be due to covid so we want to predict how 2020 would fair if covid hadn't been a factor
 ]
 .pull-right[
-```{r plot-graph 1, echo= FALSE}
+```{r plot-graph 2, echo= FALSE}
 #Line graph of all the cases from 2015-2023
 
 data %>%
