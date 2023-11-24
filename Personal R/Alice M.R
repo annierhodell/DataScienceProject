@@ -101,14 +101,14 @@ Highland_Isles <- data%>%
   filter(Health_Board_Area_Name != "Ayrshire and Arran"&
            Health_Board_Area_Name != "Borders"&
          Health_Board_Area_Name != "Dumfries and Galloway")%>%
-  mutate(city_or_highland = "Highland Isles")
+  mutate(city_or_highland = "Highland and Isles")
 
 full_join(cities, Highland_Isles)%>%
   select(Week_Ending_Date, Total_Attendees, Health_Board_Area_Name, city_or_highland) %>%
   group_by(Week_Ending_Date, Health_Board_Area_Name, city_or_highland) %>%
   summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
   ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees, colour = Health_Board_Area_Name))+
-  scale_color_manual(value = health_board_area_colours)+
+  scale_color_manual(values = health_board_area_colours)+
   geom_line()+
   labs(x = "Date",
        y = "Sum of Total Attendees",
