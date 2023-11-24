@@ -97,6 +97,24 @@ Whilst tidying the data, we added in the population of each area in an additiona
 
 3. population > 600,000
 
+```{r Graph-plot-3, echo=FALSE}
+data %>%
+  mutate(population_group = case_when(
+    population < 300000 ~ "Group 1",
+    population > 300000 & population < 600000 ~ "Group 2",
+    population > 600000 ~ "Group 3",
+    TRUE ~ "Other"))
+  group_by(Health_Board_Area_Name, Area_Population) %>%
+  summarise(mean_attendances = round(mean(Total_Attendees), digits = 2)) %>%
+  arrange(desc(mean_attendances))%>%
+  select(-mean_attendances)%>%
+  ggplot(mapping = aes(y = reorder(Health_Board_Area_Name, Area_Population), 
+                       x = Area_Population/100000))+
+  labs(x = "Area Population (in 100,000s)") +
+  geom_col()
+
+data_table_2
+```
 Once the data was tidied, the key variables we are investigating are:
 
 - Week_Ending_Date: The date at the end of the week(Sunday) when the data was taken,  spanning 22 February 2015 to 8 October 2023.
