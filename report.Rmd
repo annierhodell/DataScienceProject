@@ -79,11 +79,9 @@ http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 #reference info accessed
 
 ## Research Question
 
-What effect did Covid-19 have on the number of attendees in emergency centers across Scotland, and did this vary by location?
+How population in different areas impacts A&E waiting times. 
 
-In this project, we are aiming to investigate what impact Covid-19 has had on the number of attendees across A&Es in Scotland, and whether this varied between location. We would also like to use a model to predict how different A&E attendances would have been, if Covid-19 hadn't happened.
-
-Note: Covid-19 predominately occurred in 2020.
+In this project, we are aiming to investigate what impact area population has had on the waiting times across A&Es in Scotland. 
 
 ## Data
 
@@ -91,15 +89,31 @@ Main data set: Weekly A&E Activity and Waiting Times.
 
 This data set looks at the weekly attendances of each accident and emergency center in Scotland from 2015 to 2023. The data set includes the total amount of attendees at each center each week along with sectioning them into time taken to process the patient, either within 4 hours, over 4, over 8 or over 12 hours. 
 
+Whilst tidying the data, we added in the population of each area in an additional column and grouped the areas into 3 groups by their population in order to have less variables. The three groups are:
+
+1. population < 300,000
+
+2. 300,000 < population < 600,000
+
+3. population > 600,000
+
 Once the data was tidied, the key variables we are investigating are:
 
 - Week_Ending_Date: The date at the end of the week(Sunday) when the data was taken,  spanning 22 February 2015 to 8 October 2023.
+
+- Health_Board_Area_Name: The name which correlates to each HBT code, e.g S08000015 is for Ayrshire and Arran.
 
 - Area_Population: The population for each HBT area.
 
 - Total_Attendees: The total amount of attendees per week in each treatment location. 
 
-- Health_Board_Area_Name: The name which correlates to each HBT code, e.g S08000015 is for Ayrshire and Arran.
+- Attendees_within_4hrs: Number of attendees that were processed in less than 4hrs. 
+
+- Attendees_over_4hrs: Number of attendees that were processed in more than 4hrs.
+
+- Attendees_over_8hrs: Number of attendees that were processed in more than 8hrs.
+
+- Attendees_over_12hrs: Number of attendees that were processed in more than 12hrs.
 
 The HBT(Health Board Areas) our data covers are shown below: 
 ```{r Map Of Scotland- plot, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.align='center'}
