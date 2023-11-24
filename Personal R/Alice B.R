@@ -1,3 +1,71 @@
+
+
+data_4hr <- data %>%
+  filter(year(Week_Ending_Date) == 2020) %>%
+  select(Area_Population, Total_Attendees) %>%
+  group_by(Area_Population) %>%
+  summarise(mean = mean(Total_Attendees))
+
+mod_4hr <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(mean ~ Area_Population, data = data_4hr) 
+tidy(mod_4hr)
+
+ggplot() +
+  geom_point(data = data_4hr,
+            mapping = aes(x = Area_Population,
+                          y = mean)) +
+  geom_smooth(data = data_4hr,
+              mapping = aes(x = Area_Population,
+                            y = mean),
+              method = "lm")
+
+mod_aug <- augment(mod_4hr$fit)
+ggplot(mod_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_line(alpha = 0.5) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "pop", y = "Residuals")
+glance(mod_4hr)$r.squared
+  
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 data_mod_1 <- data %>%
   select(Week_Ending_Date, Total_Attendees) %>%
   group_by(Week_Ending_Date) %>%
