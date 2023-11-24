@@ -74,7 +74,7 @@ data_graph_4 <- data %>%
   mutate(Population_Percentage = (mean_attendences/population)*100)
 
 data_graph_4 %>%
-  ggplot()
+  ggplot() +
   geom_col(mapping = aes(x = Population_Percentage,
                          y = reorder(Health_Board_Area_Name, Population_Percentage))) +
   labs(title = "Mean Attendances Per Week In Each Area",
