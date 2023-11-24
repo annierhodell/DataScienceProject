@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%") # for better picture reolution
 ```
 
 
@@ -17,24 +18,16 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
-
+library(devtools)
 ```
 
-
-```{r load-data, include=FALSE}
-# load your data here and any pre-processing/cleaning 
-#  that you need for your report.
-
-# For better figure resolution
-knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%")
-```
-
-```{r load-data, include=FALSE}
-# Load your data here
-weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
+```{r load-data-2, include=FALSE}
+#here we are loading all our data that we have used in our project
+weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv") #our original dataset, unedited
 HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
 Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
 
+#tidying our data
 tidy.data <- weekly_ae_activity_20231008 %>%
   select(-Country, -DepartmentType) %>%
   mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
@@ -71,49 +64,164 @@ data <- data.order %>%
          "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
          "%_Over_12hr" = "PercentageOver12HoursEpisode")
 
-
-
+#The Colours of HBT areas for graphs
+health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
+                               "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
+                               "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
+                               "Fife" = "gold", "Forth Valley" = "cyan",
+                               "Grampian" = "purple", "Highland" = "royalblue",
+                               "Lanarkshire" = "mediumaquamarine", "Orkney" = "darkblue",
+                               "Shetland" = "orange","Tayside" = "maroon",
+                               "Western Isles" = "powderblue")
+view(data)
 ```
-
+http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 #reference info accessed 20/oct/2023
 
 ## Research Question
 
-What effect did covid 19 have on the number of attendees in emergency centers across Scotland, and did this vary by location.
+What effect did Covid-19 have on the number of attendees in emergency centers across Scotland, and did this vary by location?
 
-Describe your research question here. Include why this question might be of interest. 
+In this project, we are aiming to investigate what impact Covid-19 has had on the number of attendees across A&Es in Scotland, and whether this varied between location. We would also like to use a model to predict how different A&E attendances would have been, if Covid-19 hadn't happened.
 
-
-
-
+Note: Covid-19 predominately occurred in 2020.
 
 ## Data
 
-main data set: Weekly A&E Activity and Waiting Times.
+Main data set: Weekly A&E Activity and Waiting Times.
 
-This dataset looks at the weekly attendances of each emergency centre in Scotland. the dataset includes the total amount of attendees and well as data and proportion for those who were seen within 4 hours, and over 4,8 and 12 hours.
+This data set looks at the weekly attendances of each accident and emergency center in Scotland from 2015 to 2023. The data set includes the total amount of attendees at each center each week along with sectioning them into time taken to process the patient, either within 4 hours, over 4, over 8 or over 12 hours. 
 
-variables after tidying:
+Once the data was tidied, the key variables we are investigating are:
 
-- Week_Ending_Date is the the date at the end of the week(sunday) when the data was take from spanning from 3 March 2015 to
-- Health_Board_Area_code is the code assigned to each HBT area e.g 	
-S08000015 is for Ayrshire and Arran
-- Health_Board_Area_Name the name which correlates to each HBT code. we got this information from a different dataset. ()
-- Area_Population the population for each HBT area
-- Total Attendees the total amount of attendees per week in each treatment location. 
+- Week_Ending_Date: The date at the end of the week(Sunday) when the data was taken,  spanning 22 February 2015 to 8 October 2023.
 
+- Area_Population: The population for each HBT area.
 
-Briefly describe your dataset here - include a description of the key variables you will be investigating. 
-Include a citation for your data. 
-See http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 for guidance on proper citation for datasets. 
-If you got your data off the web, make sure to state the retrieval date.
+- Total_Attendees: The total amount of attendees per week in each treatment location. 
 
+- Health_Board_Area_Name: The name which correlates to each HBT code, e.g S08000015 is for Ayrshire and Arran.
 
+The HBT(Health Board Areas) our data covers are shown below: 
+```{r Map Of Scotland- plot, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.align='center'}
+worldmap <- read_csv("Data/Data Files/worldmap.csv")
 
-
-
+#map of Scotland with HBT areas
+worldmap %>%
+  ggplot() + 
+  geom_polygon(data = worldmap, 
+               aes(x = long, y = lat, 
+                   group = group), 
+               fill = 'lightblue', 
+               color = 'black') + 
+  coord_fixed(ratio = 1.4, 
+              xlim = c(-9,1), 
+              ylim = c(54.8, 61))+
+  theme_bw()+
+  labs(title = "Map of Scotland's HBT Areas",
+            stat = "unique",
+            size = 5,
+            color = "blue")+
+  geom_text(aes(x = -0.2, y = 60.5,
+                label = "Shetland"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -2, y = 59,
+                label = "Orkney"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -4.7, y = 57,
+                label = "Highland"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -8, y = 58,
+                label = "Western Isles"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3, y = 57.4,
+                label = "Grampian"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3.4, y = 56.2,
+                label = "Fife"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3.6, y = 56.8,
+                label = "Tayside"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -4.2, y = 56.5,
+                label = "Forth Valley"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3, y = 55.8,
+                label = "Lothian"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -2.3, y = 55.4,
+                label = "Borders"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -4.1, y = 55.9,
+                label = "GGC"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3.7, y = 55.5,
+                label = "Lanarkshire"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3, y = 55.2,
+                label = "Dumfries"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -3, y = 55.1,
+                label = "& Galloway"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -4.3, y = 55.3,
+                label = "Ayrshire"),
+            stat = "unique",
+            size = 3, color = "black")+
+  geom_text(aes(x = -4.3, y = 55.2,
+                label = "& Arran"),
+            stat = "unique",
+            size = 3, color = "black")
+```
 
 ## Findings
 
+Initially, we wanted to view the total attendees per week from 2015 to 2023:
+
+```{r plot-graph 1, echo=FALSE}
+data %>%
+  select(Week_Ending_Date, Total_Attendees) %>%
+  group_by(Week_Ending_Date) %>%
+  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
+  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
+  geom_line()+
+  labs(x = "Date",
+       y = "Sum of Total Attendees",
+       title = "Number of A&E Attendees per Week",
+       subtitle = "2015 - 2023") +
+  theme_bw()
+```
+
+The above graph shows a drastic decrease in A&E attendances around March 2020, when the Covid-19 impact was greatest. In order to compare each year against 2020, we need to seperate them:
+
+```{r plot-graph-2, echo=FALSE, message=FALSE, warning=FALSE}
+data_graph_1 <- data %>%
+  mutate(Year = year(Week_Ending_Date)) %>%
+  mutate(date = yday(Week_Ending_Date))
+
+data_graph_1 %>% 
+  group_by(Week_Ending_Date) %>%
+  summarise(sumdat=sum(Total_Attendees), Year, date) %>% 
+  ggplot(aes(x = date, y = sumdat, colour = as.factor(Year))) +
+  geom_line()+
+  labs(x = "Day of Year",
+       y = "Number of Attendees Across Scotland",
+       title = "Number of A&E Attendees across each year",
+       colour = "Year")
+```
 
 The write-up of your project and findings go here. 
 
@@ -122,7 +230,7 @@ Think of this as the text of your presentation with some extra detail to cover w
 The length should be roughly 1,500 words. 
 If you want to use a word count addin, you can install this by copying and pasting the following into RStudio:
 
-`devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)`
+devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
 
 You will then need to restart RStudio. Once you have done that, select the text you want to count the words of, go to Addins, and select the `Word count` addin.
 This addin counts words using two different algorithms, but the results should be similar and as long as you're in the ballpark of 1,500 words, you're good! 
