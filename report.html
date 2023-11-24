@@ -11,7 +11,7 @@
 
 <meta name="author" content="by the A-Team: Anna Scollay, Alice Bullard, Alice Miller, Annie O’Dell" />
 
-<meta name="date" content="2023-11-23" />
+<meta name="date" content="2023-11-24" />
 
 <title>Impact Of Covid-19 On A&amp;E’s In Scotland</title>
 
@@ -354,43 +354,44 @@ display: none;
 Scotland</h1>
 <h4 class="author">by the A-Team: Anna Scollay, Alice Bullard, Alice
 Miller, Annie O’Dell</h4>
-<h4 class="date">2023-11-23</h4>
+<h4 class="date">2023-11-24</h4>
 
 </div>
 
 
+<p><a href="http://libraryguides.vu.edu.au/c.php?g=386501&amp;p=4347840" class="uri">http://libraryguides.vu.edu.au/c.php?g=386501&amp;p=4347840</a>
+#reference info accessed 20/oct/2023</p>
 <div id="research-question" class="section level2">
 <h2>Research Question</h2>
-<p>What effect did covid 19 have on the number of attendees in emergency
-centers across Scotland, and did this vary by location.</p>
-<p>Describe your research question here. Include why this question might
-be of interest.</p>
+<p>What effect did Covid-19 have on the number of attendees in emergency
+centers across Scotland, and did this vary by location?</p>
+<p>In this project, we are aiming to investigate what impact Covid-19
+has had on the number of attendees across A&amp;Es in Scotland, and
+whether this varied between location. We would also like to use a model
+to predict how different A&amp;E attendances would have been, if
+Covid-19 hadn’t happened.</p>
+<p>Note: Covid-19 predominately occurred in 2020.</p>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>main data set: Weekly A&amp;E Activity and Waiting Times.</p>
-<p>this dataset looks at the weekly attendances of each emergency centre
-in Scotland. the dataset includes the total amount of attendees and well
-as data and proportion for those who were seen within 4 hours, and over
-4,8 and 12 hours.</p>
-<p>variables after tidying:</p>
+<p>Main data set: Weekly A&amp;E Activity and Waiting Times.</p>
+<p>This data set looks at the weekly attendances of each accident and
+emergency center in Scotland from 2015 to 2023. The data set includes
+the total amount of attendees at each center along with sectioning them
+into time taken to process the patient, either within 4 hours, over 4,
+over 8 or over 12 hours.</p>
+<p>Once the data was tidied, the key variables we are investigating
+are:</p>
 <ul>
-<li>Week_Ending_Date is the the date at the end of the week(sunday) when
-the data was take from spanning from 3 March 2015 to</li>
-<li>Health_Board_Area_code is the code assigned to each HBT area
-e.g<br />
-S08000015 is for Ayrshire and Arran</li>
-<li>Health_Board_Area_Name the name which correlates to each HBT code.
-we got this information from a different dataset. ()</li>
-<li>Area_Population the population for each HBT area</li>
-<li>Total Attendees the total amount of attendees per week in each
-treatment location.</li>
+<li><p>Week_Ending_Date: The date at the end of the week(Sunday) when
+the data was taken, spanning 22 February 2015 to 8 October
+2023.</p></li>
+<li><p>Health_Board_Area_Name: The name which correlates to each HBT
+code, e.g S08000015 is for Ayrshire and Arran.</p></li>
+<li><p>Area_Population: The population for each HBT area.</p></li>
+<li><p>Total_Attendees: The total amount of attendees per week in each
+treatment location.</p></li>
 </ul>
-<p>Briefly describe your dataset here - include a description of the key
-variables you will be investigating. Include a citation for your data.
-See <a href="http://libraryguides.vu.edu.au/c.php?g=386501&amp;p=4347840" class="uri">http://libraryguides.vu.edu.au/c.php?g=386501&amp;p=4347840</a>
-for guidance on proper citation for datasets. If you got your data off
-the web, make sure to state the retrieval date.</p>
 </div>
 <div id="findings" class="section level2">
 <h2>Findings</h2>
@@ -404,7 +405,8 @@ to read.</p>
 <p>The length should be roughly 1,500 words. If you want to use a word
 count addin, you can install this by copying and pasting the following
 into RStudio:</p>
-<p><code>devtools::install_github(&quot;benmarwick/wordcountaddin&quot;, type = &quot;source&quot;, dependencies = TRUE)</code></p>
+<p>devtools::install_github(“benmarwick/wordcountaddin”, type =
+“source”, dependencies = TRUE)</p>
 <p>You will then need to restart RStudio. Once you have done that,
 select the text you want to count the words of, go to Addins, and select
 the <code>Word count</code> addin. This addin counts words using two
