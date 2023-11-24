@@ -1,7 +1,10 @@
 library(tidyverse)
 library(ggplot2)
-install.packages("gridExtra")
 library(gridExtra)
+library(tidymodels)
+library(palmerpenguins)
+library(knitr)
+library(xaringanthemer)
 
 #how to change colours
 #scale_colour_manual(values = 
@@ -76,3 +79,7 @@ graph_a <-data %>%
   labs(title = "2020 & 2021 Omitted for Predictions")
 
 grid.arrange(graph_a, graph_b)
+
+
+
+  

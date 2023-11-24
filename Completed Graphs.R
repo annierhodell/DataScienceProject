@@ -74,9 +74,10 @@ data_graph_4 <- data %>%
   mutate(Population_Percentage = (mean_attendences/population)*100)
 
 data_graph_4 %>%
-  ggplot()
+  ggplot() +
   geom_col(mapping = aes(x = Population_Percentage,
-                         y = reorder(Health_Board_Area_Name, Population_Percentage))) +
+                         y = reorder(Health_Board_Area_Name, Population_Percentage),
+                         fill = "pink")) +
   labs(title = "Mean Attendances Per Week In Each Area",
        subtitle = "2015 - 2023", 
        x = "Mean Attendance",
@@ -104,3 +105,8 @@ data %>%
        y = "Sum of Total Attendees",
        title = "Number of Attendees Per Year in Each Health Board Area") +
   theme_bw()
+
+
+data %>%
+  ggplot(mapping = aes(x = Health_Board_Area_Name, y = population)) +
+  geom_col()
