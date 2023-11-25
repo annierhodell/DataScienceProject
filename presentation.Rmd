@@ -97,8 +97,7 @@ class: center, middle
 
 ---
 
-##Scotland's Health Board Area's
-These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
+
 ```{r Information on Scotland Data, include=FALSE}
 data_table_1 <- data %>%
   group_by(Health_Board_Area_Name, Area_Population) %>%
@@ -108,7 +107,7 @@ data_table_1 <- data %>%
 ```
 
 ```{r Scotland Information, echo = FALSE}
-kable(head(data_table_1), format = "html")
+kable(head(data_table_1, n = 14), format = "html")
 ```
 ---
 ```{r Map Of Scotland - data, include=FALSE}
