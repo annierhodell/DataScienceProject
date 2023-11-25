@@ -34,6 +34,7 @@ glance(mod_4hr)$r.squared
 #working model for before 2020
 
 data_total_attendees <- data %>%
+  filter(year(Week_Ending_Date) < 2020)%>%
   select(Area_Population, Total_Attendees) %>%
   group_by(Area_Population) %>%
   summarise(mean = mean(Total_Attendees))
