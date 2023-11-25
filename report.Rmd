@@ -26,6 +26,7 @@ library(devtools)
 weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv") #our original dataset, unedited
 HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
 Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
+New_A_E_Data <- read_csv("data/AGE DATA/a_and_e_hb_agesex_20231005.csv")
 
 #tidying our data
 tidy.data <- weekly_ae_activity_20231008 %>%
@@ -64,6 +65,21 @@ data <- data.order %>%
          "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
          "%_Over_12hr" = "PercentageOver12HoursEpisode")
 
+#tidying data containing age and sex 2020 - 2023
+New_A_E_Data <- a_and_e_hb_agesex_20231005 %>%
+  mutate(WeekEnding = ymd(WeekEnding))%>%
+  rename("HBT" = HB)
+
+New_AE_data
+
+New_AE_data <- 
+  left_join(New_A_E_Data, HBT_area_names_and_population, by ="HBT")
+
+col_order_NEWDATA <- c("WeekEnding", "HBT", "Area name", "Population", "AgeGroup",
+                       "Sex", "NumberAttendances", "Average20182019")
+
+New_AE_data <- New_AE_data[, col_order_NEWDATA]
+
 #The Colours of HBT areas for graphs
 health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
                                "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
@@ -77,43 +93,43 @@ view(data)
 ```
 http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 #reference info accessed 20/oct/2023
 
-## Research Question
+##Introduction
+#Introduction – What is your data? What the research question(s) you are investigating? Is there any relevant background information/literature that can help give context to your data/questions?
 
-How population in different areas impacts A&E waiting times. 
+In this project, we are aiming to investigate what impact area population has on the number of A&E cases in their areas. We also want to look at Covid-19s impact on case numbers to see how they differed to pre-Covid times.
 
-In this project, we are aiming to investigate what impact area population has had on the waiting times across A&Es in Scotland. 
+Covid-19 predominately occurred in 2020.
 
-## Data
+We will be using the following data throughout this project:
 
-Main data set: Weekly A&E Activity and Waiting Times.
+- Weekly A&E Activity and Waiting Times: This data set looks at the weekly attendances of accident and emergency centers in Scotland from 2015 to 2023. The data set includes the total amount of weekly attendees at each center along with sectioning them into time taken to process the patient, either within 4 hours, over 4, over 8 or over 12 hours, along with columns for their associated percentages (ommiting percentage over 4 hours). This data contains the treatment location codes for each hospital and the health board area codes (HBT codes) for each area.
 
-This data set looks at the weekly attendances of each accident and emergency center in Scotland from 2015 to 2023. The data set includes the total amount of attendees at each center each week along with sectioning them into time taken to process the patient, either within 4 hours, over 4, over 8 or over 12 hours. 
+- Age_and_Sex_Data: This data set includes weekly attendances of accident and emergency centers whilst also looking at the age and sex of patients. The data runs from 5 January 2020 to 21 May 2023.
 
-Whilst tidying the data, we added in the population of each area in an additional column and grouped the areas into 3 groups by their population in order to have less variables. The three groups are:
+- HBT area names and population: We made this data set to contain the area names and populations corresponding to the given HBT codes in the original data set so we could join them together. I.e. S08000015 is the HBT code for the area Ayrshire and Arran. 
 
-1. population < 300,000
+- Treatment Location names: We made this data set to contain the treatment location names corresponding to the given treatment location codes in the original data set so we could join them together. I.e. A111H is the treatment location code for University Hospital Crosshouse.
 
-2. 300,000 < population < 600,000
+##Method
+#Methods – Summarise what cleaning/pre-processing you have done to your data. Brief description of data science techniques you have used in your investigation.
 
-3. population > 600,000
+The steps we took to tidy are data set are as follows:
 
-Once the data was tidied, the key variables we are investigating are:
+- Removed unnecessary columns unused in our project using select().
 
-- Week_Ending_Date: The date at the end of the week(Sunday) when the data was taken,  spanning 22 February 2015 to 8 October 2023.
+- formatted the week ending date into proper date format using mutate(WeekEndingDate = ymd(WeekEndingDate))
 
-- Health_Board_Area_Name: The name which correlates to each HBT code, e.g S08000015 is for Ayrshire and Arran.
+- added in a column for the percentage of cases processed in over 4 hours as this column was missing from the data set. 
 
-- Area_Population: The population for each HBT area.
 
-- Total_Attendees: The total amount of attendees per week in each treatment location. 
+##Results
+#Results – Tables, figures and summary values from your exploratory investigation. Summary of a fitted statistical model, such as estimates, plots and fit statistic. A brief explanation of what the results mean in the given context of your data.
 
-- Attendees_within_4hrs: Number of attendees that were processed in less than 4hrs. 
+##Discussion
+#Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
 
-- Attendees_over_4hrs: Number of attendees that were processed in more than 4hrs.
 
-- Attendees_over_8hrs: Number of attendees that were processed in more than 8hrs.
 
-- Attendees_over_12hrs: Number of attendees that were processed in more than 12hrs.
 
 The HBT(Health Board Areas) our data covers are shown below: 
 ```{r Map Of Scotland- plot, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.align='center'}
