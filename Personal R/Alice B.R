@@ -1,5 +1,7 @@
+#Q: How did covid effect the different areas of Scotland differently, based on the effect on hospital admissions?
 
 
+#modeling the effect of area population on total attendees in 2020 compared with pre-covid
 data_4hr <- data %>%
   filter(year(Week_Ending_Date) == 2020) %>%
   select(Area_Population, Total_Attendees) %>%
@@ -63,7 +65,7 @@ glance(mod_4hr)$r.squared
 
 
 
-
+#old model
 
 
 data_mod_1 <- data %>%
