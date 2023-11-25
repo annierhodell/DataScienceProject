@@ -106,14 +106,18 @@ data %>%
   theme_bw()
 
 
-#Graph 6 (table)
-data_table_2 <- data %>%
+#Graph 6 
+#graph of population in each area
+graph_6 <- data %>%
   group_by(Health_Board_Area_Name, Area_Population) %>%
   summarise(mean_attendances = round(mean(Total_Attendees), digits = 2)) %>%
   arrange(desc(mean_attendances))%>%
   select(-mean_attendances)%>%
   ggplot(mapping = aes(y = reorder(Health_Board_Area_Name, Area_Population), 
                        x = Area_Population))+
-  geom_col()
+  geom_col()+
+  labs(title = "Population by area",
+       x = "population",
+       y = "area")
 
-data_table_2
+graph_6
