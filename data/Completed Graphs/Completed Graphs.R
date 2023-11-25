@@ -104,3 +104,16 @@ data %>%
        y = "Sum of Total Attendees",
        title = "Number of Attendees Per Year in Each Health Board Area") +
   theme_bw()
+
+
+#Graph 6 (table)
+data_table_2 <- data %>%
+  group_by(Health_Board_Area_Name, Area_Population) %>%
+  summarise(mean_attendances = round(mean(Total_Attendees), digits = 2)) %>%
+  arrange(desc(mean_attendances))%>%
+  select(-mean_attendances)%>%
+  ggplot(mapping = aes(y = reorder(Health_Board_Area_Name, Area_Population), 
+                       x = Area_Population))+
+  geom_col()
+
+data_table_2
