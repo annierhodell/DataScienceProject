@@ -5,7 +5,7 @@ library(ggplot2)
 library(dplyr)
 library(tidymodels)
 
-New_A_E_Data <- a_and_e_hb_agesex_20231005 %>%
+Age_and_Sex_Data <- a_and_e_hb_agesex_20231005 %>%
   mutate(WeekEnding = ymd(WeekEnding))%>%
   rename("HBT" = HB)
 
