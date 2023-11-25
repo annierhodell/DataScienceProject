@@ -4,28 +4,28 @@
 #modeling the effect of area population on total attendees in 2020 compared with pre-covid
 data_4hr <- data %>%
   filter(year(Week_Ending_Date) == 2020) %>%
-  select(Area_Population, Total_Attendees) %>%
-  group_by(Area_Population) %>%
-  summarise(mean = mean(Total_Attendees))
+  select(Area_Population, Total_Attendees) #%>%
+#  group_by(Area_Population) %>%
+#  summarise(mean = mean(Total_Attendees))
 
 mod_4hr <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(mean ~ Area_Population, data = data_4hr) 
+  fit(Total_Attendees ~ Area_Population, data = data_4hr) 
 tidy(mod_4hr)
-
+#add data from alice's folder
 ggplot() +
   geom_point(data = data_4hr,
             mapping = aes(x = Area_Population,
-                          y = mean)) +
+                          y = Total_Attendees)) +
   geom_smooth(data = data_4hr,
               mapping = aes(x = Area_Population,
-                            y = mean),
+                            y = Total_Attendees),
               method = "lm")
 
 mod_aug <- augment(mod_4hr$fit)
 ggplot(mod_aug, mapping = aes(x = .fitted, y = .resid)) +
-  geom_line(alpha = 0.5) +
-  geom_point(alpha = 0.5) +
+#  geom_line(alpha = 0.5) +
+  geom_jitter(alpha = 0.5) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(x = "pop", y = "Residuals")
 glance(mod_4hr)$r.squared
