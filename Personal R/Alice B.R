@@ -1,4 +1,4 @@
-#Q: How did covid effect the different areas of scotland differently, based on the effect on hospital admissions?
+#Q: How did covid effect the different areas of Scotland differently, based on the effect on hospital admissions?
 
 
 #modeling the effect of area population on total attendees in 2020 compared with pre-covid
