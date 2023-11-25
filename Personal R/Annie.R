@@ -80,6 +80,11 @@ graph_a <-data %>%
 
 grid.arrange(graph_a, graph_b)
 
+#equations
+tidy(mod_2020)
 
+#mean attendances = 249 + 0.00909*area population
 
-  
+tidy(mod_tot_attendees)  
+
+#mean attendances = 307 + 0.00270*area population

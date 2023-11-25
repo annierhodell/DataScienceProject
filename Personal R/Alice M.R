@@ -115,4 +115,3 @@ full_join(cities, Highland_Isles)%>%
        title = "Number of Attendees Per Year in Each Health Board Area") +
   theme_bw() +
   facet_wrap(~city_or_highland, scales = "free_y")
-
