@@ -63,3 +63,9 @@ birds_data
 
 - Range Size: The total area of the mapped range of the species.
 
+```{r castle, echo = FALSE, out.width = "55%", fig.align = "", fig.cap = "Image credit: Original Drawing by Pongthanin Thanasantipan on Vecteezy"}
+include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
+```
+
+references:
+https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
