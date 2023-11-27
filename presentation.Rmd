@@ -1,44 +1,34 @@
 ---
 title: "Impact Of Covid-19 On A&E's In Scotland"
-author: "The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
+author: "The A-Team <br> Alice Bullard, Alice Miller, Annie O'Dell, Anna Scollay"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
-  xaringan::moon_reader:
+  xaringan::moon_reader: 
     css: xaringan-themer.css
     lib_dir: libs
     nature:
       ratio: "16:9"
       highlightStyle: github
-      highlightLines: true
+      highlightLines: false
       countIncrementalSlides: false
-      
 ---
 
-```{r install-package, include = FALSE, eval = FALSE}
-# Copy and paste the following code into your console to download and install
-# the `xaringan` package that contains all of the code which allows you 
-# to create presentation slides in Rmarkdown
-```
-
-
 ```{r load-packages, include = FALSE}
-# Add any additional packages you need to this chunk
 library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 library(maps)
+library(gridExtra)
 ```
 
 ```{r setup, include=FALSE}
-# For better figure resolution
 knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%")
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
 weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv")
 HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
 Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
@@ -80,25 +70,18 @@ data <- data.order %>%
          "%_Over_12hr" = "PercentageOver12HoursEpisode")
 ```
 
-```{r include=FALSE}
 
-#Background image
+```{r include=FALSE}
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/edinburgh-castle.jpg"
 )
 ```
-
-class: center, middle
-
-## The Impact That Covid-19 Has Had On A&E Cases And Waiting Times In Scotland
 
 ---
 # our data/ how we tidied it etc/ where we got it, all that jazz
 
 ---
 
-##Scotland's Health Board Area's
-These will be the Area's we will be analyzing when we look at the impact that Covid-19 had to individual area's of Scotland.
 ```{r Information on Scotland Data, include=FALSE}
 data_table_1 <- data %>%
   group_by(Health_Board_Area_Name, Area_Population) %>%
@@ -108,9 +91,10 @@ data_table_1 <- data %>%
 ```
 
 ```{r Scotland Information, echo = FALSE}
-kable(head(data_table_1), format = "html")
+kable(head(data_table_1, n = 14), format = "html")
 ```
 ---
+<<<<<<< HEAD
 ```{r Map Of Scotland - data, include=FALSE}
 #data for the world map
 worldmap <- read_csv("Data/Data Files/worldmap.csv")
@@ -199,6 +183,9 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
+class: centre, middle
+
+#  
 
 class: center, middle
 
@@ -263,3 +250,5 @@ data %>%
 ---
 #number of attendees per area as a percentage of the population
 ---
+=======
+>>>>>>> 7aa0c50a7f2a542c34dcd27001418ee06efc45b7

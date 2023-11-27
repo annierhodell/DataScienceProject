@@ -60,3 +60,30 @@ ggplot(mod_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(x = "pop", y = "Residuals")
 glance(mod_4hr)$r.squared
+<<<<<<< HEAD
+
+#trying to make a model with over4 hrs vs attendees per capita
+
+data_total_attendees_vs_over4hrs <- data %>%
+  #filter(year(Week_Ending_Date) = )%>%
+  select(Area_Population, Total_Attendees, "%_within_4hr") %>%
+  rename("percent_within_4hr" = "%_within_4hr")%>%
+  mutate(mean = mean(Total_Attendees)/Area_Population)
+
+mod_tot_attendees_vs_pop <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(percent_within_4hr ~ mean, data = data_total_attendees_vs_over4hrs)
+
+  tidy(mod_tot_attendees_vs_pop)
+  
+  ggplot() +
+    geom_jitter(data = data_total_attendees_vs_over4hrs,
+               mapping = aes(x = mean,
+                             y = percent_within_4hr)) +
+    geom_smooth(data = data_total_attendees_vs_over4hrs,
+                mapping = aes(x = mean,
+                              y = percent_within_4hr),
+                method = "lm")
+  
+=======
+>>>>>>> 703b1c5355f68f3e77d9bc6dc3d77368c3921a1e
