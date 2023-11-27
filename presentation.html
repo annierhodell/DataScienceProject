@@ -3,8 +3,8 @@
   <head>
     <title>Impact Of Covid-19 On A&amp;E’s In Scotland</title>
     <meta charset="utf-8" />
-    <meta name="author" content="The A-Team   Anna Scollay, Alice Bullard, Alice Miller, Annie O’Dell" />
-    <meta name="date" content="2023-11-25" />
+    <meta name="author" content="The A-Team   Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay" />
+    <meta name="date" content="2023-11-27" />
     <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,13 +16,13 @@ class: center, middle, inverse, title-slide
 # Impact Of Covid-19 On A&amp;E’s In Scotland
 ]
 .author[
-### The A-Team <br> Anna Scollay, Alice Bullard, Alice Miller, Annie O’Dell
+### The A-Team <br> Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay
 ]
 .institute[
 ### University of Edinburgh
 ]
 .date[
-### 2023-11-25
+### 2023-11-27
 ]
 
 ---
@@ -37,17 +37,10 @@ class: center, middle, inverse, title-slide
 
 
 
-
-
-class: center, middle
-
-## The Impact That Covid-19 Has Had On A&amp;E Cases And Waiting Times In Scotland
-
 ---
 # our data/ how we tidied it etc/ where we got it, all that jazz
 
 ---
-
 
 
 
@@ -133,43 +126,13 @@ class: center, middle
 &lt;/tbody&gt;
 &lt;/table&gt;
 ---
-
-
-&lt;img src="presentation_files/figure-html/Map Of Scotland- plot-1.png" width="100%" /&gt;
----
-
-class: center, middle
-
-# Impact On Scotland Overall
-
-&lt;img src="presentation_files/figure-html/plot-graph 1-1.png" width="80%" /&gt;
----
-
-class: centre, middle
-
-# Separating each year
-
-
-
-&lt;img src="presentation_files/figure-html/plot-graph-2-1.png" width="80%" /&gt;
-
----
-class: centre, middle
-# Taking a Closer Look at 2020
-
-&lt;img src="presentation_files/figure-html/plot-graph 3-1.png" width="80%" /&gt;
----
-#average by hbt area
----
-#number of attendees per area as a percentage of the population
----
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "ratio": "16:9",
 "highlightStyle": "github",
-"highlightLines": true,
+"highlightLines": false,
 "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
@@ -249,24 +212,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
-
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
+})();</script>
 
 <script>
 slideshow._releaseMath = function(el) {
