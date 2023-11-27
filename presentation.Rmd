@@ -106,7 +106,7 @@ data_table_1 <- data %>%
 
 ```
 
-```{r Scotland Information, echo = FALSE, out.width="50%", fig.height=3}
+```{r Scotland Information, echo = FALSE}
 kable(head(data_table_1, n = 14), format = "html")
 ```
 ---
@@ -198,6 +198,9 @@ worldmap %>%
             size = 3, color = "black")
 ```
 ---
+class: centre, middle
+
+#  
 
 class: center, middle
 
