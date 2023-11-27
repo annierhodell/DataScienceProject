@@ -12,7 +12,6 @@ output:
       highlightStyle: github
       highlightLines: false
       countIncrementalSlides: false
-      
 ---
 
 ```{r load-packages, include = FALSE}
