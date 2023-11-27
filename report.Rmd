@@ -13,245 +13,53 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 ```{r load-lib, include = FALSE}
 library(tidyverse)
-library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 library(devtools)
+library(ggplot2)
+library(gridExtra)
+library(tidymodels)
+library(readxl)
 ```
+# Our Data
 
-```{r load-data-2, include=FALSE}
-#here we are loading all our data that we have used in our project
-weekly_ae_activity_20231008 <- read_csv("data/weekly_ae_activity_20231008.csv") #our original dataset, unedited
-HBT_area_names_and_population <- read_csv("data/HBT area names and population.csv")
-Treatement_Location_names <- read_csv("data/Treatement Location names.csv")
-a_and_e_hb_agesex_20231005 <- read_csv("data/AGE DATA/a_and_e_hb_agesex_20231005.csv")
+birds_data
 
-#tidying our data
-tidy.data <- weekly_ae_activity_20231008 %>%
-  select(-Country, -DepartmentType) %>%
-  mutate(WeekEndingDate = ymd(WeekEndingDate)) %>%
-  mutate(PercentageOver4HoursEpisode = 
-           round((NumberOver4HoursEpisode/NumberOfAttendancesEpisode)*100, digits = 1))
+- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
 
-data.HBT.pop <- left_join(tidy.data, HBT_area_names_and_population, by ="HBT")
+- Species_Name: Bird species name.
 
-data.TLnames <- Treatement_Location_names%>%
-  rename("TreatmentLocation" = "Postcode of Treatment Location")%>%
-  left_join(data.HBT.pop, Treatement_Location_names, by ="TreatmentLocation")
+- Family: Family-level each bird species belongs to..
 
-col_order <- c("WeekEndingDate", "HBT", "Area name", "Population", "TreatmentLocation",
-               "Name of Treatement Location", "NumberOfAttendancesEpisode", "NumberWithin4HoursEpisode",
-               "PercentageWithin4HoursEpisode", "NumberOver4HoursEpisode", "PercentageOver4HoursEpisode", 
-               "NumberOver8HoursEpisode", "PercentageOver8HoursEpisode", "NumberOver12HoursEpisode", "PercentageOver12HoursEpisode")
+- Order: Order-level each bird family belongs to.
 
-data.order <- data.TLnames[, col_order]
+- Total Individuals: Number of individual birds measured for each species.
 
-data <- data.order %>%
-  rename("Week_Ending_Date" = "WeekEndingDate",
-         "Health_Board_Area_Code" = "HBT", 
-         "Health_Board_Area_Name" = "Area name", 
-         "Area_Population" = "Population", 
-         "Treatment_Location_Code" = "TreatmentLocation", 
-         "Treatment_Location_Name" = "Name of Treatement Location",
-         "Total_Attendees" = "NumberOfAttendancesEpisode", 
-         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
-         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
-         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
-         "%_Over_4hr" = "PercentageOver4HoursEpisode",
-         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
-         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
-         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode")
+- Female: Number of measured female birds.
 
-#tidying data containing age and sex 2020 - 2023
-Age_and_Sex_Data <- a_and_e_hb_agesex_20231005 %>%
-  mutate(WeekEnding = ymd(WeekEnding))%>%
-  rename("HBT" = HB)
+- Male: Number of measured male birds.
 
-Age_and_Sex_Data <- 
-  left_join(Age_and_Sex_Data, HBT_area_names_and_population, by ="HBT")
+- Unknown: Number of birds measured with sex unknown.
 
-col_order_NEWDATA <- c("WeekEnding", "HBT", "Area name", "Population", "AgeGroup",
-                       "Sex", "NumberAttendances", "Average20182019")
+- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
 
-Age_and_Sex_Data <- Age_and_Sex_Data[, col_order_NEWDATA]
+- Hand-Wing Index: 100*DK/Lw, where DK is Kipp’s distance and Lw is wing length.
 
-#The Colours of HBT areas for graphs
-health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
-                               "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
-                               "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
-                               "Fife" = "gold", "Forth Valley" = "cyan",
-                               "Grampian" = "purple", "Highland" = "royalblue",
-                               "Lanarkshire" = "mediumaquamarine", "Orkney" = "darkblue",
-                               "Shetland" = "orange","Tayside" = "maroon",
-                               "Western Isles" = "powderblue")
-```
-http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 #reference info accessed 20/oct/2023
+- Mass: Average body mass (male and female).
 
-# Introduction
+- Habitat: Habitat each bird species inhabits.
 
-In this project, we are aiming to investigate what impact area population has on the number of A&E cases in their areas. We also want to look at Covid-19s impact on case numbers to see how they differed to pre-Covid times.
+- Habitat Density: Density of habitat rated from 1 to 3. 1 = Dense habitats, 2 = Semi-open habitats, 3 = Open habitats. 
 
-Regarding population, we want to figure out if a higher population increases the amount of cases because there are more people possible of having injuries, or if it decreases case numbers because they have more experience and supplies to deal with the number of people.
+- Migration: Level of migratory behavior from 1 to 3. 1 = Sedentary, 2 = Partially migratory, 3 = Migratory.
 
-### Our Data
+- Trophic Level: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
 
-We will be using the following data throughout this project:
+- Trophic Niche: Niche diet level, sub categories of Tropic Level groups.
 
-- weekly_ae_activity_20231008: This data set looks at the weekly attendances of accident and emergency centers and their waiting times in Scotland from 2015 to 2023. The data set includes the total amount of weekly attendees at each center along with sectioning them into time taken to process the patient, either within 4 hours, over 4, over 8 or over 12 hours, along with columns for their associated percentages (ommiting percentage over 4 hours). This data contains the treatment location codes for each hospital and the health board area codes (HBT codes) for each area.
+- Primary Lifestyle: Main lifestyle activity taken up by species.
 
-- a_and_e_hb_agesex_20231005: This data set includes weekly attendances of accident and emergency centers whilst also looking at the age and sex of patients. The data runs from 5 January 2020 to 21 May 2023.
-
-- HBT_area_names_and_population: We made this data set to contain the area names and populations corresponding to the given HBT codes in the original data set so we could join them together. I.e. S08000015 is the HBT code for the area Ayrshire and Arran. 
-
-- Treatment_Location_names: We made this data set to contain the treatment location names corresponding to the given treatment location codes in the original data set so we could join them together. I.e. A111H is the treatment location code for University Hospital Crosshouse.
-
-### Scotland
-
-The HBT(Health Board Areas) our data covers are shown below: 
-
-```{r Map Of Scotland- plot, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.align='center'}
-worldmap <- read_csv("Data/Data Files/worldmap.csv")
-
-#map of Scotland with HBT areas
-worldmap %>%
-  ggplot() + 
-  geom_polygon(data = worldmap, 
-               aes(x = long, y = lat, 
-                   group = group), 
-               fill = 'lightblue', 
-               color = 'black') + 
-  coord_fixed(ratio = 1.4, 
-              xlim = c(-9,1), 
-              ylim = c(54.8, 61))+
-  theme_bw()+
-  labs(title = "Map of Scotland's HBT Areas",
-            stat = "unique",
-            size = 5,
-            color = "blue")+
-  geom_text(aes(x = -0.2, y = 60.5,
-                label = "Shetland"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -2, y = 59,
-                label = "Orkney"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -4.7, y = 57,
-                label = "Highland"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -8, y = 58,
-                label = "Western Isles"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3, y = 57.4,
-                label = "Grampian"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3.4, y = 56.2,
-                label = "Fife"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3.6, y = 56.8,
-                label = "Tayside"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -4.2, y = 56.5,
-                label = "Forth Valley"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3, y = 55.8,
-                label = "Lothian"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -2.3, y = 55.4,
-                label = "Borders"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -4.1, y = 55.9,
-                label = "GGC"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3.7, y = 55.5,
-                label = "Lanarkshire"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3, y = 55.2,
-                label = "Dumfries"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -3, y = 55.1,
-                label = "& Galloway"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -4.3, y = 55.3,
-                label = "Ayrshire"),
-            stat = "unique",
-            size = 3, color = "black")+
-  geom_text(aes(x = -4.3, y = 55.2,
-                label = "& Arran"),
-            stat = "unique",
-            size = 3, color = "black")
-```
-
-
-### Covid-19
-
-To look at the impact of covid-19, we recall that covid-19 predominately occurred in 2020. It involved a long period of stay at home isolation for the public throughout the year and kept hospitals working at their capacity. We think this will impact the way hospitals dealt with cases at their A&E department. 
-
-# Method
-
-### Data Tidying
-
-The begin our investigation, we first had to tidy our main data set. This process consisted of using data science techniques in order to make our data easier to be analysed. 
-
-We selected the specific columns we needed to reduce the overall data size making it easier to manage. In order to add in the missing percentage over 4 hours column, we used the mutate() function. Mutating was also required to format the data type of the week ending date column from double to date. We joined our data set with both the HBT_area_names_and_population and Treatment_Location_names data sets using the left_join() function. 
-
-After reordering and renaming the columns, our tidied data set is called data.
-
-We used a similar process to tidy our second data set, a_and_e_hb_agesex_20231005. This data set is now called Age_and_Sex_Data.
-
-### Techniques
-
-Throughout our investigation we used a variety of data science techniques, these included:
-
-- 
-
-# Results
-## Results – Tables, figures and summary values from your exploratory investigation. Summary of a fitted statistical model, such as estimates, plots and fit statistic. A brief explanation of what the results mean in the given context of your data.
-
-# Discussion
-## Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
-
-
-
-The write-up of your project and findings go here. 
-
-Think of this as the text of your presentation with some extra detail to cover what there was not time to discuss in the presentation. This might include any assumptions you made when doing your analysis, any limitations of the work you have done or any ideas you have for future work. Feel free to split this section into subsections to make it easier to read. 
-
-The length should be roughly 1,500 words. 
-If you want to use a word count addin, you can install this by copying and pasting the following into RStudio:
-
-devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
-
-You will then need to restart RStudio. Once you have done that, select the text you want to count the words of, go to Addins, and select the `Word count` addin.
-This addin counts words using two different algorithms, but the results should be similar and as long as you're in the ballpark of 1,500 words, you're good! 
-The addin will ignore code chunks and only count the words in prose. If you don't want to use the addin you can always copy and paste the text into Microsoft Word to do a Word Count!
-
-You can also load your data here and present any analysis results / plots.
-Make sure to hide your code with  `echo = FALSE` unless the point you are trying to make is about the code itself, in which case you should show your code.
-
-
-
-
-
-## References
-
-PHS Unscheduled Care Team 2023, *Weekly A&E Activity and Waiting Times*, data file
-
-List any references here. You should, at a minimum, list your data source.
-
+- Range Size: The total area of the mapped range of the species.
 
