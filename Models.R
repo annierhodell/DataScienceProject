@@ -60,6 +60,7 @@ ggplot(mod_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(x = "pop", y = "Residuals")
 glance(mod_4hr)$r.squared
+<<<<<<< HEAD
 
 #trying to make a model with over4 hrs vs attendees per capita
 
@@ -84,3 +85,5 @@ mod_tot_attendees_vs_pop <- linear_reg() %>%
                               y = percent_within_4hr),
                 method = "lm")
   
+=======
+>>>>>>> 703b1c5355f68f3e77d9bc6dc3d77368c3921a1e
