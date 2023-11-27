@@ -115,3 +115,33 @@ full_join(cities, Highland_Isles)%>%
        title = "Number of Attendees Per Year in Each Health Board Area") +
   theme_bw() +
   facet_wrap(~city_or_highland, scales = "free_y")
+
+#presentation layout. 
+#title page
+#map
+#population graph along side map
+#a look at the table and the hbt areas
+
+#using all population data
+
+HB_pop_tidy <- Health_Board_Population_Data%>%
+  filter(Sex == "All")%>%
+  select("Year", "HB", "AllAges")%>%
+  rename("Health_Board_Area_Code" = HB)
+
+data_Main_by_year <- data%>%
+  mutate(Year = year(Week_Ending_Date)) %>%
+  group_by(Year)%>%
+  summarise(sum = sum(Total_Attendees, na.rm = TRUE))
+
+
+HB_pop_joined <- 
+  left_join(HB_pop_tidy, data_Main_by_year, by ="Year")
+view(HB_pop_joined)
+
+
+
+  
+
+    
+  
