@@ -39,25 +39,70 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```{r load-data, include=FALSE}
 birds_data_og <- read_csv("birds_data.csv")
 
+birds_data <- birds_data_og %>%
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals,
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, Tail.Length, 
+         Trophic.Level, Trophic.Niche) %>%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1",
+         "Secondary_Length" = "Secondary1",
+         "Complete_Measures" = "Complete.measures", "Total_Individuals" = "Total.individuals",
+         "Beak_Culmen_Length" = "Beak.Length_Culmen", "Beak_Nares_Length" = "Beak.Length_Nares",
+         "Beak_Width" = "Beak.Width", "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", "Tail_Length" = "Tail.Length",
+         "General_Trophic" = "Trophic.Level", 
+         "Niche_Trophic" = "Trophic.Niche") %>%
+  relocate(Species_ID, .before = Species_Name)
+```
+
+#Steps We Took To Tidy The Data
+
+#Firstly we checked the data for NA's
+```{r data tidying code, echo=TRUE}
 birds_data_og %>% 
   select(where(~ any(is.na(.)))) %>% 
   summarise(
     across(everything(),
            ~sum(is.na(.))))
+```
 
-birds_data <- birds_data_og %>%
+---
+#Then we selected the columns that were useful to our investiagtion
+
+```{r data Tidying select, echo=TRUE}
+birds_data_select <- birds_data_og %>%
   select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
          Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
          Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
          Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
-         Primary.Lifestyle, Range.Size) %>%
-  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
-         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
-         "Secondary" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index") %>%
-  relocate(Species_ID, .before = Species_Name)
+         Primary.Lifestyle, Range.Size) 
 
 ```
+---
+#We then renamed the column's that had unclear names
+```{r rename data tidying, echo=TRUE}
+birds_data_rename <- birds_data_select%>%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
+         "Secondary_Length" = "Secondary1","Avg_Mass" = "Mass",
+         "Hand_Wing_Index" = "Hand-Wing.Index","Complete_Measures" = "Complete.measures", 
+         "Total_Individuals" = "Total.individuals","Beak_Culmen_Length" = "Beak.Length_Culmen", 
+         "Beak_Nares_Length" = "Beak.Length_Nares","Beak_Width" = "Beak.Width", 
+         "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", 
+         "Tail_Length" = "Tail.Length","Habitat_Density" = "Habitat.Density", 
+         "General_Trophic" = "Trophic.Level", "Niche_Trophic" = "Trophic.Niche", 
+         "Primary_Lifestyle" = "Primary.Lifestyle","Range_Size" = "Range.Size")
+```
+---
+#Finally we relocated the Species ID to come before the Species Name
+```{r relocate data tidying, include=TRUE}
+birds_data_relocate <- birds_data_rename%>%
+  relocate(Species_ID, .before = Species_Name)
+```
 
+---
 
 class: center, middle
 
@@ -73,9 +118,87 @@ include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jp
 ```
 ---
 #What are the Differeing Diets of Birds
+```{r Diets of Birds Graph, echo=FALSE}
+birds_data %>%
+  filter(!General_Trophic == "NA")%>%
+  ggplot(aes(x = General_Trophic)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Trophic Levels",
+       x = "Trophic Level",
+       y = "Count")+
+  theme_bw()
+```
+---
+#Prediciting The Diet Of The Bird Based Of Their Beak Measurements
+
+When creating our models we decided to focus on predicting the diets of birds who are:
+- Carnivores: A species whose diet consists of at least 70% of food resources from consuming live animals.
+- Herbivores: A species whose diet consists of at least 70% of food resources from consuming plants.
+
+We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
+
+We also left out Omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An Omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
 
 ---
 
+#Prediciting Whether a Bird is a Carnivore
+```{r Bird Model data tidying, include=FALSE}
+birds_model <- birds_data %>%
+  filter(!General_Trophic == "NA") %>%
+  mutate(
+    Carnivore_Status = factor(ifelse(General_Trophic == "Carnivore", "Carnivore", "Not Carnivore"),
+                              levels = c("Not Carnivore", "Carnivore")),
+    
+    Herbivore_Status = factor(ifelse(General_Trophic == "Herbivore", "Herbivore", "Not Herbivore"),
+                              levels = c("Not Herbivore", "Herbivore")),
+    
+    Omnivore_Status = factor(ifelse(General_Trophic == "Omnivore", "Omnivore", "Not Omnivore"),
+                             levels = c("Not Omnivore", "Omnivore")))
+
+
+#splitting our data
+
+# Set seed for reproducibility
+set.seed(123)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data <- initial_split(birds_model, prop = 0.8)
+train_data <- training(split_data)
+test_data <- testing(split_data)
+```
+
+```{r Model for Carnivore, include=FALSE}
+#model for predicting if a carnivore or not based on beak data (model C)
+birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+birds_mod_C <- logistic_reg() %>%
+  set_engine("glm")
+
+birds_wflow_C <- workflow() %>%
+  add_recipe(birds_rec_C) %>%
+  add_model(birds_mod_C)
+
+birds_wflow_C
+
+#fit c
+birds_fit_C <- birds_wflow_C %>%
+  fit(data = train_data)
+
+# Making the predictor
+birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
+  bind_cols(test_data)
+
+# ROC for carnivore
+roc_Carnivore <- birds_predict_C %>%
+  roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+
+# Plot ROC for carnivore
+autoplot(roc_Carnivore) +
+  labs(title = "ROC Curve for prediciting Carnivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
+
+```
+---
 class: inverse, middle, center
 
 # Using xaringan
@@ -112,16 +235,6 @@ or text in two columns $^*$
 [*] And add footnotes
 ]
 
----
-
-# Code
-
-```{r boring-regression, eval=FALSE, include=FALSE}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
-```
 
 ---
 

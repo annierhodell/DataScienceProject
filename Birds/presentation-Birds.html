@@ -34,6 +34,66 @@ class: center, middle, inverse, title-slide
 
 
 
+#Steps We Took To Tidy The Data
+
+#Firstly we checked the data for NA's
+
+```r
+birds_data_og %&gt;% 
+  select(where(~ any(is.na(.)))) %&gt;% 
+  summarise(
+    across(everything(),
+           ~sum(is.na(.))))
+```
+
+```
+## # A tibble: 1 × 13
+##   Sequence Mass.Refs.Other Traits.inferred Reference.species Habitat Migration
+##      &lt;int&gt;           &lt;int&gt;           &lt;int&gt;             &lt;int&gt;   &lt;int&gt;     &lt;int&gt;
+## 1       10           10294           10140             10140      98        23
+## # ℹ 7 more variables: Trophic.Level &lt;int&gt;, Trophic.Niche &lt;int&gt;,
+## #   Min.Latitude &lt;int&gt;, Max.Latitude &lt;int&gt;, Centroid.Latitude &lt;int&gt;,
+## #   Centroid.Longitude &lt;int&gt;, Range.Size &lt;int&gt;
+```
+
+---
+#Then we selected the columns that were useful to our investiagtion
+
+
+```r
+birds_data_select &lt;- birds_data_og %&gt;%
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
+         Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
+         Primary.Lifestyle, Range.Size) 
+```
+---
+#We then renamed the column's that had unclear names
+
+```r
+birds_data_rename &lt;- birds_data_select%&gt;%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
+         "Secondary_Length" = "Secondary1","Avg_Mass" = "Mass",
+         "Hand_Wing_Index" = "Hand-Wing.Index","Complete_Measures" = "Complete.measures", 
+         "Total_Individuals" = "Total.individuals","Beak_Culmen_Length" = "Beak.Length_Culmen", 
+         "Beak_Nares_Length" = "Beak.Length_Nares","Beak_Width" = "Beak.Width", 
+         "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", 
+         "Tail_Length" = "Tail.Length","Habitat_Density" = "Habitat.Density", 
+         "General_Trophic" = "Trophic.Level", "Niche_Trophic" = "Trophic.Niche", 
+         "Primary_Lifestyle" = "Primary.Lifestyle","Range_Size" = "Range.Size")
+```
+---
+#Finally we relocated the Species ID to come before the Species Name
+
+```r
+birds_data_relocate &lt;- birds_data_rename%&gt;%
+  relocate(Species_ID, .before = Species_Name)
+```
+
+---
 
 class: center, middle
 
@@ -46,15 +106,26 @@ class:center, middle
 #What Is A Bird's Beak Measurements
 &lt;img src="Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg" width="50%" /&gt;
 ---
+#What are the Differeing Diets of Birds
+&lt;img src="presentation-Birds_files/figure-html/Diets of Birds Graph-1.png" width="80%" /&gt;
+---
+#Prediciting The Diet Of The Bird Based Of Their Beak Measurements
 
-# Hello World
+When creating our models we decided to focus on predicting the diets of birds who are:
+- Carnivores: A species whose diet consists of at least 70% of food resources from consuming live animals.
+- Herbivores: A species whose diet consists of at least 70% of food resources from consuming plants.
 
-- Click the `Knit` button to compile your presentation
+We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
 
-- Make sure to commit and push all resulting files to your GitHub repo
+We also left out Omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An Omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
 
 ---
 
+#Prediciting Whether a Bird is a Carnivore
+
+
+
+---
 class: inverse, middle, center
 
 # Using xaringan
@@ -90,11 +161,6 @@ or text in two columns `\(^*\)`
 .footnote[
 [*] And add footnotes
 ]
-
----
-
-# Code
-
 
 
 ---
