@@ -2,7 +2,9 @@
 
 #bar chart of trohiclevel
 
-ggplot(birds_data, aes(x = Trophic.Level)) +
+birds_data%>%
+  filter(!General_Trophic == "NA")%>%
+  ggplot(aes(x = General_Trophic)) +
   geom_bar(fill = "skyblue", color = "black") +
   labs(title = "Distribution of Trophic Levels",
        x = "Trophic Level",
