@@ -1,5 +1,5 @@
 ---
-title: "Something About Birds..."
+title: "Investigating the Corellation Between The Diet of Birds and Their Beak Measurement"
 #subtitle: "Presentation subtitle (if any)"
 author: "A-Team <br> Alice Bullard, Alice Miller, Annie O'Dell, Anna Scollay"
 institute: "University of Edinburgh"
@@ -14,14 +14,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 
-```{r echo=TRUE}
-
-#Background image
-style_xaringan(
-  title_slide_background_image = "DataScienceProject/Birds/Birds Presenation background.jpg"
-)
-```
-
+---
 
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
@@ -44,28 +37,42 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+birds_data_og <- read_csv("birds_data.csv")
+
+birds_data_og %>% 
+  select(where(~ any(is.na(.)))) %>% 
+  summarise(
+    across(everything(),
+           ~sum(is.na(.))))
+
+birds_data <- birds_data_og %>%
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
+         Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
+         Primary.Lifestyle, Range.Size) %>%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
+         "Secondary" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index") %>%
+  relocate(Species_ID, .before = Species_Name)
 
 ```
 
 
 class: center, middle
 
-## A statement of the overall goal / research question
+##Investigating the Corellation Between The Diet of Birds and Their Beak Measurement
 
+Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
 
-class: inverse, center, middle
-
-# Section title
-
+class:center, middle
+#What Is A Bird's Beak Measurements
+```{r Beak Size Image, echo=FALSE, out.width= "50%"}
+include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
+```
 ---
-
-# Hello World
-
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
+#What are the Differeing Diets of Birds
 
 ---
 
@@ -109,7 +116,7 @@ or text in two columns $^*$
 
 # Code
 
-```{r boring-regression}
+```{r boring-regression, eval=FALSE, include=FALSE}
 # a boring regression
 model <- lm(dist ~ speed, data = cars)
 tidy(model)

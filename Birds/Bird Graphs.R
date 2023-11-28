@@ -1,6 +1,6 @@
 #bird graphs
 
-#bar chart of trohiclevel
+#bar chart of trophic level
 
 birds_data%>%
   filter(!General_Trophic == "NA")%>%
@@ -10,7 +10,6 @@ birds_data%>%
        x = "Trophic Level",
        y = "Count")
 
-#shows there is some nas in our dataset
 
 #another bar chart this time showing habitat
 
@@ -22,4 +21,7 @@ birds_data%>%
        y = "Habitat",
        x = "Count")
 
-#again shows some nas
+birds_data %>%
+  filter(!Habitat == "NA",!General_Trophic == "NA")%>%
+  ggplot(aes(x = Habitat, y = General_Trophic))+
+  geom_point()
