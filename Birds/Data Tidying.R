@@ -21,7 +21,7 @@ birds_data <- birds_data_og %>%
   select(Species1, Family1, Order1, Avibase.ID1, Total.individuals,
          Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
          Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, Tail.Length, 
-         Trophic.Level, Trophic.Niche) %>%
+         Trophic.Level, Trophic.Niche, Habitat) %>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
          "Species_ID" = "Avibase.ID1",
          "Secondary_Length" = "Secondary1",
