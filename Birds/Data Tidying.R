@@ -7,7 +7,7 @@ library(knitr)
 library(xaringanthemer)
 library(readxl)
 
-birds_data_og <- read_excel("Birds/birds_data.xlsx")
+birds_data_og <-read_csv("Birds/birds_data.csv")
 
 birds_data_og %>% 
   select(where(~ any(is.na(.)))) %>% 
