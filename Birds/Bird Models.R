@@ -54,3 +54,27 @@ ggplot() +
               mapping = aes(x = Tail.Length,
                             y = Wing.Length),
               method = "lm")
+
+#splitting our data
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data <- initial_split(birds_data, prop = 0.8)
+
+# Extract the training and testing sets
+train_data <- training(split_data)
+test_data <- testing(split_data)
+
+#Trying to make a model to predict whether its a carnivore or not
+
+#creating a yes no carnivore column
+
+birds_carnivore <- birds_data%>%
+  mutate(Carnivore_Status = ifelse(Trophic.Level == "Carnivore", "Carnivore", "Not Carnivore"))
+
+
+model_carnivore <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(Carnivore_Status ~ Beak.Length, data = birds_carnivore, family = "binomial")
