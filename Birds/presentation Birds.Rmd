@@ -21,7 +21,7 @@ style_xaringan(
   title_slide_background_image = "DataScienceProject/Birds/Birds Presenation background.jpg"
 )
 ```
----
+
 
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk

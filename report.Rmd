@@ -29,17 +29,28 @@ birds_data_og <- read_excel("Birds/birds_data.xlsx")
 birds_data <- birds_data_og %>%
   select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
          Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
-         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, "Hand-Wing.Index", Tail.Length, 
          Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
          Primary.Lifestyle, Range.Size) %>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
          "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
-         "Secondary" = "Secondary1", "Avg_Mass" = "Mass") %>%
+         "Secondary_Length" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index",
+         "Complete_Measures" = "Complete.measures", "Total_Individuals" = "Total.individuals",
+         "Beak_Culmen_Length" = "Beak.Length_Culmen", "Beak_Nares_Length" = "Beak.Length_Nares",
+         "Beak_Width" = "Beak.Width", "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", "Tail_Length" = "Tail.Length",
+         "Habitat_Density" = "Habitat.Density", "General_Trophic" = "Trophic.Level", 
+         "Niche_Trophic" = "Trophic.Niche", "Primary_Lifestyle" = "Primary.Lifestyle", 
+         "Range_Size" = "Range.Size") %>%
   relocate(Species_ID, .before = Species_Name)
 ```
 ### Introduction – What is your data? What the research question(s) you are investigating? Is there any relevant background information/literature that can help give context to your data/questions?
 
-Our main data set in this project is birds_data. It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. The following variables of this data set are to be useful in our project.
+In this project we want to investigate whether
+
+Our main data set for this project is birds_data. It contains different bird species' measurements and behavior; such as their habitat, diet and migration patterns. 
+
+The following variables of this data set are to be useful in our project.
 
 :::: {style="display: flex;"}
 
@@ -67,7 +78,7 @@ Our main data set in this project is birds_data. It contains different bird spec
 
 :::{}
 
-```{r castle, echo = FALSE, out.width = "75%", fig.align = "right"}
+```{r castle, echo = FALSE, out.width = "75%", fig.align = "right", fig.cap= "figure 1: Bird Measurements Taken"}
 include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
 ```
 
@@ -101,4 +112,4 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 ### Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
 
 references:
-https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
+- figure 1: https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
