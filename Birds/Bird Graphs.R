@@ -31,8 +31,19 @@ birds_data %>%
         axis.title = element_blank(),  # Remove axis title
         legend.position = "bottom")  # Move legend to the bottom
 
-# pie chart for 
+# pie chart for Niche trophic levels
 
+birds_data %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  ggplot(aes(x = "", fill = Niche_Trophic)) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar(theta = "y") +
+  #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
+  labs(title = "Distribution of Trophic Types") +
+  theme(axis.text = element_blank(),  # Remove axis text
+        axis.title = element_blank(),  # Remove axis title
+        legend.position = "bottom")
 
 #another bar chart this time showing habitat
 
@@ -43,5 +54,24 @@ birds_data%>%
   labs(title = "Distribution of Trophic Levels",
        y = "Habitat",
        x = "Count")
+
+#plotting beak width vs depth colour by something
+
+birds_data%>%
+  ggplot(mapping = aes(x = Beak_Width,
+                       y = Beak_Depth,
+                       colour = Habitat))+
+  geom_point()
+
+
+# finding the percentage of scanvengers in our data
+
+scavenger_percentage <- birds_data %>%
+  filter(!is.na(General_Trophic)) %>%
+  summarise(percentage = mean(General_Trophic == "Scavenger") * 100)
+
+# Print the result
+cat("Percentage of scavengers in the data:", scavenger_percentage$percentage, "%\n")
+
 
 
