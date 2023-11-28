@@ -117,6 +117,34 @@ roc_Herbivore <- birds_predict_h %>%
 autoplot(roc_Herbivore) +
   labs(title = "ROC Curve for 'Herbivore' model h")
 
+#model for omnivores
 
+birds_rec_o <- recipe(Omnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+birds_mod_o <- logistic_reg() %>%
+  set_engine("glm")
+
+birds_wflow_o <- workflow() %>%
+  add_recipe(birds_rec_o) %>%
+  add_model(birds_mod_o)
+
+birds_wflow_o
+
+#fit 1
+birds_fit_o <- birds_wflow_o %>%
+  fit(data = train_data)
+
+# Making the predictor
+birds_predict_o <- predict(birds_fit_o, test_data, type = "prob") %>%
+  bind_cols(test_data)
+
+# ROC for omnivore
+roc_Omnivore <- birds_predict_o %>%
+  roc_curve(truth = Omnivore_Status, ".pred_Omnivore", event_level = "second")
+
+# Plot ROC for omnivore
+autoplot(roc_Omnivore) +
+  labs(title = "ROC Curve for 'Omnivore' model o")
 
 
