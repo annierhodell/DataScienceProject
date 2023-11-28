@@ -1,7 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "Something About Birds..."
+#subtitle: "Presentation subtitle (if any)"
+author: "A-Team <br> Alice Bullard, Alice Miller, Annie O'Dell, Anna Scollay"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -13,16 +13,15 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      
----
 
-```{r install-package, include = FALSE, eval = FALSE}
-# Copy and paste the following code into your console to download and install
-# the `xaringan` package that contains all of the code which allows you 
-# to create presentation slides in Rmarkdown
-install.packages('xaringan')
+```{r echo=TRUE}
+
+#Background image
+style_xaringan(
+  title_slide_background_image = "DataScienceProject/Birds/Birds Presenation background.jpg"
+)
 ```
-
+---
 
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
@@ -31,6 +30,12 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(devtools)
+library(ggplot2)
+library(gridExtra)
+library(tidymodels)
+library(readxl)
+library(xaringan)
 ```
 
 ```{r setup, include=FALSE}
@@ -43,13 +48,6 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 ```
 
-```{r include=FALSE}
-
-#Background image
-style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
-)
-```
 
 class: center, middle
 
@@ -170,7 +168,7 @@ kable(head(iris), format = "html")
 
 # Images
 
-```{r castle, echo = FALSE, out.width = "55%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
+```{r castle, eval=FALSE, fig.align="center", fig.cap=, include=FALSE, out.width="55%"}
 include_graphics("img/edinburgh-castle.jpg")
 ```
 
