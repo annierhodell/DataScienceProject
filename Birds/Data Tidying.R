@@ -19,16 +19,16 @@ colnames(birds_data)
 
 birds_data <- birds_data_og %>%
   select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
-         Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, Tarsus.Length,
-         Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, Mass, 
-         Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, Primary.Lifestyle,
-         Range.Size) %>%
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
+         Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
+         Primary.Lifestyle, Range.Size) %>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
          "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
-         "Secondary" = "Secondary1", "Avg_Mass" = "Mass") %>%
+         "Secondary" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index") %>%
   relocate(Species_ID, .before = Species_Name)
 
-birds_data
+view(birds_data)
 
 
 
