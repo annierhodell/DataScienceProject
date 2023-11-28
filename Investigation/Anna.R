@@ -1,3 +1,15 @@
+
+birds_data %>%
+  select(Species_Name, Female, Male, Total.individuals)%>%
+  ggplot
+
+
+
+
+
+
+#####################################################NEW BIRD DATA ^^^^^
+
 health_board_area_colours <- c("Greater Glasgow and Clyde" = "red",
                                "Lothian" = "hotpink", "Ayrshire and Arran" = "pink", 
                                "Borders" = "seagreen", "Dumfries and Galloway" = "salmon",
@@ -107,6 +119,9 @@ col_order_NEWDATA <- c("WeekEnding", "HBT", "Area name", "Population", "AgeGroup
 Age_and_Sex_Data <- Age_and_Sex_Data[, col_order_NEWDATA]
 
 view(Age_and_Sex_Data)
+
+#####################################################NEW BIRD DATA ^^^^^
+
 
 
 
