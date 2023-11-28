@@ -1,8 +1,10 @@
 #bird graphs
 
-#bar chart of trophic level
+#bar chart of trohiclevel
 
-ggplot(birds_data, aes(x = Trophic.Level)) +
+birds_data%>%
+  filter(!General_Trophic == "NA")%>%
+  ggplot(aes(x = General_Trophic)) +
   geom_bar(fill = "skyblue", color = "black") +
   labs(title = "Distribution of Trophic Levels",
        x = "Trophic Level",
@@ -12,7 +14,9 @@ ggplot(birds_data, aes(x = Trophic.Level)) +
 
 #another bar chart this time showing habitat
 
-ggplot(birds_data, aes(y = Habitat)) +
+birds_data%>%
+  filter(!Habitat == "NA")%>%
+  ggplot(aes(y = Habitat)) +
   geom_bar(fill = "skyblue", color = "black") +
   labs(title = "Distribution of Trophic Levels",
        y = "Habitat",
