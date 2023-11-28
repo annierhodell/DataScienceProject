@@ -52,6 +52,9 @@ roc_Carnivore <- birds_predict_C %>%
 autoplot(roc_Carnivore) +
   labs(title = "ROC Curve for 'Carnivore' model C")
 
+#area under graph
+birds_predict_C%>%
+  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 
 
 #model for predicting caarnivore based off one factor (model 1)
@@ -150,39 +153,18 @@ autoplot(roc_Omnivore) +
 
 #evaluating how good our models are
 
-#area under curve for model c
-#area under curve for agree model 2
-birds_predict_C %>%
-  roc_auc(truth = Carnivore_Status, '.pred_Carnivore')
-#not a good auc value,worse than random chance.
+#area under graph for carnivore
+birds_predict_C%>%
+  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 
-#making a model to predict not a carnivore
+#area under graph for herbivore
 
-birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
-  step_dummy(all_nominal(), -all_outcomes())
+birds_predict_h %>%
+  roc_auc(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
 
-birds_mod_C <- logistic_reg() %>%
-  set_engine("glm")
+#area under graph for omnivore
+  
+birds_predict_o %>%
+  roc_auc(truth = Omnivore_Status, ".pred_Omnivore", event_level = "second")
 
-birds_wflow_C <- workflow() %>%
-  add_recipe(birds_rec_C) %>%
-  add_model(birds_mod_C)
-
-birds_wflow_C
-
-#fit 1
-birds_fit_C <- birds_wflow_C %>%
-  fit(data = train_data)
-
-# Making the predictor
-birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
-  bind_cols(test_data)
-
-# ROC for carnivore
-roc_Not_Carnivore <- birds_predict_C %>%
-  roc_curve(truth = Carnivore_Status, ".pred_Not Carnivore", event_level = "second")
-
-# Plot ROC for carnivore
-autoplot(roc_Not_Carnivore) +
-  labs(title = "ROC Curve for 'Not_Carnivore' model C")
 
