@@ -74,14 +74,7 @@ test_data <- testing(split_data)
 birds_carnivore <- birds_data%>%
   mutate(Carnivore_Status = ifelse(Trophic.Level == "Carnivore", "Carnivore", "Not Carnivore"))
 
-# Is there any nas in the new column
-any_na_carnivore_status <- any(is.na(birds_data$Carnivore_Status))
-
-if (any_na_carnivore_status) {
-  cat("There are missing values in the Carnivore_Status column.\n")
-} else {
-  cat("No missing values found in the Carnivore_Status column.\n")
-}
+#attempting to create a workflow?
 
 birds_carnivore$Carnivore_Status <- factor(
   birds_carnivore$Carnivore_Status, levels = c("Not Carnivore", "Carnivore"))
@@ -89,6 +82,19 @@ birds_carnivore$Carnivore_Status <- factor(
 
 model_carnivore <- logistic_reg() %>%
   set_engine("glm") %>%
-  fit(Carnivore_Status ~ Beak.Length_Culmen, data = train_data, family = "binomial")
+  fit(Carnivore_Status ~ Beak_Length_Culmen + Hand_Wing_Index + Tail_Length, data = train_data, family = "binomial")
 
 tidy(model_carnivore)
+
+#trying again
+birds_rec_1 <- recipe(Carnivore_Status ~ Wing_Length, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+birds_mod_1 <- logistic_reg() %>%
+  set_engine("glm")
+
+birds_wflow_1 <- workflow() %>%
+  add_recipe(birds_rec_1) %>%
+  add_model(birds_mod_1)
+
+birds_wflow_1
