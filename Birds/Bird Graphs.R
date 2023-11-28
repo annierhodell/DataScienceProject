@@ -21,7 +21,4 @@ birds_data%>%
        y = "Habitat",
        x = "Count")
 
-birds_data %>%
-  filter(!Habitat == "NA",!General_Trophic == "NA")%>%
-  ggplot(aes(x = Habitat, y = General_Trophic))+
-  geom_point()
+

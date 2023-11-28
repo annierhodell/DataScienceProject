@@ -1,5 +1,6 @@
 
 #creating a new data set, with a yes no column for herbivore,carnivore and omnivore
+#also had to make them factors for the dataset to work
 
 birds_model <- birds_data %>%
   filter(!General_Trophic == "NA") %>%
@@ -12,7 +13,6 @@ birds_model <- birds_data %>%
     
     Omnivore_Status = factor(ifelse(General_Trophic == "Omnivore", "Omnivore", "Not Omnivore"),
                              levels = c("Not Omnivore", "Omnivore")))
-view(birds_model)
 
 #splitting our data
 
@@ -50,11 +50,9 @@ roc_Carnivore <- birds_predict_C %>%
 
 # Plot ROC for carnivore
 autoplot(roc_Carnivore) +
-  labs(title = "ROC Curve for 'Carnivore' model C")
+  labs(title = "ROC Curve for prediciting Carnivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 
-#area under graph
-birds_predict_C%>%
-  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 
 
 #model for predicting caarnivore based off one factor (model 1)
@@ -119,7 +117,8 @@ roc_Herbivore <- birds_predict_h %>%
 
 # Plot ROC for herbivore
 autoplot(roc_Herbivore) +
-  labs(title = "ROC Curve for 'Herbivore' model h")
+  labs(title = "ROC Curve for predicting Herbivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 
 #model for omnivores
 
@@ -149,7 +148,8 @@ roc_Omnivore <- birds_predict_o %>%
 
 # Plot ROC for omnivore
 autoplot(roc_Omnivore) +
-  labs(title = "ROC Curve for 'Omnivore' model o")
+  labs(title = "ROC Curve for predicting",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 
 #evaluating how good our models are
 
@@ -166,5 +166,9 @@ birds_predict_h %>%
   
 birds_predict_o %>%
   roc_auc(truth = Omnivore_Status, ".pred_Omnivore", event_level = "second")
+#the omnivore one isnt very good, as the value is less than 0.5, however we can also see on the 
+#roc curve that this model isnt very good for omnivores
+#one reason might be lack of data, more data for other types. 
+#And also these birds have evolved to eat both types of food so might not follow log reg
 
 
