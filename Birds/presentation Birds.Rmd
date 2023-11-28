@@ -118,7 +118,7 @@ include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jp
 ```
 ---
 #What are the Differeing Diets of Birds
-```{r Diets of Birds Graph, echo=FALSE}
+```{r Diets of Birds Graph, echo=FALSE, out.width= "20%"}
 birds_data %>%
   filter(!General_Trophic == "NA")%>%
   ggplot(aes(x = General_Trophic)) +
@@ -127,6 +127,25 @@ birds_data %>%
        x = "Trophic Level",
        y = "Count")+
   theme_bw()
+```
+
+```{r pie chart, echo=FALSE, out.width= "20%"}
+trophic_colors <- c("Herbivore" = "darkgreen",
+                    "Carnivore" = "tomato3",
+                    "Omnivore" = "steelblue",
+                    "Scavenger" = "wheat")
+
+birds_data %>%
+  filter(!is.na(General_Trophic)) %>%
+  ggplot(aes(x = "", fill = General_Trophic)) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
+  labs(title = "Distribution of Trophic Types") +
+  theme(axis.text = element_blank(),  # Remove axis text
+        axis.title = element_blank(),  # Remove axis title
+        legend.position = "bottom")  # Move legend to the bottom
 ```
 ---
 #Some Graphsssss whooooo

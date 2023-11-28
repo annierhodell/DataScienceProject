@@ -1,8 +1,4 @@
 
-birds_data %>%
-  select(Species_Name, Female, Male, Total.individuals)%>%
-  ggplot
-
 
 
 
