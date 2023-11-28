@@ -25,10 +25,10 @@ birds_data <- birds_data_og %>%
          Primary.Lifestyle, Range.Size) %>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
          "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
-         "Secondary" = "Secondary1", "Avg_Mass" = "Mass") %>%
+         "Secondary" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index") %>%
   relocate(Species_ID, .before = Species_Name)
 
-birds_data
+view(birds_data)
 
 
 
