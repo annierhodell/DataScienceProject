@@ -61,7 +61,7 @@ ggplot() +
 set.seed(123)
 
 # Create an initial split (e.g., 80% training, 20% testing)
-split_data <- initial_split(birds_data, prop = 0.8)
+split_data <- initial_split(birds_carnivore, prop = 0.8)
 
 # Extract the training and testing sets
 train_data <- training(split_data)
@@ -74,7 +74,21 @@ test_data <- testing(split_data)
 birds_carnivore <- birds_data%>%
   mutate(Carnivore_Status = ifelse(Trophic.Level == "Carnivore", "Carnivore", "Not Carnivore"))
 
+# Is there any nas in the new column
+any_na_carnivore_status <- any(is.na(birds_data$Carnivore_Status))
+
+if (any_na_carnivore_status) {
+  cat("There are missing values in the Carnivore_Status column.\n")
+} else {
+  cat("No missing values found in the Carnivore_Status column.\n")
+}
+
+birds_carnivore$Carnivore_Status <- factor(
+  birds_carnivore$Carnivore_Status, levels = c("Not Carnivore", "Carnivore"))
+
 
 model_carnivore <- logistic_reg() %>%
   set_engine("glm") %>%
-  fit(Carnivore_Status ~ Beak.Length, data = birds_carnivore, family = "binomial")
+  fit(Carnivore_Status ~ Beak.Length_Culmen, data = train_data, family = "binomial")
+
+tidy(model_carnivore)

@@ -1,6 +1,6 @@
 #bird graphs
 
-#bar chart of trohiclevel
+#bar chart of trophic level
 
 ggplot(birds_data, aes(x = Trophic.Level)) +
   geom_bar(fill = "skyblue", color = "black") +
