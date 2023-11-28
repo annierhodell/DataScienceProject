@@ -12,6 +12,7 @@ birds_model <- birds_data %>%
     
     Omnivore_Status = factor(ifelse(General_Trophic == "Omnivore", "Omnivore", "Not Omnivore"),
                              levels = c("Not Omnivore", "Omnivore")))
+view(birds_model)
 
 #splitting our data
 
@@ -35,7 +36,7 @@ birds_wflow_C <- workflow() %>%
 
 birds_wflow_C
 
-#fit 1
+#fit c
 birds_fit_C <- birds_wflow_C %>%
   fit(data = train_data)
 
@@ -67,7 +68,7 @@ birds_wflow_1 <- workflow() %>%
 
 birds_wflow_1
 
-#fit 2
+#fit 1
 birds_fit_1 <- birds_wflow_1 %>%
   fit(data = train_data)
 
@@ -101,7 +102,7 @@ birds_wflow_h <- workflow() %>%
 
 birds_wflow_h
 
-#fit 1
+#fit h
 birds_fit_h <- birds_wflow_h %>%
   fit(data = train_data)
 
@@ -131,7 +132,7 @@ birds_wflow_o <- workflow() %>%
 
 birds_wflow_o
 
-#fit 1
+#fit o
 birds_fit_o <- birds_wflow_o %>%
   fit(data = train_data)
 
@@ -147,4 +148,41 @@ roc_Omnivore <- birds_predict_o %>%
 autoplot(roc_Omnivore) +
   labs(title = "ROC Curve for 'Omnivore' model o")
 
+#evaluating how good our models are
+
+#area under curve for model c
+#area under curve for agree model 2
+birds_predict_C %>%
+  roc_auc(truth = Carnivore_Status, '.pred_Carnivore')
+#not a good auc value,worse than random chance.
+
+#making a model to predict not a carnivore
+
+birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+birds_mod_C <- logistic_reg() %>%
+  set_engine("glm")
+
+birds_wflow_C <- workflow() %>%
+  add_recipe(birds_rec_C) %>%
+  add_model(birds_mod_C)
+
+birds_wflow_C
+
+#fit 1
+birds_fit_C <- birds_wflow_C %>%
+  fit(data = train_data)
+
+# Making the predictor
+birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
+  bind_cols(test_data)
+
+# ROC for carnivore
+roc_Not_Carnivore <- birds_predict_C %>%
+  roc_curve(truth = Carnivore_Status, ".pred_Not Carnivore", event_level = "second")
+
+# Plot ROC for carnivore
+autoplot(roc_Not_Carnivore) +
+  labs(title = "ROC Curve for 'Not_Carnivore' model C")
 
