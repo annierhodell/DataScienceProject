@@ -1,5 +1,5 @@
 #Ideas/To Do List
 
-#can we make a formula thing,to change all the "." to"_" in the column names. 
+#model of herbivores, maybe try for the others
 
-#any cool graphs
+#model with only one variable. 

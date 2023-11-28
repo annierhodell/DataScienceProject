@@ -55,39 +55,24 @@ ggplot() +
                             y = Wing.Length),
               method = "lm")
 
+#creating a yes no carnivore column
+
+birds_carnivore <- birds_data%>%
+  mutate(Carnivore_Status = ifelse(General_Trophic == "Carnivore", "Carnivore", "Not Carnivore"))
 #splitting our data
 
 # Set seed for reproducibility
 set.seed(123)
-
 # Create an initial split (e.g., 80% training, 20% testing)
 split_data <- initial_split(birds_carnivore, prop = 0.8)
-
 # Extract the training and testing sets
 train_data <- training(split_data)
 test_data <- testing(split_data)
 
-#Trying to make a model to predict whether its a carnivore or not
+#tidy(model_carnivore)
 
-#creating a yes no carnivore column
-
-birds_carnivore <- birds_data%>%
-  mutate(Carnivore_Status = ifelse(Trophic.Level == "Carnivore", "Carnivore", "Not Carnivore"))
-
-#attempting to create a workflow?
-
-birds_carnivore$Carnivore_Status <- factor(
-  birds_carnivore$Carnivore_Status, levels = c("Not Carnivore", "Carnivore"))
-
-
-model_carnivore <- logistic_reg() %>%
-  set_engine("glm") %>%
-  fit(Carnivore_Status ~ Beak_Length_Culmen + Hand_Wing_Index + Tail_Length, data = train_data, family = "binomial")
-
-tidy(model_carnivore)
-
-#trying again
-birds_rec_1 <- recipe(Carnivore_Status ~ Wing_Length, data = train_data) %>%
+#model for predicting if a carnivoreor not based on beak data.
+birds_rec_1 <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
   step_dummy(all_nominal(), -all_outcomes())
 
 birds_mod_1 <- logistic_reg() %>%
@@ -98,3 +83,19 @@ birds_wflow_1 <- workflow() %>%
   add_model(birds_mod_1)
 
 birds_wflow_1
+
+#fit 1
+birds_fit_1 <- birds_wflow_1 %>%
+  fit(data = train_data)
+
+# Making the predictor
+birds_predict_1 <- predict(birds_fit_1, test_data, type = "prob") %>%
+  bind_cols(test_data)
+
+# ROC for carnivore
+roc_Carnivore <- birds_predict_1 %>%
+  roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+
+# Plot ROC for carnivore
+autoplot(roc_Carnivore) +
+  labs(title = "ROC Curve for 'Carnivore'")
