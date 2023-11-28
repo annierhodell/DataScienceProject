@@ -59,9 +59,9 @@ birds_data%>%
 
 birds_data%>%
   ggplot(mapping = aes(x = Beak_Width,
-                       y = Beak_Depth,
-                       colour = Habitat))+
-  geom_point()
+                       y = Beak_Depth))+
+  geom_point(alpha = 0.5)+
+  scale_color_manual(values = trophic_colors, name = "Trophic Type")
 
 
 # finding the percentage of scanvengers in our data
