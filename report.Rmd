@@ -1,5 +1,5 @@
 ---
-title: "Impact Of Covid-19 On A&E's In Scotland"
+title: "The Correlation of Bird Measurements & Their Diets"
 author: "by the A-Team: Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 date: "`r Sys.Date()`"
 output: html_document
@@ -23,34 +23,37 @@ library(gridExtra)
 library(tidymodels)
 library(readxl)
 ```
+
 ```{r our-data, include=FALSE}
-birds_data_og <- read_excel("Birds/birds_data.xlsx")
+birds_data_og <- read_csv("Birds/birds_data.csv")
 
 birds_data <- birds_data_og %>%
-  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals,
          Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
-         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, "Hand-Wing.Index", Tail.Length, 
-         Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
-         Primary.Lifestyle, Range.Size) %>%
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, Tail.Length, 
+         Trophic.Level, Trophic.Niche) %>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
-         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
-         "Secondary_Length" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index",
+         "Species_ID" = "Avibase.ID1",
+         "Secondary_Length" = "Secondary1",
          "Complete_Measures" = "Complete.measures", "Total_Individuals" = "Total.individuals",
          "Beak_Culmen_Length" = "Beak.Length_Culmen", "Beak_Nares_Length" = "Beak.Length_Nares",
          "Beak_Width" = "Beak.Width", "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
          "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", "Tail_Length" = "Tail.Length",
-         "Habitat_Density" = "Habitat.Density", "General_Trophic" = "Trophic.Level", 
-         "Niche_Trophic" = "Trophic.Niche", "Primary_Lifestyle" = "Primary.Lifestyle", 
-         "Range_Size" = "Range.Size") %>%
+         "General_Trophic" = "Trophic.Level", 
+         "Niche_Trophic" = "Trophic.Niche") %>%
   relocate(Species_ID, .before = Species_Name)
 ```
-### Introduction – What is your data? What the research question(s) you are investigating? Is there any relevant background information/literature that can help give context to your data/questions?
+# Introduction 
 
-In this project we want to investigate whether you can predict a bird's diet from its beak measurements. 
+In this project we want to investigate the correlation between the diets and beak measurements of birds. 
+
+Birds' beaks often vary in size due to habitat and diet, as proven by Darwin. We want to figure out if you can predict a birds' diet based on their beak measurements alone.
+
+### Our Data
 
 Our main data set for this project is birds_data. It contains different bird species' measurements and behavior; such as their habitat, diet and migration patterns. 
 
-The following variables of this data set are to be useful in our project.
+We will be focusing on the following variables of this data set that are useful in our project:
 
 :::: {style="display: flex;"}
 
@@ -58,57 +61,11 @@ The following variables of this data set are to be useful in our project.
 
 - Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
 
-- Species Name: Bird species name.
-
-- Family: Family-level each bird species belongs to.
-
-- Order: Order-level each bird family belongs to.
-
 - Total Individuals: Number of individual birds measured for each species.
-
-- Female: Number of measured female birds.
-
-- Male: Number of measured male birds.
-
-- Unknown: Number of birds measured with sex unknown.
 
 - Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
 
-- Beak Culmen Length: Length from the tip of the beak to the base of the skull (see fig 1).
-
-- Beak Nares Length: Length from the front edge of the nostrils to the tip of the beak (see fig 1).
-
-- Beak Width: Width of the beak at the front edge of the nostrils (see fig 1).
-
-- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 1).
-
-- Tarsus Length: Length from the notch between tibia and tarsus, to the bend of the foot (see fig 1).
-
-- Wing Length: Length from the bend of the wing to the tip of the longest primary feather (unflattened wing) (see fig 1).
-
-- Kipps Distance: Length from the tip of the first secondary feather to the tip of the longest primary feather (see fig 1).
-
-- Secondary Length: Length from the bend of the wing to the tip of the first secondary feather (see fig 1).
-
-- Hand-Wing Index: 100*DK/Lw, where DK is Kipp’s distance and Lw is wing length.
-
-- Tail Length: Distance between the tip of the longest tail feather and the point at which the tail protrudes from the skin (see fig 1).
-
-- Avg Mass: Average body mass (male and female).
-
-- Habitat: Habitat each bird species inhabits.
-
-- Habitat Density: Density of habitat rated from 1 to 3. 1 = Dense habitats, 2 = Semi-open habitats, 3 = Open habitats. 
-
-- Migration: Level of migratory behavior from 1 to 3. 1 = Sedentary, 2 = Partially migratory, 3 = Migratory.
-
-- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
-
-- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
-
-- Primary Lifestyle: Main lifestyle activity taken up by species.
-
-- Range Size: The total area of the mapped range of the species.
+- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 1). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
 
 :::
 
@@ -122,6 +79,23 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 
 ::::
 
+- Beak Width: Width of the beak at the front edge of the nostrils (see fig 1).
+
+- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 1).
+
+- Tarsus Length: Length from the notch between tibia and tarsus, to the bend of the foot (see fig 1).
+
+- Wing Length: Length from the bend of the wing to the tip of the longest primary feather (unflattened wing) (see fig 1).
+
+- Kipps Distance: Length from the tip of the first secondary feather to the tip of the longest primary feather (see fig 1).
+
+- Secondary Length: Length from the bend of the wing to the tip of the first secondary feather (see fig 1).
+
+- Tail Length: Distance between the tip of the longest tail feather and the point at which the tail protrudes from the skin (see fig 1).
+
+- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
+
+- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
 ### Methods – Summarise what cleaning/pre-processing you have done to your data. Brief description of data science techniques you have used in your investigation.
 
