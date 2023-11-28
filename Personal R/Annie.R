@@ -6,85 +6,33 @@ library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 
-#how to change colours
-#scale_colour_manual(values = 
-#                      c("first" = "orange","last" = "forestgreen"))
-
-#having multiple graphs
-#facet_wrap(~ event, scale = "free")
-
-data <- data.order %>%
-  rename("Week_Ending_Date" = "WeekEndingDate",
-         "Health_Board_Area_Code" = "HBT", 
-         "Health_Board_Area_Name" = "Area name", 
-         "Area_Population" = "Population", 
-         "Treatment_Location_Code" = "TreatmentLocation", 
-         "Treatment_Location_Name" = "Name of Treatement Location",
-         "Total_Attendees" = "NumberOfAttendancesEpisode", 
-         "Attendees_within_4hrs" = "NumberWithin4HoursEpisode", 
-         "%_within_4hr" = "PercentageWithin4HoursEpisode", 
-         "Attendees_Over_4hrs" = "NumberOver4HoursEpisode",
-         "%_Over_4hr" = "PercentageWithin4HoursEpisode",
-         "Attendees_Over_8hrs" = "NumberOver8HoursEpisode",
-         "%_Over_8hr" = "PercentageOver8HoursEpisode", 
-         "Attendees_Over_12hrs" = "NumberOver12HoursEpisode",
-         "%_Over_12hr" = "PercentageOver12HoursEpisode")
-
-view(data)
-
-data_graph_4 <- data %>%
-  select(Health_Board_Area_Name, Area_Population, Total_Attendees) %>%
-  group_by(Health_Board_Area_Name) %>%
-  summarise(mean_attendences = mean(Total_Attendees),
-            population = mean(Area_Population)) %>%
-  mutate(Population_Percentage = (mean_attendences/population)*100)
-
-data_graph_4
-
-data_graph_4 %>%
-  ggplot() +
-  geom_col(mapping = aes(x = Population_Percentage,
-                         y = reorder(Health_Board_Area_Name, Population_Percentage))) +
-  labs(title = "Mean Attendances Per Week In Each Area",
-       subtitle = "2015 - 2023", 
-       x = "Mean Attendance",
-       y = "Area In Scotland")  +
-  guides(fill = FALSE) +
+birds_data %>%
+  filter(General_Trophic != "NA" & Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = General_Trophic, fill = Niche_Trophic)) +
+  geom_bar() +
+  labs(x = "Trophic Level", y = "Number of Species", fill = "Trophic Niche") +
   theme_bw()
 
-predicted
-#Graph 3
-#Graph 3 - Number of attendees per month in 2020
-graph_b <- data %>%
-  select(Week_Ending_Date, Total_Attendees) %>%
-  group_by(Week_Ending_Date) %>%
-  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
-  filter(year(Week_Ending_Date) < 2023) %>%
-  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_point(alpha = 1) +
-  geom_smooth(se = FALSE) +
-  ylim(22500, 27500) +
-  labs(title = "2020 & 2021 Real Statistics")
+birds_data %>%
+  select(Beak_Nares_Length, Beak_Width, Beak_Depth) %>%
+  summary()
 
-graph_a <-data %>%
-  select(Week_Ending_Date, Total_Attendees) %>%
-  group_by(Week_Ending_Date) %>%
-  summarise(Sum_Total_Attendees= sum(Total_Attendees)) %>%
-  filter(year(Week_Ending_Date) != 2020 & year(Week_Ending_Date) != 2021 &
-           year(Week_Ending_Date) < 2023) %>%
-  ggplot(aes(x = Week_Ending_Date, y = Sum_Total_Attendees)) +
-  geom_point(alpha = 1) +
-  geom_smooth(se = FALSE) +
-  ylim(22500, 27500) +
-  labs(title = "2020 & 2021 Omitted for Predictions")
+boxpt_Length <- birds_data %>%
+  filter(General_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Nares_Length, y = General_Trophic)) +
+  geom_boxplot() +
+  labs(x = "Beak Length", y = "Trophic Level")
 
-grid.arrange(graph_a, graph_b)
+boxpt_Width <- birds_data %>%
+  filter(General_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Width, y = General_Trophic)) +
+  geom_boxplot()+
+  labs(x = "Beak Width", y = "Trophic Level")
 
-#equations
-tidy(mod_2020)
+boxpt_Depth <- birds_data %>%
+  filter(General_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Depth, y = General_Trophic)) +
+  geom_boxplot() +
+  labs(x = "Beak Depth", y = "Trophic Level")
 
-#mean attendances = 249 + 0.00909*area population
-
-tidy(mod_tot_attendees)  
-
-#mean attendances = 307 + 0.00270*area population
+grid.arrange(boxpt_Length, boxpt_Width, boxpt_Depth, nrow = 3)  

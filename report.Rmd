@@ -47,11 +47,11 @@ birds_data <- birds_data_og %>%
 
 In this project we want to investigate the correlation between the diets and beak measurements of birds. 
 
-Birds' beaks often vary in size due to habitat and diet, as proven by Darwin. We want to figure out if you can predict a birds' diet based on their beak measurements alone.
+Bird beaks often vary in size due to habitat and diet, as proven by Darwin. We want to figure out if you can predict a birds' diet based on their beak measurements alone.
 
 ### Our Data
 
-Our main data set for this project is birds_data. It contains different bird species' measurements and behavior; such as their habitat, diet and migration patterns. 
+Our main data set for this project is birds_data. It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
 
 We will be focusing on the following variables of this data set that are useful in our project:
 
@@ -67,6 +67,10 @@ We will be focusing on the following variables of this data set that are useful 
 
 - Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 1). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
 
+- Beak Width: Width of the beak at the front edge of the nostrils (see fig 1).
+
+- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 1).
+
 :::
 
 :::{}
@@ -78,10 +82,6 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 :::
 
 ::::
-
-- Beak Width: Width of the beak at the front edge of the nostrils (see fig 1).
-
-- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 1).
 
 - Tarsus Length: Length from the notch between tibia and tarsus, to the bend of the foot (see fig 1).
 
