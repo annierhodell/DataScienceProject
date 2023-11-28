@@ -3,7 +3,7 @@
 #predicting average mass from hand wing index and other factors
 
 birds_data_model <- birds_data %>%
-  filter(Avg_Mass <= 10000)%>%
+  filter(Avg_Mass <= 10000)#%>%
 
 mod_birds_data <- linear_reg() %>%
   set_engine("lm") %>%
