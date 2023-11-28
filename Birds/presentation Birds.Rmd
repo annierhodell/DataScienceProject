@@ -129,6 +129,8 @@ birds_data %>%
   theme_bw()
 ```
 ---
+#Some Graphsssss whooooo
+---
 #Prediciting The Diet Of The Bird Based Of Their Beak Measurements
 
 When creating our models we decided to focus on predicting the diets of birds who are:
@@ -166,7 +168,7 @@ train_data <- training(split_data)
 test_data <- testing(split_data)
 ```
 
-```{r Model for Carnivore, include=FALSE}
+```{r Workflow Model for Carnivore, include=FALSE}
 #model for predicting if a carnivore or not based on beak data (model C)
 birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
   step_dummy(all_nominal(), -all_outcomes())
@@ -191,7 +193,9 @@ birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
 # ROC for carnivore
 roc_Carnivore <- birds_predict_C %>%
   roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+```
 
+```{r Graph for Model for Carnivore, echo=FALSE}
 # Plot ROC for carnivore
 autoplot(roc_Carnivore) +
   labs(title = "ROC Curve for prediciting Carnivores",
@@ -199,136 +203,57 @@ autoplot(roc_Carnivore) +
 
 ```
 ---
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
-
----
-
-# Plots
-
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
+#Prediciting Whether a Bird is a Carnivore
+```{r area under the curve for carnivore, echo=TRUE}
+birds_predict_C%>%
+  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 ```
 
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
-```
-
+- This calculates the area under the curve. 
+- Our value for this area 0.64 which is greater than 0.5 which is said to be random choice.
 ---
 
-## Plot and text
+#Prediciting Whether a Bird is a Herbivore
+```{r Workflow Model for Herbivore, include=FALSE}
+#model for herbivores
 
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
+birds_rec_h <- recipe(Herbivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
 
----
+birds_mod_h <- logistic_reg() %>%
+  set_engine("glm")
 
-# Tables
+birds_wflow_h <- workflow() %>%
+  add_recipe(birds_rec_h) %>%
+  add_model(birds_mod_h)
 
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+birds_wflow_h
 
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
-```
+#fit h
+birds_fit_h <- birds_wflow_h %>%
+  fit(data = train_data)
 
----
-
-# Images
-
-```{r castle, eval=FALSE, fig.align="center", fig.cap=, include=FALSE, out.width="55%"}
-include_graphics("img/edinburgh-castle.jpg")
+# Making the predictor
+birds_predict_h <- predict(birds_fit_h, test_data, type = "prob") %>%
+  bind_cols(test_data)
 ```
 
-Or you can also include a full page image. See next slide.
+```{r Graph for Model for Herbivore, echo=FALSE}
+# ROC for herbivore
+roc_Herbivore <- birds_predict_h %>%
+  roc_curve(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
 
----
-
-
-class: inverse, center, middle
-background-image: url(img/edinburgh-castle.jpg)
-background-size: contain
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
+# Plot ROC for herbivore
+autoplot(roc_Herbivore) +
+  labs(title = "ROC Curve for predicting Herbivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 ```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
 ---
 
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcome to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+#Prediciting Whether a Bird is a Herbivore
+```{r area under the curve for Herbivore, echo=TRUE}
+birds_predict_h %>%
+  roc_auc(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
+```
+---
+#Results of our Investigation
