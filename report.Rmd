@@ -23,15 +23,33 @@ library(gridExtra)
 library(tidymodels)
 library(readxl)
 ```
-# Our Data
+```{r our-data, include=FALSE}
+birds_data_og <- read_excel("Birds/birds_data.xlsx")
 
-birds_data
+birds_data <- birds_data_og %>%
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
+         Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
+         Primary.Lifestyle, Range.Size) %>%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
+         "Secondary" = "Secondary1", "Avg_Mass" = "Mass") %>%
+  relocate(Species_ID, .before = Species_Name)
+```
+### Introduction – What is your data? What the research question(s) you are investigating? Is there any relevant background information/literature that can help give context to your data/questions?
+
+Our main data set in this project is birds_data. It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. The following variables of this data set are to be useful in our project.
+
+:::: {style="display: flex;"}
+
+:::{}
 
 - Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
 
 - Species_Name: Bird species name.
 
-- Family: Family-level each bird species belongs to..
+- Family: Family-level each bird species belongs to.
 
 - Order: Order-level each bird family belongs to.
 
@@ -44,6 +62,18 @@ birds_data
 - Unknown: Number of birds measured with sex unknown.
 
 - Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
+
+:::
+
+:::{}
+
+```{r castle, echo = FALSE, out.width = "75%", fig.align = "right"}
+include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
+```
+
+:::
+
+::::
 
 - Hand-Wing Index: 100*DK/Lw, where DK is Kipp’s distance and Lw is wing length.
 
@@ -63,9 +93,12 @@ birds_data
 
 - Range Size: The total area of the mapped range of the species.
 
-```{r castle, echo = FALSE, out.width = "55%", fig.align = "", fig.cap = "Image credit: Original Drawing by Pongthanin Thanasantipan on Vecteezy"}
-include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
-```
+
+### Methods – Summarise what cleaning/pre-processing you have done to your data. Brief description of data science techniques you have used in your investigation.
+
+### Results – Tables, figures and summary values from your exploratory investigation. Summary of a fitted statistical model, such as estimates, plots and fit statistic. A brief explanation of what the results mean in the given context of your data.
+
+### Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
 
 references:
 https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
