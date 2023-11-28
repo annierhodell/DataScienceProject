@@ -83,11 +83,11 @@ The different diet of birds can be sorted into different trophic level. A trophi
 
 - Herbivore: A species whose diet consists of at least 70% of food resources from consuming plants. 
 
-- Omnivore: A species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. 
+We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
 
-Our data set also includes scavenger as a main trophic level but has very few birds fitting into this category compared to the other three. A scavenger bird gets its main food resources from dead animal carcasses.
+We also left out omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
 
-These main trophic levels can be sub categorised into more niche trophics, like whether they eat mainly fruit(frugivore), insects & worms(invertivore), nectar(nectarivore) etc.
+The main trophic levels can be sub categorised into more niche trophics, like whether they eat mainly fruit(frugivore), insects & worms(invertivore), nectar(nectarivore) etc.
 
 ### Our Data
 
@@ -209,13 +209,18 @@ birds_data %>%
   labs(title = "Frequency of Trophic Level Species", x = "Trophic Level", y = "Number of Species", fill = "Trophic Niche") +
   theme_bw()
 ```
+
 ### Modelling the Data
 
 In order to answer our question of is it possible to predict diet based on beak measurements, we will need to use a logistic regression model since this is a discrete variable case.
 
-For our model we will be predicting whether or not a species of bird is a carnivore based on its predicting factors of beak length, beak depth and beak width.
+For our model we will be predicting whether or not a species of bird is a certain trophic level based on its predicting factors of beak length, beak depth and beak width.
 
-```{r, model-data, echo=FALSE}
+Initially, we wanted to try and see whether one predictor (just beak depth) would be a better predictor model than the three predictors, length, width and depth. 
+
+Our first model, model-1, uses only beak depth as a predictor value to predict whether the bird is a carnivore or not. We then made a second model for carnivores that uses all 3 predictor values (beak length, width and depth).
+
+```{r include=FALSE, model-data, echo=FALSE}
 #creating a new data set, with a yes no column for herbivore,carnivore and omnivore
 
 birds_model <- birds_data %>%
@@ -231,7 +236,7 @@ birds_model <- birds_data %>%
                              levels = c("Not Omnivore", "Omnivore")))
 ```
 
-```{r, data-split, echo=FALSE}
+```{r data-split, echo=FALSE, include=FALSE}
 #splitting our data
 
 # Set seed for reproducibility
@@ -242,7 +247,7 @@ train_data <- training(split_data)
 test_data <- testing(split_data)
 ```
 
-```{r, model-1variable, echo=FALSE}
+```{r include=FALSE, model-1, echo=FALSE}
 #model for predicting carnivore based off one factor (model 1)
 
 birds_rec_1 <- recipe(Carnivore_Status ~ Beak_Depth, data = train_data) %>%
@@ -255,12 +260,14 @@ birds_wflow_1 <- workflow() %>%
   add_recipe(birds_rec_1) %>%
   add_model(birds_mod_1)
 
-birds_wflow_1
-
 #fit 1
 birds_fit_1 <- birds_wflow_1 %>%
   fit(data = train_data)
 
+tidy(birds_fit_1)
+```
+
+```{r model-1-roc, include=FALSE}
 # Making the predictor
 birds_predict_1 <- predict(birds_fit_1, test_data, type = "prob") %>%
   bind_cols(test_data)
@@ -270,11 +277,11 @@ roc_Carnivore_1 <- birds_predict_1 %>%
   roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 
 # Plot ROC for carnivore
-autoplot(roc_Carnivore_1) +
-  labs(title = "ROC Curve for 'Carnivore' model 1")
+ROC_1 <- autoplot(roc_Carnivore_1) +
+  labs(title = "ROC Model 1")
 ```
 
-```{r model-c, echo=FALSE}
+```{r model-c, include=FALSE}
 #model for predicting if a carnivore or not based on beak data (model C)
 birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
   step_dummy(all_nominal(), -all_outcomes())
@@ -301,11 +308,30 @@ roc_Carnivore <- birds_predict_C %>%
   roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 
 # Plot ROC for carnivore
-autoplot(roc_Carnivore) +
-  labs(title = "ROC Curve for 'Carnivore' model C")
+c_ROC <- autoplot(roc_Carnivore) +
+  labs(title = "ROC Model c")
 ```
 
-```{r model-h, echo=FALSE}
+```{r equations-1-c, include=FALSE}
+tidy(birds_fit_C)
+tidy(birds_fit_1)
+```
+
+Comparing model-1 to model-c we first look at their equations:
+
+- Model 1: predicted carnivore true = 0.476 - 0.033 * Beak_Depth
+
+- Model c: predicted carnivore true = 0.410 + 0.030 * Beak_Nares_Length - 0.002 * Beak_Width - 0.086 * Beak_Depth
+
+stuff about what this means :)
+
+The ROC of models 1 and c are below:
+
+```{r model-c&1, echo=FALSE, fig.align='center'}
+grid.arrange(ROC_1, c_ROC, ncol = 2)
+```
+
+```{r model-h, include=FALSE}
 #model for herbivores
 
 birds_rec_h <- recipe(Herbivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
@@ -333,11 +359,11 @@ roc_Herbivore <- birds_predict_h %>%
   roc_curve(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
 
 # Plot ROC for herbivore
-autoplot(roc_Herbivore) +
-  labs(title = "ROC Curve for 'Herbivore' model h")
+h_ROC <- autoplot(roc_Herbivore) +
+  labs(title = "ROC Model h")
 ```
 
-```{r model-o, echo=FALSE}
+```{r model-o, include=FALSE}
 #model for omnivores
 
 birds_rec_o <- recipe(Omnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
@@ -365,10 +391,31 @@ roc_Omnivore <- birds_predict_o %>%
   roc_curve(truth = Omnivore_Status, ".pred_Omnivore", event_level = "second")
 
 # Plot ROC for omnivore
-autoplot(roc_Omnivore) +
-  labs(title = "ROC Curve for 'Omnivore' model o")
+o_ROC <- autoplot(roc_Omnivore) +
+  labs(title = "ROC Model o")
 ```
 
+```{r modelcho, include=FALSE}
+tidy(birds_fit_C)
+tidy(birds_fit_h)
+tidy(birds_fit_o)
+```
+
+Comparing model-c to model-h and to model-o we first look at their equations:
+
+- Model c: predicted carnivore true = 0.410 + 0.030 * Beak_Nares_Length - 0.002 * Beak_Width - 0.086 * Beak_Depth
+
+- Model h: predicted carnivore true = -1.185 - 0.039 * Beak_Nares_Length - 0.002 * Beak_Width + 0.106 * Beak_Depth
+
+- Model o: predicted carnivore true = -1.523 - 0.002 * Beak_Nares_Length + 0.0019 * Beak_Width - 0.023 * Beak_Depth
+
+stuff about what this means :)
+
+The ROC of models c, h and o are below:
+
+```{r cho-ROC-plot, echo=FALSE, fig.align='center'}
+grid.arrange(c_ROC, h_ROC, o_ROC, ncol = 3)
+```
 
 ### Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
 
