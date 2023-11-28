@@ -39,25 +39,70 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```{r load-data, include=FALSE}
 birds_data_og <- read_csv("birds_data.csv")
 
+birds_data <- birds_data_og %>%
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals,
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, Tail.Length, 
+         Trophic.Level, Trophic.Niche) %>%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1",
+         "Secondary_Length" = "Secondary1",
+         "Complete_Measures" = "Complete.measures", "Total_Individuals" = "Total.individuals",
+         "Beak_Culmen_Length" = "Beak.Length_Culmen", "Beak_Nares_Length" = "Beak.Length_Nares",
+         "Beak_Width" = "Beak.Width", "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", "Tail_Length" = "Tail.Length",
+         "General_Trophic" = "Trophic.Level", 
+         "Niche_Trophic" = "Trophic.Niche") %>%
+  relocate(Species_ID, .before = Species_Name)
+```
+
+#Steps We Took To Tidy The Data
+
+#Firstly we checked the data for NA's
+```{r data tidying code, echo=TRUE}
 birds_data_og %>% 
   select(where(~ any(is.na(.)))) %>% 
   summarise(
     across(everything(),
            ~sum(is.na(.))))
+```
 
-birds_data <- birds_data_og %>%
+---
+#Then we selected the columns that were useful to our investiagtion
+
+```{r data Tidying select, echo=TRUE}
+birds_data_select <- birds_data_og %>%
   select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
          Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
          Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
          Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
-         Primary.Lifestyle, Range.Size) %>%
-  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
-         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
-         "Secondary" = "Secondary1", "Avg_Mass" = "Mass", "Hand_Wing_Index" = "Hand-Wing.Index") %>%
-  relocate(Species_ID, .before = Species_Name)
+         Primary.Lifestyle, Range.Size) 
 
 ```
+---
+#We then renamed the column's that had unclear names
+```{r rename data tidying, echo=TRUE}
+birds_data_rename <- birds_data_select%>%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
+         "Secondary_Length" = "Secondary1","Avg_Mass" = "Mass",
+         "Hand_Wing_Index" = "Hand-Wing.Index","Complete_Measures" = "Complete.measures", 
+         "Total_Individuals" = "Total.individuals","Beak_Culmen_Length" = "Beak.Length_Culmen", 
+         "Beak_Nares_Length" = "Beak.Length_Nares","Beak_Width" = "Beak.Width", 
+         "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", 
+         "Tail_Length" = "Tail.Length","Habitat_Density" = "Habitat.Density", 
+         "General_Trophic" = "Trophic.Level", "Niche_Trophic" = "Trophic.Niche", 
+         "Primary_Lifestyle" = "Primary.Lifestyle","Range_Size" = "Range.Size")
+```
+---
+#Finally we relocated the Species ID to come before the Species Name
+```{r relocate data tidying, include=TRUE}
+birds_data_relocate <- birds_data_rename%>%
+  relocate(Species_ID, .before = Species_Name)
+```
 
+---
 
 class: center, middle
 
@@ -73,149 +118,142 @@ include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jp
 ```
 ---
 #What are the Differeing Diets of Birds
+```{r Diets of Birds Graph, echo=FALSE}
+birds_data %>%
+  filter(!General_Trophic == "NA")%>%
+  ggplot(aes(x = General_Trophic)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Trophic Levels",
+       x = "Trophic Level",
+       y = "Count")+
+  theme_bw()
+```
+---
+#Some Graphsssss whooooo
+---
+#Prediciting The Diet Of The Bird Based Of Their Beak Measurements
+
+When creating our models we decided to focus on predicting the diets of birds who are:
+- Carnivores: A species whose diet consists of at least 70% of food resources from consuming live animals.
+- Herbivores: A species whose diet consists of at least 70% of food resources from consuming plants.
+
+We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
+
+We also left out Omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An Omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
 
 ---
 
-class: inverse, middle, center
+#Prediciting Whether a Bird is a Carnivore
+```{r Bird Model data tidying, include=FALSE}
+birds_model <- birds_data %>%
+  filter(!General_Trophic == "NA") %>%
+  mutate(
+    Carnivore_Status = factor(ifelse(General_Trophic == "Carnivore", "Carnivore", "Not Carnivore"),
+                              levels = c("Not Carnivore", "Carnivore")),
+    
+    Herbivore_Status = factor(ifelse(General_Trophic == "Herbivore", "Herbivore", "Not Herbivore"),
+                              levels = c("Not Herbivore", "Herbivore")),
+    
+    Omnivore_Status = factor(ifelse(General_Trophic == "Omnivore", "Omnivore", "Not Omnivore"),
+                             levels = c("Not Omnivore", "Omnivore")))
 
-# Using xaringan
 
----
+#splitting our data
 
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-# Code
-
-```{r boring-regression, eval=FALSE, include=FALSE}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
+# Set seed for reproducibility
+set.seed(123)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data <- initial_split(birds_model, prop = 0.8)
+train_data <- training(split_data)
+test_data <- testing(split_data)
 ```
 
----
+```{r Workflow Model for Carnivore, include=FALSE}
+#model for predicting if a carnivore or not based on beak data (model C)
+birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
 
-# Plots
+birds_mod_C <- logistic_reg() %>%
+  set_engine("glm")
 
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
+birds_wflow_C <- workflow() %>%
+  add_recipe(birds_rec_C) %>%
+  add_model(birds_mod_C)
+
+birds_wflow_C
+
+#fit c
+birds_fit_C <- birds_wflow_C %>%
+  fit(data = train_data)
+
+# Making the predictor
+birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
+  bind_cols(test_data)
+
+# ROC for carnivore
+roc_Carnivore <- birds_predict_C %>%
+  roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 ```
 
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
-```
-
----
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
-
----
-
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
-```
-
----
-
-# Images
-
-```{r castle, eval=FALSE, fig.align="center", fig.cap=, include=FALSE, out.width="55%"}
-include_graphics("img/edinburgh-castle.jpg")
-```
-
-Or you can also include a full page image. See next slide.
-
----
-
-
-class: inverse, center, middle
-background-image: url(img/edinburgh-castle.jpg)
-background-size: contain
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
+```{r Graph for Model for Carnivore, echo=FALSE}
+# Plot ROC for carnivore
+autoplot(roc_Carnivore) +
+  labs(title = "ROC Curve for prediciting Carnivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 
 ```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+---
+#Prediciting Whether a Bird is a Carnivore
+```{r area under the curve for carnivore, echo=TRUE}
+birds_predict_C%>%
+  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
 ```
 
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
+- This calculates the area under the curve. 
+- Our value for this area 0.64 which is greater than 0.5 which is said to be random choice.
 ---
 
-# Feeling adventurous?
+#Prediciting Whether a Bird is a Herbivore
+```{r Workflow Model for Herbivore, include=FALSE}
+#model for herbivores
 
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
+birds_rec_h <- recipe(Herbivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+  step_dummy(all_nominal(), -all_outcomes())
 
-- You are welcome to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+birds_mod_h <- logistic_reg() %>%
+  set_engine("glm")
 
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
+birds_wflow_h <- workflow() %>%
+  add_recipe(birds_rec_h) %>%
+  add_model(birds_mod_h)
 
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+birds_wflow_h
+
+#fit h
+birds_fit_h <- birds_wflow_h %>%
+  fit(data = train_data)
+
+# Making the predictor
+birds_predict_h <- predict(birds_fit_h, test_data, type = "prob") %>%
+  bind_cols(test_data)
+```
+
+```{r Graph for Model for Herbivore, echo=FALSE}
+# ROC for herbivore
+roc_Herbivore <- birds_predict_h %>%
+  roc_curve(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
+
+# Plot ROC for herbivore
+autoplot(roc_Herbivore) +
+  labs(title = "ROC Curve for predicting Herbivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
+```
+---
+
+#Prediciting Whether a Bird is a Herbivore
+```{r area under the curve for Herbivore, echo=TRUE}
+birds_predict_h %>%
+  roc_auc(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
+```
+---
+#Results of our Investigation

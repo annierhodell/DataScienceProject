@@ -55,7 +55,7 @@ autoplot(roc_Carnivore) +
 
 
 
-#model for predicting caarnivore based off one factor (model 1)
+#model for predicting carnivore based off one factor (model 1)
 
 birds_rec_1 <- recipe(Carnivore_Status ~ Beak_Depth, data = train_data) %>%
   step_dummy(all_nominal(), -all_outcomes())
