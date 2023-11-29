@@ -73,5 +73,41 @@ scavenger_percentage <- birds_data %>%
 # Print the result
 cat("Percentage of scavengers in the data:", scavenger_percentage$percentage, "%\n")
 
+#Historgrams
+
+#carnivore beak length
+
+birds_data%>%
+  filter(General_Trophic == "Carnivore")%>%
+  ggplot(mapping = aes(x = Beak_Nares_Length))+
+  geom_density(fill = "blue", alpha = 0.7)+
+  labs(title = "Histogram",
+       x = "Beak Length Nares",
+       y = "Frequency",
+       caption = "Source: Your Data Source")
+
+#herbivore beak length
+birds_data%>%
+  filter(General_Trophic == "Herbivore")%>%
+  ggplot(mapping = aes(x = Beak_Nares_Length))+
+  geom_density(fill = "blue", alpha = 0.7)+
+  labs(title = "Histogram",
+       x = "Beak Length Nares",
+       y = "Frequency",
+       caption = "Source: Your Data Source")
+
+#density plot using beak Length
+
+ggplot(data = birds_data,
+       mapping = aes(x = Beak_Nares_Length, fill = General_Trophic))+
+  geom_density(
+    alpha = 0.5) +
+  labs(x = "Beak_Nares_Length",
+       y = "Frequency",
+       title = "Beak Length of Birds",
+       subtitle = "by trophic level")
+
+
+
 
 
