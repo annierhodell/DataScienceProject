@@ -84,9 +84,9 @@ birds_predict_v%>%
 
 #cutoff probability
 
-cutoff_prob <- 0.55
+cutoff_prob <- 0.51
 
-bird_pred <- birds_predict_v %>%
+bird_pred <- birds_predict_I %>%
   mutate(
     invertivore      = if_else(Invertivore_Status == "Invertivore", "Bird is Invertivore", "Bird is not Invertivore"),
     invertivore_pred = if_else(.pred_Invertivore > cutoff_prob, "Bird labelled Invertivore", "Bird labelled not Invertivore")

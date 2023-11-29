@@ -5,6 +5,22 @@
 #all the report
 #
 
+# Get a set of 10 colors in blue, green, and red tones
+my_colors <- c("#4285f4", "#34a853", "#0f9d58",  # Blues and Greens from Google logo
+               "#4285f4", "#34a853", "#0f9d58",
+               "#EA4335", "#FBBC05", "#34A853")  # Reds from Google logo
+
+# Assign each color to a trophic level
+Niche_colours <- setNames(my_colors, c("Aquatic Predator", "Frugivore", "Granivore", "Herbivore aquatic",
+                                       "Herbivore terrestrial", "Invertivore", "Nectarivore", "Omnivore",
+                                       "Scavenger", "Vertivore"))
+
+# Display the colors in a pie chart
+pie(rep(1, length(Niche_colours)), col = Niche_colours, labels = names(Niche_colours), main = "Niche Colors")
+
+
+
+
 
 #colours for trophic levels
 
@@ -12,6 +28,17 @@ trophic_colors <- c("Herbivore" = "darkgreen",
                     "Carnivore" = "tomato3",
                     "Omnivore" = "steelblue",
                     "Scavenger" = "wheat")
+
+Niche_colours <- c("Aquatic predator" = "lightseagreen",
+                   "Frugivore" = "thistle",
+                   "Granivore" = "peachpuff",
+                   "Herbivore aquatic" = "turquoise4",
+                   "Herbivore terrestrial" = "seagreen3",
+                   "Invertivore" = "indianred",
+                   "Nectarivore" = "mistyrose",
+                   "Omnivore" = "wheat3",
+                   "Scavenger" = "plum",
+                   "Vertivore" = "lightcoral")
 
 #bar chart of trophic level
 

@@ -225,9 +225,22 @@ Discounting the limited data for scavenger birds, these box plots show beak leng
 The trophic levels don't have equal amounts of data, generally the carnavores have many more entries compared to any other column. We don't believe this is due to sampling bias, just due to the fact there are likely more carnivore species of bird in existence compared to others.
 
 ```{r trophic-count, echo=FALSE, fig.align='center'}
+#coloursfroniche trophiclevel
+Niche_colours <- c("Aquatic predator" = "lightseagreen",
+                   "Frugivore" = "thistle",
+                   "Granivore" = "peachpuff",
+                   "Herbivore aquatic" = "turquoise4",
+                   "Herbivore terrestrial" = "seagreen3",
+                   "Invertivore" = "indianred",
+                   "Nectarivore" = "mistyrose",
+                   "Omnivore" = "wheat3",
+                   "Scavenger" = "plum",
+                   "Vertivore" = "lightcoral")
+
 birds_data %>%
   filter(General_Trophic != "NA" & Niche_Trophic != "NA") %>%
   ggplot(mapping = aes(x = General_Trophic, fill = Niche_Trophic)) +
+  scale_fill_manual(values = Niche_colours, name = "Niche Trophic Type")+
   geom_bar() +
   labs(title = "Frequency of Trophic Level Species", x = "Trophic Level", y = "Number of Species", fill = "Trophic Niche") +
   theme_bw()
@@ -289,6 +302,7 @@ birds_data %>%
 
 ```
 
+see about the mean etc
 
 ### Modelling the Data
 
@@ -298,103 +312,97 @@ For our model we will be predicting whether or not a species of bird is a certai
 
 Initially, we wanted to try and see whether one predictor (just beak depth) would be a better predictor model than the three predictors, length, width and depth. 
 
-Our first model, model-1, uses only beak depth as a predictor value to predict whether the bird is a carnivore or not. We then made a second model for carnivores that uses all 3 predictor values (beak length, width and depth).
+Our first model, model-1, uses only beak depth as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model for Invertivores that uses all 3 predictor values (beak length, width and depth).
 
 ```{r include=FALSE, model-data, echo=FALSE}
-#creating a new data set, with a yes no column for herbivore,carnivore and omnivore
+#creating a new data set, with a yes no column for Invertivore
 
-birds_model <- birds_data %>%
-  filter(!General_Trophic == "NA") %>%
-  mutate(
-    Carnivore_Status = factor(ifelse(General_Trophic == "Carnivore", "Carnivore", "Not Carnivore"),
-                              levels = c("Not Carnivore", "Carnivore")),
-    
-    Herbivore_Status = factor(ifelse(General_Trophic == "Herbivore", "Herbivore", "Not Herbivore"),
-                              levels = c("Not Herbivore", "Herbivore")),
-    
-    Omnivore_Status = factor(ifelse(General_Trophic == "Omnivore", "Omnivore", "Not Omnivore"),
-                             levels = c("Not Omnivore", "Omnivore")))
+birds_model_2 <- birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!Niche_Trophic == "NA") %>%
+  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
+         levels = c("Not Invertivore", "Invertivore")))
 ```
 
 ```{r data-split, echo=FALSE, include=FALSE}
 #splitting our data
 
-# Set seed for reproducibility
-set.seed(123)
-# Create an initial split (e.g., 80% training, 20% testing)
-split_data <- initial_split(birds_model, prop = 0.8)
-train_data <- training(split_data)
-test_data <- testing(split_data)
+set.seed(5956)
+# 80% training, 20% testing
+split_data_2 <- initial_split(birds_model_2, prop = 0.8)
+train_data_2 <- training(split_data_2)
+test_data_2 <- testing(split_data_2)
 ```
 
 ```{r include=FALSE, model-1, echo=FALSE}
 #model for predicting carnivore based off one factor (model 1)
 
-birds_rec_1 <- recipe(Carnivore_Status ~ Beak_Depth, data = train_data) %>%
+birds_rec_I1 <- recipe(Invertivore_Status ~ Beak_Nares_Length, data = train_data_2) %>%
   step_dummy(all_nominal(), -all_outcomes())
 
-birds_mod_1 <- logistic_reg() %>%
+birds_mod_I1 <- logistic_reg() %>%
   set_engine("glm")
 
-birds_wflow_1 <- workflow() %>%
-  add_recipe(birds_rec_1) %>%
-  add_model(birds_mod_1)
+birds_wflow_I1 <- workflow() %>%
+  add_recipe(birds_rec_I1) %>%
+  add_model(birds_mod_I1)
 
 #fit 1
-birds_fit_1 <- birds_wflow_1 %>%
-  fit(data = train_data)
+birds_fit_I1 <- birds_wflow_I1 %>%
+  fit(data = train_data_2)
 
-tidy(birds_fit_1)
+tidy(birds_fit_I1)
 ```
 
 ```{r model-1-roc, include=FALSE}
 # Making the predictor
-birds_predict_1 <- predict(birds_fit_1, test_data, type = "prob") %>%
-  bind_cols(test_data)
+birds_predict_I1 <- predict(birds_fit_I1, test_data_2, type = "prob") %>%
+  bind_cols(test_data_2)
 
-# ROC for carnivore
-roc_Carnivore_1 <- birds_predict_1 %>%
-  roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+# ROC for Invertivore
+roc_Invertivore_I1 <- birds_predict_I1 %>%
+  roc_curve(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 
-# Plot ROC for carnivore
-ROC_1 <- autoplot(roc_Carnivore_1) +
+# Plot ROC for Invertivore
+ROC_I1 <- autoplot(roc_Invertivore_I1) +
   labs(title = "ROC Model 1")
 ```
 
 ```{r model-c, include=FALSE}
-#model for predicting if a carnivore or not based on beak data (model C)
-birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+#model for predicting if a Invertivore or not based on beak data (model C)
+birds_rec_I <- recipe(Invertivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data_2) %>%
   step_dummy(all_nominal(), -all_outcomes())
 
-birds_mod_C <- logistic_reg() %>%
+birds_mod_I <- logistic_reg() %>%
   set_engine("glm")
 
-birds_wflow_C <- workflow() %>%
-  add_recipe(birds_rec_C) %>%
-  add_model(birds_mod_C)
+birds_wflow_I <- workflow() %>%
+  add_recipe(birds_rec_I) %>%
+  add_model(birds_mod_I)
 
-birds_wflow_C
+birds_wflow_I
 
 #fit c
-birds_fit_C <- birds_wflow_C %>%
-  fit(data = train_data)
+birds_fit_I <- birds_wflow_I %>%
+  fit(data = train_data_2)
 
 # Making the predictor
-birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
-  bind_cols(test_data)
+birds_predict_I <- predict(birds_fit_I, test_data_2, type = "prob") %>%
+  bind_cols(test_data_2)
 
-# ROC for carnivore
-roc_Carnivore <- birds_predict_C %>%
-  roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+# ROC for Invertivore
+roc_Invertivore <- birds_predict_I %>%
+  roc_curve(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 
-# Plot ROC for carnivore
-c_ROC <- autoplot(roc_Carnivore) +
-  labs(title = "ROC Model c")
+# Plot ROC for Invertivore
+roc_I <- autoplot(roc_Invertivore) +
+  labs(title = "ROC Curve for prediciting Invertivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 ```
 
 ```{r equations-1-c, include=FALSE}
-tidy(birds_fit_C)
-tidy(birds_fit_1)
+tidy(birds_fit_I)
+tidy(birds_fit_I1)
 ```
 
 Comparing model-1 to model-c we first look at their equations:
@@ -408,7 +416,7 @@ stuff about what this means :)
 The ROC of models 1 and c are below:
 
 ```{r model-c&1, echo=FALSE, fig.align='center'}
-grid.arrange(ROC_1, c_ROC, ncol = 2)
+grid.arrange(ROC_I1, roc_I, ncol = 2)
 ```
 
 ```{r model-h, include=FALSE}
