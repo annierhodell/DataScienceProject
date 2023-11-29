@@ -57,7 +57,7 @@ birds_data <- birds_data_og %>%
 
 #Steps We Took To Tidy The Data
 
-#Firstly we checked the data for NA's
+##Firstly we checked the data for NA's
 ```{r data tidying code, echo=TRUE}
 birds_data_og %>% 
   select(where(~ any(is.na(.)))) %>% 
@@ -122,10 +122,10 @@ Our data had two options for the 'Type of diet' for the birds:
 
 - General Trophic which included: Carnivore, Herbivore, Omnivore and Scavenger
 
-- Niche Tropic which included: Aquatic Predator, Grainivore, Herbivore terrestrial, Nectarivore, Scavenger, Frugivore, Herbivore Aquatic, Interivore, Omnivore and Vertivore
+- Niche Tropic which included: Aquatic Predator, Grainivore, Herbivore terrestrial, Nectarivore, Scavenger, Frugivore, Herbivore Aquatic, Invertivore, Omnivore and Vertivore
 
 
-```{r pie chart, echo=FALSE, out.width= "80%", class='centre', fig.align='center'}
+```{r pie chart, echo=FALSE, out.width= "55%", class='middle', fig.align='center'}
 trophic_colors <- c("Herbivore" = "darkgreen",
                     "Carnivore" = "tomato3",
                     "Omnivore" = "steelblue",
@@ -137,10 +137,12 @@ pie_chart_general_trophic <- birds_data %>%
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
   scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
+  guides(fill = guide_legend(title = element_blank(), ncol = 3, keywidth=0.2, keyheight=0.5)) +  # Change legend name
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
-        legend.position = "right")  # Move legend to the bottom
+        legend.position = "bottom",
+        legend.text = element_text(size =10),
+        legend.title = element_text(size = 12))  
 
 
 pie_chart_niche_trophic <- birds_data %>%
@@ -149,13 +151,16 @@ pie_chart_niche_trophic <- birds_data %>%
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
   #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = "Trophic Type", ncol = 2)) +  # Change legend name
+  guides(fill = guide_legend(title = element_blank(),ncol = 2, keywidth=0.2, keyheight=0.5)) +  # Change legend name
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
-        legend.position = "right")
+        legend.position = "bottom",
+        legend.text = element_text(size = 10),
+        legend.title = element_text(size = 12))
+
 
 grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
-             widths = c(1, 1.75))
+             widths = c(10, 13))
 
 #find a way to move the figure up on the presentation
 ```
