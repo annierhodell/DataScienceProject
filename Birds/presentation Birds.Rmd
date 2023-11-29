@@ -117,6 +117,10 @@ class:center, middle
 include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
 ```
 ---
+class:center, middle
+#Options of 
+---
+---
 #What are the Differeing Diets of Birds
 ```{r Diets of Birds Graph, echo=FALSE, out.width= "20%"}
 birds_data %>%
