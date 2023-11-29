@@ -182,7 +182,7 @@ birds_data %>%
 
 ```
 ---
-##How nuch data is there for each trophic
+##How much data is there for each trophic
 ```{r pie chart of niche trophics, echo=FALSE, out.width= "60%", fig.align='center', class='middle'}
 birds_data %>%
   filter(!is.na(Niche_Trophic)) %>%
@@ -196,133 +196,97 @@ birds_data %>%
         axis.title = element_blank(),  # Remove axis title
         legend.position = "bottom")
 ```
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+---
+##Comparison of Invertivores against Not Invertivores
+
+- Comparing the average beak data of Invertivores to Not Invertivores
+```{r bar chart of invertivores vs not invertivores, echo=FALSE, out.width= "60%", fig.align='center', class='middle'}
+birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  mutate(Invertivore_Status = ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore")) %>%
+  group_by(Invertivore_Status) %>%
+  summarise(Width = mean(Beak_Width), Depth = mean(Beak_Depth), Length = mean(Beak_Nares_Length)) %>%
+  gather(key = variable, value = Value, Width, Length, Depth) %>%
+  ggplot() +
+  geom_col(mapping = aes(y = Invertivore_Status,
+                         x = Value,
+                         fill = variable),
+           position = "dodge")+
+  labs(title = "Beak Measurements vs Invertivore status",
+       x = "Beak Measurements",
+       y = "Invertivore status")+
+  guides(fill = guide_legend(title = "Type of Beak Measurement"))
+```
+---
+class:center, middle
+#Our model
+modeling whether a bird is an invertivore or not based of the length, depth and width of their beak
 
 ---
-#Some Graphsssss whooooo
----
-#Prediciting The Diet Of The Bird Based Of Their Beak Measurements
 
-When creating our models we decided to focus on predicting the diets of birds who are:
-- Carnivores: A species whose diet consists of at least 70% of food resources from consuming live animals.
-- Herbivores: A species whose diet consists of at least 70% of food resources from consuming plants.
-
-We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
-
-We also left out Omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An Omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
-
----
-
-#Prediciting Whether a Bird is a Carnivore
+#Prediciting Whether a Bird is an Invertivore
 ```{r Bird Model data tidying, include=FALSE}
-birds_model <- birds_data %>%
-  filter(!General_Trophic == "NA") %>%
-  mutate(
-    Carnivore_Status = factor(ifelse(General_Trophic == "Carnivore", "Carnivore", "Not Carnivore"),
-                              levels = c("Not Carnivore", "Carnivore")),
-    
-    Herbivore_Status = factor(ifelse(General_Trophic == "Herbivore", "Herbivore", "Not Herbivore"),
-                              levels = c("Not Herbivore", "Herbivore")),
-    
-    Omnivore_Status = factor(ifelse(General_Trophic == "Omnivore", "Omnivore", "Not Omnivore"),
-                             levels = c("Not Omnivore", "Omnivore")))
-
-
+birds_model_2 <- birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!Niche_Trophic == "NA") %>%
+  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
+         levels = c("Not Invertivore", "Invertivore")))
 #splitting our data
 
 # Set seed for reproducibility
-set.seed(123)
+set.seed(5956)
 # Create an initial split (e.g., 80% training, 20% testing)
-split_data <- initial_split(birds_model, prop = 0.8)
-train_data <- training(split_data)
-test_data <- testing(split_data)
+split_data_2 <- initial_split(birds_model_2, prop = 0.8)
+train_data_2 <- training(split_data_2)
+test_data_2 <- testing(split_data_2)
 ```
 
 ```{r Workflow Model for Carnivore, include=FALSE}
-#model for predicting if a carnivore or not based on beak data (model C)
-birds_rec_C <- recipe(Carnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
+
+#model for predicting if a invertivore or not based on beak data (model v)
+birds_rec_v <- recipe(Invertivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth,
+                      data = train_data_2) %>%
   step_dummy(all_nominal(), -all_outcomes())
 
-birds_mod_C <- logistic_reg() %>%
+birds_mod_v <- logistic_reg() %>%
   set_engine("glm")
 
-birds_wflow_C <- workflow() %>%
-  add_recipe(birds_rec_C) %>%
-  add_model(birds_mod_C)
+birds_wflow_v <- workflow() %>%
+  add_recipe(birds_rec_v) %>%
+  add_model(birds_mod_v)
 
-birds_wflow_C
+birds_wflow_v
 
-#fit c
-birds_fit_C <- birds_wflow_C %>%
-  fit(data = train_data)
+birds_fit_v <- birds_wflow_v %>%
+  fit(data = train_data_2)
 
-# Making the predictor
-birds_predict_C <- predict(birds_fit_C, test_data, type = "prob") %>%
-  bind_cols(test_data)
+birds_predict_v <- predict(birds_fit_v, test_data_2, type = "prob") %>%
+  bind_cols(test_data_2)
 
-# ROC for carnivore
-roc_Carnivore <- birds_predict_C %>%
-  roc_curve(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+# ROC for Invertivore
+roc_Invertivore <- birds_predict_v %>%
+  roc_curve(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 ```
 
 ```{r Graph for Model for Carnivore, echo=FALSE}
-# Plot ROC for carnivore
-autoplot(roc_Carnivore) +
-  labs(title = "ROC Curve for prediciting Carnivores",
+# Plot ROC for Invertivore
+autoplot(roc_Invertivore) +
+  labs(title = "ROC Curve for prediciting Invertivores",
        subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
 
 ```
 ---
-#Prediciting Whether a Bird is a Carnivore
+#Prediciting Whether a Bird is a Invertivore
 ```{r area under the curve for carnivore, echo=TRUE}
-birds_predict_C%>%
-  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+#Area under curve
+birds_predict_v%>%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 ```
 
 - This calculates the area under the curve. 
-- Our value for this area 0.64 which is greater than 0.5 which is said to be random choice.
+- Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
 
-#Prediciting Whether a Bird is a Herbivore
-```{r Workflow Model for Herbivore, include=FALSE}
-#model for herbivores
-
-birds_rec_h <- recipe(Herbivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
-  step_dummy(all_nominal(), -all_outcomes())
-
-birds_mod_h <- logistic_reg() %>%
-  set_engine("glm")
-
-birds_wflow_h <- workflow() %>%
-  add_recipe(birds_rec_h) %>%
-  add_model(birds_mod_h)
-
-birds_wflow_h
-
-#fit h
-birds_fit_h <- birds_wflow_h %>%
-  fit(data = train_data)
-
-# Making the predictor
-birds_predict_h <- predict(birds_fit_h, test_data, type = "prob") %>%
-  bind_cols(test_data)
-```
-
-```{r Graph for Model for Herbivore, echo=FALSE}
-# ROC for herbivore
-roc_Herbivore <- birds_predict_h %>%
-  roc_curve(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
-
-# Plot ROC for herbivore
-autoplot(roc_Herbivore) +
-  labs(title = "ROC Curve for predicting Herbivores",
-       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
-```
----
-
-#Prediciting Whether a Bird is a Herbivore
-```{r area under the curve for Herbivore, echo=TRUE}
-birds_predict_h %>%
-  roc_auc(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
-```
----
 #Results of our Investigation
