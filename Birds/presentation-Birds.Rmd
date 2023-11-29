@@ -111,12 +111,12 @@ Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
 
 class:center, middle
-#What Is A Bird's Beak Measurements
+##What Is A Bird's Beak Measurements
 ```{r Beak Size Image, echo=FALSE, out.width= "50%"}
 include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
 ```
 ---
-#Data on types of diets
+##Data on types of diets
 
 Our data had two options for the 'Type of diet' for the birds:
 
@@ -125,7 +125,7 @@ Our data had two options for the 'Type of diet' for the birds:
 - Niche Tropic which included: Aquatic Predator, Grainivore, Herbivore terrestrial, Nectarivore, Scavenger, Frugivore, Herbivore Aquatic, Interivore, Omnivore and Vertivore
 
 
-```{r pie chart, echo=FALSE, out.width= "70%", fig.align='center', class='centre'}
+```{r pie chart, echo=FALSE, out.width= "80%", class='centre', fig.align='center'}
 trophic_colors <- c("Herbivore" = "darkgreen",
                     "Carnivore" = "tomato3",
                     "Omnivore" = "steelblue",
@@ -149,49 +149,54 @@ pie_chart_niche_trophic <- birds_data %>%
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
   #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
-  guides(color = guide_legend(ncol = 2)) +
+  guides(fill = guide_legend(title = "Trophic Type", ncol = 2)) +  # Change legend name
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
         legend.position = "right")
 
 grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
-             heights = c(1, 1.5))
+             widths = c(1, 1.75))
 
-
+#find a way to move the figure up on the presentation
 ```
 ---
----
-#What are the Differeing Diets of Birds
-```{r Diets of Birds Graph, echo=FALSE, out.width= "20%"}
-birds_data %>%
-  filter(!General_Trophic == "NA")%>%
-  ggplot(aes(x = General_Trophic)) +
-  geom_bar(fill = "skyblue", color = "black") +
-  labs(title = "Distribution of Trophic Levels",
-       x = "Trophic Level",
-       y = "Count")+
-  theme_bw()
-```
+##Varience in beak data between the general trophics
 
-```{r pie chart 3, echo=FALSE, out.width= "20%"}
-trophic_colors <- c("Herbivore" = "darkgreen",
-                    "Carnivore" = "tomato3",
-                    "Omnivore" = "steelblue",
-                    "Scavenger" = "wheat")
+- There is not a huge difference between the different general trophics so we decided to look more specifically at the niche trophics
 
+```{r bar chart of general trophics, echo=FALSE, out.width="50%", class='middle', fig.align='center'}
 birds_data %>%
+  select(General_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
   filter(!is.na(General_Trophic)) %>%
-  ggplot(aes(x = "", fill = General_Trophic)) +
+  group_by(General_Trophic) %>%
+  summarise(Width = mean(Beak_Width), Depth = mean(Beak_Depth), Length = mean(Beak_Nares_Length)) %>%
+  gather(key = variable, value = Value, Width, Length, Depth) %>%
+  ggplot() +
+  geom_col(mapping = aes(y = General_Trophic,
+                         x = Value,
+                         fill = variable),
+           position = "dodge")+
+  labs(title = "Beak Data against General Trophic",
+       x = "Beak Data",
+       y = "Trophic")
+
+```
+---
+##How nuch data is there for each trophic
+```{r pie chart of niche trophics, echo=FALSE, out.width= "60%", fig.align='center', class='middle'}
+birds_data %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  ggplot(aes(x = "", fill = Niche_Trophic)) +
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
-  scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
+  #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  guides(fill = guide_legend(title = "Trophic Type", nrow = 3)) +  # Change legend name
   labs(title = "Distribution of Trophic Types") +
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
-        legend.position = "bottom")  # Move legend to the bottom
+        legend.position = "bottom")
 ```
+
 ---
 #Some Graphsssss whooooo
 ---
