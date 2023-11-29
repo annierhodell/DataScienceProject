@@ -79,15 +79,36 @@ The bird beak is made up of the cere, nare, culmen, maxilla, mandible and gape f
 
 The different diet of birds can be sorted into different trophic level. A trophic level defines the hierarchy of an organism in a ecosystem. The main three trophic levels we will be looking at are:
 
-- Carnivore: A species whose diet consists of at least 70% of food resources from consuming live animals.
+- Carnivore: A species whose diet consists of at least 70% of food from consuming live animals.
 
-- Herbivore: A species whose diet consists of at least 70% of food resources from consuming plants. 
+- Herbivore: A species whose diet consists of at least 70% of food from consuming plants. 
 
 We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
 
 We also left out omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
 
-The main trophic levels can be sub categorised into more niche trophics, like whether they eat mainly fruit(frugivore), insects & worms(invertivore), nectar(nectarivore) etc.
+The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource.
+
+- Frugivore: fruit.
+
+- Granivore: seeds or nuts.
+ 
+- Nectarivore: nectar.
+
+- Herbivore: plant materials in non-aquatic systems, including leaves, buds, whole flowers etc.
+
+- Herbivore aquatic: plant materials in aquatic systems, including algae and aquatic plant leaves.
+
+- Invertivore:invertebrates in terrestrial systems, including insects, worms, arachnids, etc.
+
+- Vertivore: vertebrate animals in terrestrial systems, including mammals, birds, reptiles etc.
+
+- Aquatic Predator: vertebrate and invertebrate animals in aquatic systems, including fish, crustacea, molluscs, etc.
+
+- Scavenger: carrion, offal or refuse.
+
+- Omnivore: Species using multiple niches, within or across trophic levels, in relatively equal proportions.
+
 
 ### Our Data
 
@@ -159,6 +180,8 @@ During our project we have used a multitude of data science techniques. The main
 # Results 
 
 ### The Investigation Process
+
+#### General Trophic Level
 When investigating the beak data, there are three variables to consider; beak length (nares), beak width and beak depth. Summarising the data from these 3 columns we get:
 
 ```{r summary-variables, echo = FALSE}
@@ -167,10 +190,10 @@ birds_data %>%
   summary()
 ```
 
-We can visualise these values in a box plot whilst separating them into their respective trophic levels:
+We can visualise these values in a box plot whilst separating them into their respective General trophic levels:
 
 ```{r boxplots, echo = FALSE, fig.align='center'}
-boxpt_Length <- birds_data %>%
+boxpt_Length_1 <- birds_data %>%
   filter(General_Trophic != "NA"  & General_Trophic != "Scavenger") %>%
   ggplot(mapping = aes(y = Beak_Nares_Length, x = General_Trophic)) +
   geom_boxplot() +
@@ -178,7 +201,7 @@ boxpt_Length <- birds_data %>%
   theme(text = element_text(size=8),
         axis.text.x = element_text(angle=0, hjust=1)) 
 
-boxpt_Width <- birds_data %>%
+boxpt_Width_1 <- birds_data %>%
   filter(General_Trophic != "NA" & General_Trophic != "Scavenger") %>%
   ggplot(mapping = aes(y = Beak_Width, x = General_Trophic)) +
   geom_boxplot()+
@@ -186,7 +209,7 @@ boxpt_Width <- birds_data %>%
    theme(text = element_text(size=8),
         axis.text.x = element_text(angle=0, hjust=1))
 
-boxpt_Depth <- birds_data %>%
+boxpt_Depth_1 <- birds_data %>%
   filter(General_Trophic != "NA" & General_Trophic != "Scavenger") %>%
   ggplot(mapping = aes(y = Beak_Depth, x = General_Trophic)) +
   geom_boxplot() +
@@ -194,7 +217,7 @@ boxpt_Depth <- birds_data %>%
    theme(text = element_text(size=8),
         axis.text.x = element_text(angle=0, hjust=1))
 
-grid.arrange(boxpt_Length, boxpt_Width, boxpt_Depth, ncol = 3)  
+grid.arrange(boxpt_Length_1, boxpt_Width_1, boxpt_Depth_1, ncol = 3)  
 ```
 
 Discounting the limited data for scavenger birds, these box plots show beak length doesn't differ greatly between trophic levels on average. We can see that Herbivores on average have the widest and deepest beaks but are slightly shorter than the other trophics. 
@@ -209,6 +232,44 @@ birds_data %>%
   labs(title = "Frequency of Trophic Level Species", x = "Trophic Level", y = "Number of Species", fill = "Trophic Niche") +
   theme_bw()
 ```
+
+#### Niche Trophic Level
+
+As from above you can see that there wasn't a clear disntiction of the bird measurements between different General Trophic Levels. So we decided to have a look at the Niche Trophic Levels.
+
+```{r boxplots 2, echo = FALSE, fig.align='center'}
+boxpt_Length_2<- birds_data %>%
+  filter(Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Nares_Length, y = Niche_Trophic)) +
+  geom_boxplot(outlier.shape = NA, na.rm = TRUE) +
+  labs(x = "Beak Length", y = "Niche Trophic Level") +
+  theme(text = element_text(size=8),
+        axis.text.x = element_text(angle=0, hjust=1))+
+  scale_x_continuous(limits = c(0, 100))
+
+boxpt_Width_2 <- birds_data %>%
+  filter(Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Width, y = Niche_Trophic)) +
+  geom_boxplot(outlier.shape = NA, na.rm = TRUE) +
+  labs(x = "Beak Width", y = "Niche Trophic Level") +
+  theme(text = element_text(size=8),
+        axis.text.x = element_text(angle=0, hjust=1))+
+  scale_x_continuous(limits = c(0, 40))
+
+boxpt_Depth_2 <- birds_data %>%
+  filter(Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Depth, y = Niche_Trophic)) +
+  geom_boxplot(outlier.shape = NA, na.rm = TRUE) +
+  labs(x = "Beak Depth", y = "Niche Trophic Level") +
+  theme(text = element_text(size=8),
+        axis.text.x = element_text(angle=0, hjust=1))+
+  scale_x_continuous(limits = c(0, 50))
+
+grid.arrange(boxpt_Length_2, boxpt_Width_2, boxpt_Depth_2, ncol = 3)
+```
+
+talk about the different means medians etc idk.
+
 
 ### Modelling the Data
 

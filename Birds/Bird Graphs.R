@@ -158,6 +158,34 @@ birds_data %>%
        subtitle = "by Niche trophic level")
 
 
+#boxplots
+
+boxpt_Length <- birds_data %>%
+  filter(Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Nares_Length, y = Niche_Trophic)) +
+  geom_boxplot() +
+  labs(x = "Beak Length", y = "Trophic Level") +
+  theme(text = element_text(size=8),
+        axis.text.x = element_text(angle=0, hjust=1))
+
+
+boxpt_Width <- birds_data %>%
+  filter(Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Width, y = Niche_Trophic)) +
+  geom_boxplot()+
+  labs(x = "Beak Width", y = "Niche Level") +
+  theme(text = element_text(size=8),
+        axis.text.x = element_text(angle=0, hjust=1))
+
+boxpt_Depth <- birds_data %>%
+  filter(Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = Beak_Depth, y = Niche_Trophic)) +
+  geom_boxplot() +
+  labs(x = "Beak Depth", y = "Trophic Level") +
+  theme(text = element_text(size=8),
+        axis.text.x = element_text(angle=0, hjust=1))
+
+grid.arrange(boxpt_Length_2, boxpt_Width_2, boxpt_Depth_2, ncol = 3)
 
 
 
