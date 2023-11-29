@@ -1,5 +1,11 @@
 #bird graphs
 
+#to do:
+#make a colour set for niche
+#all the report
+#
+
+
 #colours for trophic levels
 
 trophic_colors <- c("Herbivore" = "darkgreen",
