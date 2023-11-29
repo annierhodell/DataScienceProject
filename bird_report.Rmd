@@ -270,6 +270,25 @@ grid.arrange(boxpt_Length_2, boxpt_Width_2, boxpt_Depth_2, ncol = 3)
 
 talk about the different means medians etc idk.
 
+heres a graph just showing the means
+
+```{r niche trophic barchart, echo=FALSE, fig.align='center'}
+
+birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  group_by(Niche_Trophic) %>%
+  summarise(Width = mean(Beak_Width), Depth = mean(Beak_Depth), Length = mean(Beak_Nares_Length)) %>%
+  gather(key = variable, value = Value, Width, Length, Depth) %>%
+  ggplot() +
+  geom_col(mapping = aes(y = Niche_Trophic,
+                         x = Value,
+                         fill = variable),
+           position = "dodge")
+
+
+```
+
 
 ### Modelling the Data
 
