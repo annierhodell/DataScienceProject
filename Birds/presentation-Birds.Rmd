@@ -149,7 +149,8 @@ pie_chart_niche_trophic <- birds_data %>%
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
   #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = "Trophic Type", ncol = 2)) +  # Change legend name
+  guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
+  guides(color = guide_legend(ncol = 2)) +
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
         legend.position = "right")
