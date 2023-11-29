@@ -172,3 +172,6 @@ birds_predict_o %>%
 #And also these birds have evolved to eat both types of food so might not follow log reg
 
 
+
+
+
