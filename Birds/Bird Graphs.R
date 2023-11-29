@@ -98,14 +98,71 @@ birds_data%>%
 
 #density plot using beak Length
 
-ggplot(data = birds_data,
-       mapping = aes(x = Beak_Nares_Length, fill = General_Trophic))+
+birds_data %>%
+  filter(!General_Trophic == "NA") %>%
+ggplot(mapping = aes(x = Beak_Nares_Length, fill = General_Trophic))+
   geom_density(
     alpha = 0.5) +
   labs(x = "Beak_Nares_Length",
        y = "Frequency",
        title = "Beak Length of Birds",
        subtitle = "by trophic level")
+
+#density plot for beak width
+
+birds_data %>%
+  filter(!General_Trophic == "NA") %>%
+  ggplot(mapping = aes(x = Beak_Width, fill = General_Trophic))+
+  geom_density(
+    alpha = 0.5) +
+  labs(x = "Beak Width",
+       y = "Frequency",
+       title = "Beak Width of Birds",
+       subtitle = "by trophic level")
+
+#density for beak depth
+
+birds_data %>%
+  filter(!General_Trophic == "NA") %>%
+  ggplot(mapping = aes(x = Beak_Depth, fill = General_Trophic))+
+  scale_fill_manual(values = trophic_colors, name = "Trophic Type")+
+  geom_density(
+    alpha = 0.5) +
+  labs(x = "Beak Depth",
+       y = "Frequency",
+       title = "Beak Depth of Birds",
+       subtitle = "by trophic level")
+
+#density plot for Wing Length
+
+birds_data %>%
+  filter(!Niche_Trophic == "NA") %>%
+  ggplot(mapping = aes(x = Beak_Nares_Length, fill = Niche_Trophic))+
+  geom_density(
+    alpha = 0.5) +
+  labs(x = "Beak_Nares_Length",
+       y = "Frequency",
+       title = "Beak_Nares_Length of Birds",
+       subtitle = "by Habitat")
+
+#density plot for order and beak length
+
+birds_data %>%
+  filter(!Order == "NA") %>%
+  filter(General_Trophic == "Carnivore")%>%
+  ggplot(mapping = aes(x = Beak_Nares_Length, fill = Order))+
+  geom_density(
+    alpha = 0.5) +
+  labs(x = "Wing Length",
+       y = "Frequency",
+       title = "Wing Length of Birds",
+       subtitle = "by trophic level")
+
+
+
+
+
+
 
 
 
