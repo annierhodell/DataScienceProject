@@ -4,7 +4,7 @@
     <title>Investigating the Corellation Between The Diet of Birds and Their Beak Measurement</title>
     <meta charset="utf-8" />
     <meta name="author" content="A-Team   Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay" />
-    <meta name="date" content="2023-11-28" />
+    <meta name="date" content="2023-11-29" />
     <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ### University of Edinburgh
 ]
 .date[
-### 2023-11-28
+### 2023-11-29
 ]
 
 ---
@@ -103,29 +103,42 @@ Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
 
 class:center, middle
-#What Is A Bird's Beak Measurements
+##What Is A Bird's Beak Measurements
 &lt;img src="Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg" width="50%" /&gt;
 ---
-#What are the Differeing Diets of Birds
-&lt;img src="presentation-Birds_files/figure-html/Diets of Birds Graph-1.png" width="20%" /&gt;
+##Data on types of diets
 
-&lt;img src="presentation-Birds_files/figure-html/pie chart-1.png" width="20%" /&gt;
+Our data had two options for the 'Type of diet' for the birds:
+
+- General Trophic which included: Carnivore, Herbivore, Omnivore and Scavenger
+
+- Niche Tropic which included: Aquatic Predator, Grainivore, Herbivore terrestrial, Nectarivore, Scavenger, Frugivore, Herbivore Aquatic, Interivore, Omnivore and Vertivore
+
+
+&lt;img src="presentation-Birds_files/figure-html/pie chart-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ---
-#Some Graphsssss whooooo
+##Varience in beak data between the general trophics
+
+- There is not a huge difference between the different general trophics so we decided to look more specifically at the niche trophics
+
+&lt;img src="presentation-Birds_files/figure-html/bar chart of general trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
-#Prediciting The Diet Of The Bird Based Of Their Beak Measurements
+##How much data is there for each trophic
+&lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+---
+##Comparison of Invertivores against Not Invertivores
 
-When creating our models we decided to focus on predicting the diets of birds who are:
-- Carnivores: A species whose diet consists of at least 70% of food resources from consuming live animals.
-- Herbivores: A species whose diet consists of at least 70% of food resources from consuming plants.
-
-We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
-
-We also left out Omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An Omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
+- Comparing the average beak data of Invertivores to Not Invertivores
+&lt;img src="presentation-Birds_files/figure-html/bar chart of invertivores vs not invertivores-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+class:center, middle
+#Our model
+modeling whether a bird is an invertivore or not based of the length, depth and width of their beak
 
 ---
 
-#Prediciting Whether a Bird is a Carnivore
+#Prediciting Whether a Bird is an Invertivore
 
 
 
@@ -135,40 +148,30 @@ We also left out Omnivores, this was due to the overlapping diets that they have
 #Prediciting Whether a Bird is a Carnivore
 
 ```r
-birds_predict_C%&gt;%
-  roc_auc(truth = Carnivore_Status, ".pred_Carnivore", event_level = "second")
+#Area under curve
+birds_predict_v%&gt;%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 ```
 
 ```
 ## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 roc_auc binary         0.640
+## 1 roc_auc binary         0.740
 ```
 
 - This calculates the area under the curve. 
-- Our value for this area 0.64 which is greater than 0.5 which is said to be random choice.
+- Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
 
 #Prediciting Whether a Bird is a Herbivore
 
 
-&lt;img src="presentation-Birds_files/figure-html/Graph for Model for Herbivore-1.png" width="80%" /&gt;
+
 ---
 
 #Prediciting Whether a Bird is a Herbivore
 
-```r
-birds_predict_h %&gt;%
-  roc_auc(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
-```
-
-```
-## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 roc_auc binary         0.655
-```
 ---
 #Results of our Investigation
     </textarea>
