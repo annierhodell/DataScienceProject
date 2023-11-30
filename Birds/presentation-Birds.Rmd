@@ -193,8 +193,8 @@ birds_data %>%
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Variance in Beak Data Between the General Trophics
 
-- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
-
+- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics.
+- Since there is so little data for scavenger birds, we were unable to use that for our model.
 ```{r bar chart of general trophics, echo=FALSE, out.width="50%", class='middle', fig.align='center'}
 birds_data %>%
   select(General_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
@@ -207,7 +207,7 @@ birds_data %>%
                          x = Value,
                          fill = variable),
            position = "dodge")+
-  labs(title = "Mean Beak Data against General Trophic",
+  labs(title = "Mean Beak Data Against General Trophic",
        x = "Beak Data",
        y = "Trophic")+
     guides(fill = guide_legend(title = "Beak Measurements"))
@@ -216,7 +216,7 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Variance in Beak Data between the Niche Tropics
+##Variance in Beak Data Between the Niche Tropics
 
 - There is a clearer distinction between the different niche trophics than there was for the general trophics
 
@@ -233,7 +233,7 @@ birds_data %>%
                          x = Value,
                          fill = variables),
            position = "dodge")+
-  labs(title = "Mean Beak Data against Niche Trophic",
+  labs(title = "Mean Beak Data Against Niche Trophic",
        x = "Beak Data",
        y = "Trophic")+
   guides(fill = guide_legend(title = "Beak Measurements"))
@@ -260,6 +260,19 @@ birds_data %>%
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##What is an Invertivore?
+- Invertivores are generally carnivores although many are omnivores
+- They eat invertebrates such as insects, worms, and arachnids
+- More than 60% of its diet is made up of these invertebrates
+- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
+- They are most commonly found in the Shrubland and Woodland habitats
+
+
+```{r image of bird, echo=FALSE, out.width= "40%",class="middle", fig.align="center"}
+include_graphics("Invertivore image.jpeg")
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Comparison of Invertivores against Not Invertivores
 
 - There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
@@ -276,42 +289,39 @@ birds_data %>%
                          x = Value,
                          fill = variable),
            position = "dodge")+
-  labs(title = "Beak Measurements vs Invertivore status",
+  labs(title = "Beak Measurements vs Invertivore Status",
        x = "Beak Measurements",
-       y = "Invertivore status")+
+       y = "Invertivore Status")+
   guides(fill = guide_legend(title = "Type of Beak Measurement"))
-```
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##What is an Invertivore?
-- Invertivores are generally carnivores although many are omnivores
-- They eat invertebrates such as insects, worms, and arachnids
-- More than 60% of its diet is made up of these invertebrates
-- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
-- They are most commonly found in the Shrubland and Woodland habitats
-
-
-```{r image of bird, echo=FALSE, out.width= "40%",class="middle", fig.align="center"}
-include_graphics("Invertivore image.jpeg")
-```
-
-```{r facts abour invertivores, echo=FALSE, include=FALSE}
-#birds_data %>%
-#  filter(Niche_Trophic == "Invertivore") %>%
-#  count(Species_Name) %>%
-#  arrange(desc(n))
-#birds_data %>%
-#  filter(Niche_Trophic == "Invertivore") %>%
-#  count(Habitat) %>%
-#  arrange(desc(n))
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 #Our Model
 Predicting whether a bird is an invertivore or not based on the length, depth, and width of their beak.
+
 We have decided to use a logistical model for this since we are predicting a discrete variable.
 
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Data Splitting
+- In order to create our model, we first split our data into test data and training data
+```{r Bird Model data tidying, include=FALSE}
+birds_model_2 <- birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!Niche_Trophic == "NA") %>%
+  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
+         levels = c("Not Invertivore", "Invertivore")))
+```
+
+```{r data splitting, echo=TRUE, include=TRUE}
+# Set seed for reproducibility
+set.seed(5956)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data_2 <- initial_split(birds_model_2, prop = 0.8)
+train_data_2 <- training(split_data_2)
+test_data_2 <- testing(split_data_2)
+```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
@@ -322,21 +332,7 @@ $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-```{r Bird Model data tidying, include=FALSE}
-birds_model_2 <- birds_data %>%
-  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
-  filter(!Niche_Trophic == "NA") %>%
-  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
-         levels = c("Not Invertivore", "Invertivore")))
-#splitting our data
 
-# Set seed for reproducibility
-set.seed(5956)
-# Create an initial split (e.g., 80% training, 20% testing)
-split_data_2 <- initial_split(birds_model_2, prop = 0.8)
-train_data_2 <- training(split_data_2)
-test_data_2 <- testing(split_data_2)
-```
 
 ```{r Workflow Model for Carnivore, include=FALSE}
 
@@ -396,8 +392,8 @@ roc_Invertivore_I1 <- birds_predict_I1 %>%
 
 # Plot ROC for Invertivore
 ROC_I1 <- autoplot(roc_Invertivore_I1) +
-  labs(title = "ROC curve for Predicting Invertivores",
-       subtitle = "based off beak nares length")+
+  labs(title = "ROC Curve for Predicting Invertivores",
+       subtitle = "Based Off Beak Nares Length")+
     theme(title = element_text(size=8))
 
 ```
@@ -432,7 +428,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 ```{r Graph for Model for Carnivore, echo=FALSE, class="middle", fig.align='center'}
 # Plot ROC for Invertivore
 ROC_v <- autoplot(roc_Invertivore) +
-  labs(title = "ROC Curve for prediciting Invertivores",
+  labs(title = "ROC Curve for Prediciting Invertivores",
        subtitle = "Using Beak Nares Length, Width and Depth")+
     theme(title = element_text(size=8))
 
