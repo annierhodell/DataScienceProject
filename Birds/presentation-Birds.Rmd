@@ -1,7 +1,7 @@
 ---
-title: "Investigating the Corellation Between The Diet of Birds and Their Beak Measurement"
+title: "Investigating the Correllation Between The Diet of Birds and Their Beak Measurement"
 #subtitle: "Presentation subtitle (if any)"
-author: "A-Team <br> Alice Bullard, Alice Miller, Annie O'Dell, Anna Scollay"
+author: "Group 32 <br> Alice Bullard, Alice Miller, Annie O'Dell, Anna Scollay"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -203,7 +203,7 @@ grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Varience in beak data between the general trophics
+##Variance in beak data between the general trophics
 
 - There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
 
@@ -219,7 +219,7 @@ birds_data %>%
                          x = Value,
                          fill = variable),
            position = "dodge")+
-  labs(title = "Beak Data against General Trophic",
+  labs(title = "Mean Beak Data against General Trophic",
        x = "Beak Data",
        y = "Trophic")+
     guides(fill = guide_legend(title = "Beak Measurements"))
@@ -245,7 +245,7 @@ birds_data %>%
                          x = Value,
                          fill = variables),
            position = "dodge")+
-  labs(title = "Beak Data against Niche Trophic",
+  labs(title = "Mean Beak Data against Niche Trophic",
        x = "Beak Data",
        y = "Trophic")+
   guides(fill = guide_legend(title = "Beak Measurements"))
