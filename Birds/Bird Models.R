@@ -173,3 +173,59 @@ birds_predict_o %>%
 
 
 
+#Models using all the variables cus why not
+
+birds_model_3 <- birds_data %>%
+  filter(!Niche_Trophic == "NA") %>%
+  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
+                                     levels = c("Not Invertivore", "Invertivore")))
+#splitting our data
+
+# Set seed for reproducibility
+set.seed(5956)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data_3 <- initial_split(birds_model_3, prop = 0.8)
+train_data_3 <- training(split_data_3)
+test_data_3 <- testing(split_data_3)
+
+#model for predicting if a invertivore or not based on beak data (model Iall)
+
+birds_rec_Iall <- recipe(Invertivore_Status ~ Beak_Nares_Length 
+                         + Beak_Width + Beak_Depth +
+                           Tarsus_Length + Wing_Length +
+                           Kipps_Distance + Secondary_Length +
+                           Tail_Length, data = train_data_3) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+birds_mod_Iall <- logistic_reg() %>%
+  set_engine("glm")
+
+birds_wflow_Iall <- workflow() %>%
+  add_recipe(birds_rec_Iall) %>%
+  add_model(birds_mod_Iall)
+
+birds_wflow_Iall
+
+birds_fit_Iall <- birds_wflow_Iall %>%
+  fit(data = train_data_3)
+
+birds_predict_Iall <- predict(birds_fit_Iall, test_data_3, type = "prob") %>%
+  bind_cols(test_data_3)
+
+# ROC for Invertivore
+roc_Invertivoreall <- birds_predict_Iall %>%
+  roc_curve(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+
+# Plot ROC for Vertivore
+autoplot(roc_Invertivoreall) +
+  labs(title = "ROC Curve for prediciting Vertivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
+
+
+
+
+
+#Area under curve
+birds_predict_v%>%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+
