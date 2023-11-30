@@ -15,7 +15,8 @@ output:
       countIncrementalSlides: false
 
 ---
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+background-position: top center
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
 library(tidyverse)
@@ -68,7 +69,11 @@ birds_data %>%
   select(Species_Name, Family, Beak_Nares_Length, Beak_Depth, Beak_Width, General_Trophic, Niche_Trophic) %>%
   print(n = 10)
 ```
+
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+
 #Steps We Took To Tidy The Data
 
 ##Firstly we checked the data for NA's
@@ -81,6 +86,7 @@ birds_data_og %>%
 ```
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Then we selected the columns that were useful to our investiagtion
 
 ```{r data Tidying select, echo=TRUE}
@@ -93,6 +99,7 @@ birds_data_select <- birds_data_og %>%
 
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #We then renamed the column's that had unclear names
 ```{r rename data tidying, echo=TRUE}
 birds_data_rename <- birds_data_select%>%
@@ -109,6 +116,7 @@ birds_data_rename <- birds_data_select%>%
          "Primary_Lifestyle" = "Primary.Lifestyle","Range_Size" = "Range.Size")
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Finally we relocated the Species ID to come before the Species Name
 ```{r relocate data tidying, include=TRUE}
 birds_data_relocate <- birds_data_rename%>%
@@ -116,20 +124,21 @@ birds_data_relocate <- birds_data_rename%>%
 ```
 
 ---
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 
 ##Investigating the Corellation Between The Diet of Birds and Their Beak Measurement
 
 Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 ##What Is A Bird's Beak Measurements
 ```{r Beak Size Image, echo=FALSE, out.width= "50%"}
 include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Data on types of diets
 
 Our data had two options for the 'Type of diet' for the birds:
@@ -179,6 +188,7 @@ grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
 #find a way to move the figure up on the presentation
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Varience in beak data between the general trophics
 
 - There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
@@ -201,9 +211,11 @@ birds_data %>%
 
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Variance in Beak data between the Niche Tropics
 
 - There is a more clear distinction between the different niche trophics than there was for the general trophics
+
 
 ```{r bar chart of niche trophics, echo = FALSE, out.width="50%", class='middle', fig.align='center'}
 birds_data %>%
@@ -222,7 +234,10 @@ birds_data %>%
        y = "Trophic")
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##How much data is there for each trophic
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+
 ```{r pie chart of niche trophics, echo=FALSE, out.width= "60%", fig.align='center', class='middle'}
 birds_data %>%
   filter(!is.na(Niche_Trophic)) %>%
@@ -236,8 +251,9 @@ birds_data %>%
         axis.title = element_blank(),  # Remove axis title
         legend.position = "bottom")
 ```
-- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Comparison of Invertivores against Not Invertivores
 
 - There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
@@ -260,11 +276,13 @@ birds_data %>%
   guides(fill = guide_legend(title = "Type of Beak Measurement"))
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 #Our Model
 Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##What is an invertivore?
 - An invertivore is a type of carnivore 
 - More than 60% of its diet is made up of invertibrates
@@ -282,7 +300,7 @@ Predicting whether a bird is an invertivore or not based of the length, depth an
 #  arrange(desc(n))
 ```
 ---
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Prediciting Whether a Bird is an Invertivore
 ```{r Bird Model data tidying, include=FALSE}
 birds_model_2 <- birds_data %>%
@@ -335,6 +353,7 @@ autoplot(roc_Invertivore) +
 
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Prediciting Whether a Bird is a Invertivore
 ```{r area under the curve for carnivore, echo=TRUE}
 #Area under curve
@@ -345,6 +364,7 @@ birds_predict_v%>%
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 ##Results of our Investigation
 
