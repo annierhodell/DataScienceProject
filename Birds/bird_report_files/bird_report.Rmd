@@ -25,7 +25,7 @@ library(readxl)
 ```
 
 ```{r our-data, include=FALSE}
-birds_data_og <- read_csv("Birds/birds_data.csv")
+birds_data_og <- read_csv("Birds/data/birds_data.csv")
 
 birds_data <- birds_data_og %>%
   select(Species1, Family1, Order1, Avibase.ID1, Total.individuals,
