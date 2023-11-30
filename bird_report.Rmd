@@ -3,6 +3,7 @@ title: "The Correlation of Bird Measurements & Their Diets"
 author: "by the A-Team: Anna Scollay, Alice Bullard, Alice Miller, Annie O'Dell"
 date: "`r Sys.Date()`"
 output: html_document
+df print: paged
 ---
 
 ```{r setup, include = FALSE}
@@ -89,16 +90,16 @@ We also left out omnivores, this was due to the overlapping diets that they have
 
 The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource.
 
-```{r niche-table_data, echo=TRUE}
+```{r niche-table_data, include=FALSE}
 niche_table <- tibble(
-  trophic_niche = c("Frugivore", "Granivore", "Nectarivore", "Herbivore", "Herbivore Aquatic", "Invertivore", "Vertivore", "Aquatic Predator", "Scavenger", "Omnivore"),
-  diet_description = c("fruit", "seeds or nuts", "nectar", "plant materials in non-aquatic systems, including leaves, buds, whole flowers etc.", "plant materials in aquatic systems, including algae and aquatic plant leaves.", "invertebrates in terrestrial systems, including insects, worms, arachnids, etc.", "vertebrate animals in terrestrial systems, including mammals, birds, reptiles etc.", "vertebrate and invertebrate animals in aquatic systems, including fish, crustacea, molluscs, etc.", "carrion, offal or refuse.", "Species using multiple niches, within or across trophic levels, in relatively equal proportions.")
+  "Trophic Niche" = c("Frugivore", "Granivore", "Nectarivore", "Herbivore", "Herbivore Aquatic", "Invertivore", "Vertivore", "Aquatic Predator", "Scavenger", "Omnivore"),
+  "Diet Description" = c("Fruit", "Seeds or Nuts", "Nectar", "Plant Materials in Non-Aquatic Systems; i.e. leaves, buds, whole flowers etc.", "Plant Materials in Aquatic Systems; i.e. algae and aquatic plant leaves", "Invertebrate Animals in Terrestrial Systems; i.e. insects, worms, arachnids, etc.", "Vertebrate Animals in Terrestrial Systems; i.e. mammals, birds, reptiles etc.", "Vertebrate & Invertebrate Animals in Aquatic Systems; i.e. fish, crustacea, molluscs, etc.", "Carrion (Dead Animal Corpses), Offal or Refuse", "Species using multiple niches, within or across trophic levels, in relatively equal proportions")
   )
+niche_table
 ```
 
-```{r niche-table, echo = FALSE}
-kable(head(niche_table), format = "html") %>%
-  print(n = 10)
+```{r niche-table, echo = FALSE, results='asis'}
+kable(niche_table[1:10, ])
 ```
 
 ### Our Data
