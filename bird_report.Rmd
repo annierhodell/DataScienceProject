@@ -62,11 +62,10 @@ Bird beak anatomy can vary greatly in size and shape depending on habitat and di
 - Strong with Downward Point: Hooking onto meat easier.
 
 - Long/Thin & Spear-like Tip: Fish Catching.
-
 :::
 
 :::{}
-```{r fig 1, echo = FALSE, out.width = "60%", fig.align = "right", fig.cap= "figure 1: Bird Beak Anatomy"}
+```{r fig 1, echo = FALSE, out.width = "50%", fig.align = "right", fig.cap= "figure 1: Bird Beak Anatomy"}
 include_graphics("Birds/bird_beak.png")
 ```
 :::
@@ -155,7 +154,6 @@ During our project we have used a multitude of data science techniques. The main
 The trophic levels don't have equal amounts of data, generally the carnivores have many more entries compared to any other column. We don't believe this is due to sampling bias, just due to the fact there are likely more carnivore species of bird in existence compared to others.
 
 ```{r trophic-count, echo=FALSE, fig.align='center'}
-#coloursfroniche trophiclevel
 Niche_colours <- c("Aquatic predator" = "lightseagreen",
                    "Frugivore" = "thistle",
                    "Granivore" = "peachpuff",
@@ -166,7 +164,6 @@ Niche_colours <- c("Aquatic predator" = "lightseagreen",
                    "Omnivore" = "skyblue",
                    "Scavenger" = "plum",
                    "Vertivore" = "lightcoral")
-#these colours might need changing
 
 birds_data %>%
   filter(General_Trophic != "NA" & Niche_Trophic != "NA") %>%
@@ -224,7 +221,6 @@ Discounting the limited data for scavenger birds, these box plots shows that bea
 As from above you can see that there wasn't a clear distinction of the bird measurements between different general trophic levels. So we decided to have a look at the niche trophic levels.
 
 ```{r boxplots 2, echo = FALSE, fig.align='center'}
-
 boxpt_Length_2<- birds_data %>%
   filter(Niche_Trophic != "NA") %>%
   ggplot(mapping = aes(x = Beak_Nares_Length, y = Niche_Trophic)) +
@@ -257,7 +253,6 @@ The trophic with the least varied measurements across the beak are the nectarivo
 The following graph summaries these mean beak data sets into values for each niche trophic level:
 
 ```{r niche trophic barchart, echo=FALSE, fig.align='center'}
-
 birds_data %>%
   select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
   filter(!is.na(Niche_Trophic)) %>%
@@ -277,7 +272,6 @@ birds_data %>%
         y = "Niche Trophic Level")+
   scale_fill_manual(name = "Measurement",
                     values = c("Width" = "coral", "Length" = "maroon", "Depth" = "pink"))
-
 ```
 
 This further shows how birds with more variation in their diets have a higher variation of beak sizes and shapes.
@@ -285,8 +279,6 @@ This further shows how birds with more variation in their diets have a higher va
 This pie chart shows the proportion of niche trophics our data includes:
 
 ```{r echo=FALSE, piechartniche, fig.align='center'}
-#Pie chart of the Niche trophic levels proportions
-
 birds_data %>%
   filter(!is.na(Niche_Trophic)) %>%
   ggplot(aes(x = "", fill = Niche_Trophic)) +
@@ -298,8 +290,6 @@ birds_data %>%
         axis.title = element_blank(),  # Remove axis title
         legend.position = "bottom",
         legend.text = element_text(size = 5))
-
-
 ```
 
 The majority of our trophic niche data is the invertivores, so we will be using that data for our model.
@@ -312,7 +302,6 @@ Our first model, model-I1, uses only beak depth as a predictor value to predict 
 
 ```{r include=FALSE, model-data, echo=FALSE}
 #creating a new data set, with a yes no column for Invertivore
-
 birds_model_2 <- birds_data %>%
   select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
   filter(!Niche_Trophic == "NA") %>%
@@ -322,8 +311,8 @@ birds_model_2 <- birds_data %>%
 
 ```{r data-split, echo=FALSE, include=FALSE}
 #splitting our data
-
 set.seed(5956)
+
 # 80% training, 20% testing
 split_data_2 <- initial_split(birds_model_2, prop = 0.8)
 train_data_2 <- training(split_data_2)
@@ -332,7 +321,6 @@ test_data_2 <- testing(split_data_2)
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, model-1, echo=FALSE}
 #model for predicting Invertivore based off one factor (model 1)
-
 birds_rec_I1 <- recipe(Invertivore_Status ~ Beak_Nares_Length, data = train_data_2) %>%
   step_dummy(all_nominal(), -all_outcomes())
 
@@ -435,7 +423,6 @@ birds_predict_I1%>%
 #Area under curve for model I
 birds_predict_I%>%
   roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
-
 ```
 Regarding the area under the curve, model I1 has a value of 0.6806375 whereas model I has a value of 0.7395973. 
 
@@ -445,7 +432,7 @@ Both values are above 0.5 which shows that both models are better than random ch
 
 ### Advantages
 
-In terms of context, researchers probably have a similar model or method so that they can tell what birds eat without observation e.g looking at bones. This is similar to how they do this with dinosaurs.
+In terms of context, researchers probably have a similar model or method so that they can tell what birds eat without observation e.g looking at bones. This is similar to how they do this with fossils.
 
 The thought behind out model is that bird beaks have evolved and taken on different beak shapes to best eat there chosen food type. Models like this could be used in conjunction with other methods.
 
@@ -455,10 +442,9 @@ The model is binomial so can only predict success or failure for one food type. 
 
 The model also isn't perfect and would be better if it was within a certain range or proportion e.g beak width in proportion to beak length could provide more accurate results.
 
-The following table shows the cutoff percentages, as you can see there are a lot of false positives:
+The following table shows the cutoff percentage at 40%, as you can see there are a lot of false positives:
 
 ```{r cutoff table, echo=FALSE, fig.align='center'}
-
 cutoff_prob <- 0.4
 
 bird_pred <- birds_predict_I %>%
@@ -470,14 +456,10 @@ bird_pred <- birds_predict_I %>%
   pivot_wider(names_from = invertivore, values_from = n)
 
 kable(bird_pred, col.names = c("", "Bird is not Invertivore", "Bird is Invertivore"))
-
 ```
 
 ```{r cutoff table I1, echo=FALSE, fig.align='center'}
-
 #cutoff table for model 1, i was curious if it would have less false positives but no.
-
-
 cutoff_prob <- 0.3
 
 bird_pred_I1 <- birds_predict_I1 %>%
