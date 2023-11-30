@@ -193,8 +193,8 @@ birds_data %>%
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Variance in Beak Data Between the General Trophics
 
-- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
-
+- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics.
+- Since there is so little data for scavenger birds, we were unable to use that for our model.
 ```{r bar chart of general trophics, echo=FALSE, out.width="50%", class='middle', fig.align='center'}
 birds_data %>%
   select(General_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
@@ -216,7 +216,7 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Variance in Beak Data between the Niche Tropics
+##Variance in Beak Data Between the Niche Tropics
 
 - There is a clearer distinction between the different niche trophics than there was for the general trophics
 
@@ -260,6 +260,19 @@ birds_data %>%
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##What is an Invertivore?
+- Invertivores are generally carnivores although many are omnivores
+- They eat invertebrates such as insects, worms, and arachnids
+- More than 60% of its diet is made up of these invertebrates
+- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
+- They are most commonly found in the Shrubland and Woodland habitats
+
+
+```{r image of bird, echo=FALSE, out.width= "40%",class="middle", fig.align="center"}
+include_graphics("Invertivore image.jpeg")
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Comparison of Invertivores against Not Invertivores
 
 - There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
@@ -283,33 +296,10 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##What is an Invertivore?
-- Invertivores are generally carnivores although many are omnivores
-- They eat invertebrates such as insects, worms, and arachnids
-- More than 60% of its diet is made up of these invertebrates
-- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
-- They are most commonly found in the Shrubland and Woodland habitats
-
-
-```{r image of bird, echo=FALSE, out.width= "40%",class="middle", fig.align="center"}
-include_graphics("Invertivore image.jpeg")
-```
-
-```{r facts abour invertivores, echo=FALSE, include=FALSE}
-#birds_data %>%
-#  filter(Niche_Trophic == "Invertivore") %>%
-#  count(Species_Name) %>%
-#  arrange(desc(n))
-#birds_data %>%
-#  filter(Niche_Trophic == "Invertivore") %>%
-#  count(Habitat) %>%
-#  arrange(desc(n))
-```
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 #Our Model
 Predicting whether a bird is an invertivore or not based on the length, depth, and width of their beak.
+
 We have decided to use a logistical model for this since we are predicting a discrete variable.
 
 ---
