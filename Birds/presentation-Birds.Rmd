@@ -304,6 +304,26 @@ We have decided to use a logistical model for this since we are predicting a dis
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Data Splitting
+- In order to create our model, we first split our data into test data and training data
+```{r Bird Model data tidying, include=FALSE}
+birds_model_2 <- birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!Niche_Trophic == "NA") %>%
+  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
+         levels = c("Not Invertivore", "Invertivore")))
+```
+
+```{r data splitting, echo=TRUE, include=TRUE}
+# Set seed for reproducibility
+set.seed(5956)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data_2 <- initial_split(birds_model_2, prop = 0.8)
+train_data_2 <- training(split_data_2)
+test_data_2 <- testing(split_data_2)
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
 ##We Modelled Invertivore based on just the Beak Length to see if it had a Similar Effect
 
@@ -312,21 +332,7 @@ $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-```{r Bird Model data tidying, include=FALSE}
-birds_model_2 <- birds_data %>%
-  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
-  filter(!Niche_Trophic == "NA") %>%
-  mutate(Invertivore_Status = factor(ifelse(Niche_Trophic == "Invertivore", "Invertivore", "Not Invertivore"),
-         levels = c("Not Invertivore", "Invertivore")))
-#splitting our data
 
-# Set seed for reproducibility
-set.seed(5956)
-# Create an initial split (e.g., 80% training, 20% testing)
-split_data_2 <- initial_split(birds_model_2, prop = 0.8)
-train_data_2 <- training(split_data_2)
-test_data_2 <- testing(split_data_2)
-```
 
 ```{r Workflow Model for Carnivore, include=FALSE}
 
