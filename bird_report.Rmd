@@ -432,7 +432,7 @@ Both values are above 0.5 which shows that both models are better than random ch
 
 ### Advantages
 
-In terms of context, researchers probably have a similar model or method so that they can tell what birds eat without observation e.g looking at bones. This is similar to how they do this with dinosaurs.
+In terms of context, researchers probably have a similar model or method so that they can tell what birds eat without observation e.g looking at bones. This is similar to how they do this with fossils.
 
 The thought behind out model is that bird beaks have evolved and taken on different beak shapes to best eat there chosen food type. Models like this could be used in conjunction with other methods.
 
@@ -442,7 +442,7 @@ The model is binomial so can only predict success or failure for one food type. 
 
 The model also isn't perfect and would be better if it was within a certain range or proportion e.g beak width in proportion to beak length could provide more accurate results.
 
-The following table shows the cutoff percentages, as you can see there are a lot of false positives:
+The following table shows the cutoff percentage at 40%, as you can see there are a lot of false positives:
 
 ```{r cutoff table, echo=FALSE, fig.align='center'}
 cutoff_prob <- 0.4
