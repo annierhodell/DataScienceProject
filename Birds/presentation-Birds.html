@@ -157,8 +157,10 @@ Our data had two options for the 'Type of diet' for the birds:
 &lt;img src="presentation-Birds_files/figure-html/bar chart of niche trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 ##How much data is there for each trophic
-&lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
 - Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+&lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
 ---
 ##Comparison of Invertivores against Not Invertivores
 
@@ -177,8 +179,14 @@ Predicting whether a bird is an invertivore or not based of the length, depth an
 - They are most commonly found in the Shrubland and Woodland habitats
 
 
----
+&lt;img src="Invertivore image.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
 
+
+---
+##Equation of our model
+
+`$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$`
+---
 #Prediciting Whether a Bird is an Invertivore
 
 
@@ -186,7 +194,7 @@ Predicting whether a bird is an invertivore or not based of the length, depth an
 
 &lt;img src="presentation-Birds_files/figure-html/Graph for Model for Carnivore-1.png" width="80%" /&gt;
 ---
-#Prediciting Whether a Bird is a Invertivore
+#Prediciting Whether a Bird is an Invertivore
 
 ```r
 #Area under curve
@@ -203,6 +211,15 @@ birds_predict_v%&gt;%
 
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
+---
+#We also modeled Invertivore based on just the beak length to see if it had a similar effect
+
+
+`$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$`
+---
+#ROC curve for the model of Invertivore predicted just from beak length
+
+&lt;img src="presentation-Birds_files/figure-html/model of Invertivore based on beak length-1.png" width="80%" /&gt;
 ---
 class: center, middle
 ##Results of our Investigation
