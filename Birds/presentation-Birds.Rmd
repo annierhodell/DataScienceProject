@@ -207,7 +207,7 @@ birds_data %>%
                          x = Value,
                          fill = variable),
            position = "dodge")+
-  labs(title = "Mean Beak Data against General Trophic",
+  labs(title = "Mean Beak Data Against General Trophic",
        x = "Beak Data",
        y = "Trophic")+
     guides(fill = guide_legend(title = "Beak Measurements"))
@@ -233,7 +233,7 @@ birds_data %>%
                          x = Value,
                          fill = variables),
            position = "dodge")+
-  labs(title = "Mean Beak Data against Niche Trophic",
+  labs(title = "Mean Beak Data Against Niche Trophic",
        x = "Beak Data",
        y = "Trophic")+
   guides(fill = guide_legend(title = "Beak Measurements"))
@@ -289,9 +289,9 @@ birds_data %>%
                          x = Value,
                          fill = variable),
            position = "dodge")+
-  labs(title = "Beak Measurements vs Invertivore status",
+  labs(title = "Beak Measurements vs Invertivore Status",
        x = "Beak Measurements",
-       y = "Invertivore status")+
+       y = "Invertivore Status")+
   guides(fill = guide_legend(title = "Type of Beak Measurement"))
 ```
 ---
@@ -386,8 +386,8 @@ roc_Invertivore_I1 <- birds_predict_I1 %>%
 
 # Plot ROC for Invertivore
 ROC_I1 <- autoplot(roc_Invertivore_I1) +
-  labs(title = "ROC curve for Predicting Invertivores",
-       subtitle = "based off beak nares length")+
+  labs(title = "ROC Curve for Predicting Invertivores",
+       subtitle = "Based Off Beak Nares Length")+
     theme(title = element_text(size=8))
 
 ```
@@ -422,7 +422,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 ```{r Graph for Model for Carnivore, echo=FALSE, class="middle", fig.align='center'}
 # Plot ROC for Invertivore
 ROC_v <- autoplot(roc_Invertivore) +
-  labs(title = "ROC Curve for prediciting Invertivores",
+  labs(title = "ROC Curve for Prediciting Invertivores",
        subtitle = "Using Beak Nares Length, Width and Depth")+
     theme(title = element_text(size=8))
 
