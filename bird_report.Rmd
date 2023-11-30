@@ -490,6 +490,15 @@ stuff about what this means :)
 
 ### Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
 
+Advantages:
+In terms of context researches prob have a similar model or method so that they can tell what birds eat without observation. e.g looking at bones. kind of how they do with dinosaurs.
+The thought behind out model is that birds beaks have evolved and taken on different beak shapes to best eat there chosen food type.
+
+Limitations:
+model is binomial, can only predict success or failure for one food type. Cant predict from a wide variety. 
+Model also isnt very good, would be better if if is within a certain range, or proportion. e.g beak width in proportion to beak length, might get more accurate results.
+look at cutoff prob table. There is alot of 
+
 ```{r model-evaluation}
 
 ```
