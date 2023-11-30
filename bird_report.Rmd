@@ -45,24 +45,23 @@ birds_data <- birds_data_og %>%
 ```
 # Introduction 
 
-In this project we want to investigate the correlation between the diets and beak measurements of birds. We want to figure out if you can predict a bird diet based on their beak measurements alone.
+In this project we want to investigate the correlation between the diets and beak measurements of birds and to figure out if you can predict a bird diet based on their beak measurements alone.
 
 ### The Bird Beak
 :::: {style="display: flex;"}
 :::{}
 
-A bird's beak anatomy can vary greatly in size and shape depending on its habitat and diet.
-Depending on the function a beak is required to carry out for a certain diet, the beak shape and size can vary greatly (1). e.g.
+A bird's beak anatomy can vary greatly in size and shape depending on its habitat and diet (1). e.g.
 
-- A cone shaped beak is used for picking up and cracking seeds easily.
+- Cone Shape: Picking up and cracking seeds easily.
 
-- Broader and flatter beaks are needed to create a larger surface area for bug catching in the air.
+- Broader/Flatter: Larger surface area for bug catching in the air.
 
-- For bug feeding on the groud, beaks are more tweezer-like.
+- Tweezer-like: Bug eating off the ground.
 
-- For meat eating, very strong beaks are required with the tip pointing downwards in order to hook onto the meat easier.
+- Strong with Downward Point: For meat eating in order to hook onto the meat easier.
 
-- Long thing beaks with a spear-like tip are great for catching fish.
+- Long/Thin & Spear-Like Tip: Fish Catching.
 
 :::
 
@@ -73,19 +72,15 @@ include_graphics("Birds/bird_beak.png")
 :::
 ::::
 
-The bird beak is made up of the cere, nare, culmen, maxilla, mandible and gape fillange (see fig. 1).
+The anatomy of a bird's beak is shown in figure 1.
 
 ### The Diets of Birds
 
-The different diet of birds can be sorted into different trophic level. A trophic level defines the hierarchy of an organism in a ecosystem. The main two trophic levels are:
-
-- Carnivore: A species whose diet consists of >70% of food from consuming live animals.
-
-- Herbivore: A species whose diet consists >70% of food from consuming plants. 
+The different diet of birds can be sorted into different trophic level. A trophic level defines the hierarchy of an organism in a ecosystem. The main three trophic levels are carnivores (eating >70% meat), omnivore (eating equal amounts of plants & meat) and herbivore (eating >70% plants).
 
 We decided to leave out scavenger birds since they make up <1% of our data and so using them may of led to false predictions.
 
-The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource.
+The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource:
 
 ```{r niche-table_data, include=FALSE}
 niche_table <- tibble(
@@ -103,23 +98,21 @@ kable(niche_table[1:10, ])
 
 Our main data set for this project is an AVONET Supplementary Data Set called "birds_data" (2). It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
 
-We will be focusing on the following variables of this data set that are useful in our project:
-
 :::: {style="display: flex;"}
 
 :::{}
 
-- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
-
-- Total Individuals: Number of individual birds measured for each species.
-
-- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
+We will be focusing on the following variables of this data set that are useful in our project:
 
 - Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
 
 - Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
 
 - Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 2).
+
+- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
+
+- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
 :::
 
@@ -132,10 +125,6 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 :::
 
 ::::
-
-- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
-
-- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
 # Methods 
 
