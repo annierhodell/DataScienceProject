@@ -70,7 +70,7 @@ style_xaringan(
 
 
 
-##Our Data
+#Our Data
 We chose the AVONET data set which outlines functional trait data for all birds including data on:
 - Species
 - Habitat
@@ -131,7 +131,7 @@ birds_data_rename <- birds_data_select%>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Finally we relocated the Species ID to come before the Species Name
+##Finally we relocated the Species ID to come before the Species Name
 ```{r relocate data tidying, include=TRUE}
 birds_data_relocate <- birds_data_rename%>%
   relocate(Species_ID, .before = Species_Name)
@@ -141,7 +141,7 @@ birds_data_relocate <- birds_data_rename%>%
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 
-##Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
+#Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
 
 Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
@@ -319,7 +319,7 @@ We have decided to use a logistical model for this since we are predicting a dis
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#We modeled Invertivore based on just the beak length to see if it had a similar effect
+##We modeled Invertivore based on just the beak length to see if it had a similar effect
 
 
 $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
@@ -411,7 +411,7 @@ ROC_I1
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Prediciting Whether a Bird is an Invertivore
+##Prediciting Whether a Bird is an Invertivore
 ```{r area under the curve for invertivore 2, echo=TRUE, fig.align='center', class='middle'}
 #Area under curve
 birds_predict_I1%>%
@@ -431,7 +431,7 @@ $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Bea
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#Prediciting Whether a Bird is an Invertivore
+##Prediciting Whether a Bird is an Invertivore
 
 ```{r Graph for Model for Carnivore, echo=FALSE, class="middle", fig.align='center'}
 # Plot ROC for Invertivore
@@ -445,7 +445,7 @@ ROC_v
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#Prediciting Whether a Bird is an Invertivore
+##Prediciting Whether a Bird is an Invertivore
 
 ```{r area under the curve for carnivore, echo=TRUE}
 #Area under curve
@@ -459,7 +459,7 @@ birds_predict_v%>%
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-##Results of our Investigation
+#Results of our Investigation
 
 - Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an Invertivore
 - 
@@ -468,7 +468,7 @@ grid.arrange(ROC_v, ROC_I1, ncol = 2)
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Advantages and Limitations of our model
+#Advantages and Limitations of our model
 - AOC of the model with all beak variables is higher than with just one
 - According to 
 
