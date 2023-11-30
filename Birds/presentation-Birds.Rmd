@@ -57,12 +57,17 @@ birds_data <- birds_data_og %>%
   relocate(Species_ID, .before = Species_Name)
 ```
 
-```{r include=FALSE}
+```{r Background image, include=FALSE}
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "Background photo of birds.jpeg")
+  title_slide_background_image = "Background photo of birds.jpeg",
+  inverse_text_color = "#005513",)
+  
 ```
+
+
+
 
 ##Our Data
 We chose the AVONET data set which outlines functional trait data for all birds including data on:
