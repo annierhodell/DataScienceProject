@@ -1,1 +1,0 @@
-Add any supplement images for your presentation or report to this folder
