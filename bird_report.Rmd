@@ -335,7 +335,7 @@ test_data_2 <- testing(split_data_2)
 ```
 
 ```{r include=FALSE, model-1, echo=FALSE}
-#model for predicting carnivore based off one factor (model 1)
+#model for predicting Invertivore based off one factor (model 1)
 
 birds_rec_I1 <- recipe(Invertivore_Status ~ Beak_Nares_Length, data = train_data_2) %>%
   step_dummy(all_nominal(), -all_outcomes())
@@ -365,7 +365,8 @@ roc_Invertivore_I1 <- birds_predict_I1 %>%
 
 # Plot ROC for Invertivore
 ROC_I1 <- autoplot(roc_Invertivore_I1) +
-  labs(title = "ROC Model 1")
+  labs(title = "ROC curve for Predicting Invertivores",
+       subtitle = "based off beak nares length")
 ```
 
 ```{r model-c, include=FALSE}
@@ -419,74 +420,23 @@ The ROC of models 1 and c are below:
 grid.arrange(ROC_I1, roc_I, ncol = 2)
 ```
 
-```{r model-h, include=FALSE}
-#model for herbivores
+```{r AUC Values, include=FALSE}
+#Area under curve
+birds_predict_I1%>%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 
-birds_rec_h <- recipe(Herbivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
-  step_dummy(all_nominal(), -all_outcomes())
+birds_predict_I%>%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 
-birds_mod_h <- logistic_reg() %>%
-  set_engine("glm")
-
-birds_wflow_h <- workflow() %>%
-  add_recipe(birds_rec_h) %>%
-  add_model(birds_mod_h)
-
-birds_wflow_h
-
-#fit h
-birds_fit_h <- birds_wflow_h %>%
-  fit(data = train_data)
-
-# Making the predictor
-birds_predict_h <- predict(birds_fit_h, test_data, type = "prob") %>%
-  bind_cols(test_data)
-
-# ROC for herbivore
-roc_Herbivore <- birds_predict_h %>%
-  roc_curve(truth = Herbivore_Status, ".pred_Herbivore", event_level = "second")
-
-# Plot ROC for herbivore
-h_ROC <- autoplot(roc_Herbivore) +
-  labs(title = "ROC Model h")
 ```
 
 ```{r model-o, include=FALSE}
-#model for omnivores
 
-birds_rec_o <- recipe(Omnivore_Status ~ Beak_Nares_Length + Beak_Width + Beak_Depth, data = train_data) %>%
-  step_dummy(all_nominal(), -all_outcomes())
 
-birds_mod_o <- logistic_reg() %>%
-  set_engine("glm")
-
-birds_wflow_o <- workflow() %>%
-  add_recipe(birds_rec_o) %>%
-  add_model(birds_mod_o)
-
-birds_wflow_o
-
-#fit o
-birds_fit_o <- birds_wflow_o %>%
-  fit(data = train_data)
-
-# Making the predictor
-birds_predict_o <- predict(birds_fit_o, test_data, type = "prob") %>%
-  bind_cols(test_data)
-
-# ROC for omnivore
-roc_Omnivore <- birds_predict_o %>%
-  roc_curve(truth = Omnivore_Status, ".pred_Omnivore", event_level = "second")
-
-# Plot ROC for omnivore
-o_ROC <- autoplot(roc_Omnivore) +
-  labs(title = "ROC Model o")
 ```
 
 ```{r modelcho, include=FALSE}
-tidy(birds_fit_C)
-tidy(birds_fit_h)
-tidy(birds_fit_o)
+
 ```
 
 Comparing model-c to model-h and to model-o we first look at their equations:
@@ -502,7 +452,7 @@ stuff about what this means :)
 The ROC of models c, h and o are below:
 
 ```{r cho-ROC-plot, echo=FALSE, fig.align='center'}
-grid.arrange(c_ROC, h_ROC, o_ROC, ncol = 3)
+
 ```
 
 ### Discussion – Answers your research question(s). What are the advantages/limitations of the investigation you have performed? If applicable, are there any ethical considerations in relation to your investigation/findings?
