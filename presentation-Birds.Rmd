@@ -204,7 +204,7 @@ birds_data %>%
                          fill = variable),
            position = "dodge")+
   labs(title = "Mean Beak Data Against General Trophic",
-       x = "Beak Data",
+       x = "Measurement (mm)",
        y = "Trophic")+
     guides(fill = guide_legend(title = "Beak Measurements"))
 
@@ -230,7 +230,7 @@ birds_data %>%
                          fill = variables),
            position = "dodge")+
   labs(title = "Mean Beak Data Against Niche Trophic",
-       x = "Beak Data",
+       x = "Beak Measurements (mm)",
        y = "Trophic")+
   guides(fill = guide_legend(title = "Beak Measurements"))
 ```
@@ -286,7 +286,7 @@ birds_data %>%
                          fill = variable),
            position = "dodge")+
   labs(title = "Beak Measurements vs Invertivore Status",
-       x = "Beak Measurements",
+       x = "Beak Measurements (mm)",
        y = "Invertivore Status")+
   guides(fill = guide_legend(title = "Type of Beak Measurement"))
 ```

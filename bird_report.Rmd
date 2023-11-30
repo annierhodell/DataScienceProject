@@ -67,7 +67,7 @@ Bird beak anatomy consist of many parts (see fig 1), the main beak measurements 
 :::
 
 :::{}
-```{r fig 1, echo = FALSE, out.width = "50%", fig.align = "right", fig.cap= "figure 1: Bird Beak Anatomy"}
+```{r fig 1, echo = FALSE, out.width = "50%", fig.align ="center", fig.cap= "figure 1: Bird Beak Anatomy"}
 include_graphics("Birds/images/bird_beak.png")
 ```
 :::
@@ -191,7 +191,7 @@ boxpt_Length_1 <- birds_data %>%
   filter(General_Trophic != "NA"  & General_Trophic != "Scavenger") %>%
   ggplot(mapping = aes(y = Beak_Nares_Length, x = General_Trophic)) +
   geom_boxplot() +
-  labs(y = "Beak Length", x = "Trophic Level") +
+  labs(y = "Beak Length (mm)", x = "Trophic Level") +
   theme(text = element_text(size=8),
         axis.text.x = element_text(angle=0, hjust=1)) 
 
@@ -199,7 +199,7 @@ boxpt_Width_1 <- birds_data %>%
   filter(General_Trophic != "NA" & General_Trophic != "Scavenger") %>%
   ggplot(mapping = aes(y = Beak_Width, x = General_Trophic)) +
   geom_boxplot()+
-  labs(y = "Beak Width", x = "Trophic Level") +
+  labs(y = "Beak Width (mm)", x = "Trophic Level") +
    theme(text = element_text(size=8),
         axis.text.x = element_text(angle=0, hjust=1))
 
@@ -207,7 +207,7 @@ boxpt_Depth_1 <- birds_data %>%
   filter(General_Trophic != "NA" & General_Trophic != "Scavenger") %>%
   ggplot(mapping = aes(y = Beak_Depth, x = General_Trophic)) +
   geom_boxplot() +
-  labs(y = "Beak Depth", x = "Trophic Level") +
+  labs(y = "Beak Depth (mm)", x = "Trophic Level") +
    theme(text = element_text(size=8),
         axis.text.x = element_text(angle=0, hjust=1))
 
@@ -225,7 +225,7 @@ boxpt_Length_2<- birds_data %>%
   filter(Niche_Trophic != "NA") %>%
   ggplot(mapping = aes(x = Beak_Nares_Length, y = Niche_Trophic)) +
   geom_boxplot(outlier.shape = NA, na.rm = TRUE) +
-  labs(x = "Beak Length", y = "Niche Trophic Level") +
+  labs(x = "Beak Length (mm)", y = "Niche Trophic Level") +
   theme(text = element_text(size=8))+
   scale_x_continuous(limits = c(0, 100))
 
@@ -233,7 +233,7 @@ boxpt_Width_2 <- birds_data %>%
   filter(Niche_Trophic != "NA") %>%
   ggplot(mapping = aes(x = Beak_Width, y = Niche_Trophic)) +
   geom_boxplot(outlier.shape = NA, na.rm = TRUE) +
-  labs(x = "Beak Width", y = "Niche Trophic Level") +
+  labs(x = "Beak Width (mm)", y = "Niche Trophic Level") +
   theme(text = element_text(size=8))+
   scale_x_continuous(limits = c(0, 40))
 
@@ -241,7 +241,7 @@ boxpt_Depth_2 <- birds_data %>%
   filter(Niche_Trophic != "NA") %>%
   ggplot(mapping = aes(x = Beak_Depth, y = Niche_Trophic)) +
   geom_boxplot(outlier.shape = NA, na.rm = TRUE) +
-  labs(x = "Beak Width", y = "Niche Trophic Level") +
+  labs(x = "Beak Width (mm)", y = "Niche Trophic Level") +
   theme(text = element_text(size=8))+
   scale_x_continuous(limits = c(0, 50))
 
