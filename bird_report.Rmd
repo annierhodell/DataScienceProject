@@ -89,25 +89,14 @@ We also left out omnivores, this was due to the overlapping diets that they have
 
 The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource.
 
-- Frugivore: fruit.
+```{r niche-table, echo=FALSE}
+niche_table <- tibble(
+  trophic_niche = c("Frugivore", "Granivore", "Nectarivore", "Herbivore", "Herbivore Aquatic", "Invertivore", "Vertivore", "Aquatic Predator", "Scavenger", "Omnivore"),
+  diet_description = c("fruit", "seeds or nuts", "nectar", "plant materials in non-aquatic systems, including leaves, buds, whole flowers etc.", "plant materials in aquatic systems, including algae and aquatic plant leaves.", "invertebrates in terrestrial systems, including insects, worms, arachnids, etc.", "vertebrate animals in terrestrial systems, including mammals, birds, reptiles etc.", "vertebrate and invertebrate animals in aquatic systems, including fish, crustacea, molluscs, etc.", "carrion, offal or refuse.", "Species using multiple niches, within or across trophic levels, in relatively equal proportions.")
+  )
 
-- Granivore: seeds or nuts.
- 
-- Nectarivore: nectar.
-
-- Herbivore: plant materials in non-aquatic systems, including leaves, buds, whole flowers etc.
-
-- Herbivore aquatic: plant materials in aquatic systems, including algae and aquatic plant leaves.
-
-- Invertivore:invertebrates in terrestrial systems, including insects, worms, arachnids, etc.
-
-- Vertivore: vertebrate animals in terrestrial systems, including mammals, birds, reptiles etc.
-
-- Aquatic Predator: vertebrate and invertebrate animals in aquatic systems, including fish, crustacea, molluscs, etc.
-
-- Scavenger: carrion, offal or refuse.
-
-- Omnivore: Species using multiple niches, within or across trophic levels, in relatively equal proportions.
+view(niche_table)
+```
 
 
 ### Our Data
@@ -436,13 +425,13 @@ tidy(birds_fit_I)
 tidy(birds_fit_I1)
 ```
 
-Comparing model-1 to model-c we first look at their equations:
+birds_fit_I model equation:
 
-- Model 1: predicted carnivore true = 0.476 - 0.033 * Beak_Depth
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$
 
-- Model c: predicted carnivore true = 0.410 + 0.030 * Beak_Nares_Length - 0.002 * Beak_Width - 0.086 * Beak_Depth
+birds_fir_I1 model equation:
 
-stuff about what this means :)
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
 
 The ROC of models 1 and c are below:
 
@@ -478,11 +467,6 @@ birds_predict_I%>%
 
 Comparing model-c to model-h and to model-o we first look at their equations:
 
-- Model c: predicted carnivore true = 0.410 + 0.030 * Beak_Nares_Length - 0.002 * Beak_Width - 0.086 * Beak_Depth
-
-- Model h: predicted carnivore true = -1.185 - 0.039 * Beak_Nares_Length - 0.002 * Beak_Width + 0.106 * Beak_Depth
-
-- Model o: predicted carnivore true = -1.523 - 0.002 * Beak_Nares_Length + 0.0019 * Beak_Width - 0.023 * Beak_Depth
 
 stuff about what this means :)
 

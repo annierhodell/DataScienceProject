@@ -36,3 +36,17 @@ boxpt_Depth <- birds_data %>%
   labs(x = "Beak Depth", y = "Trophic Level")
 
 grid.arrange(boxpt_Length, boxpt_Width, boxpt_Depth, nrow = 3)  
+
+xlab(expression(log(frac(p, 1-p))))
+
+
+# Math Expressions
+
+You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
+  
+```
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+  ```
+
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+  
