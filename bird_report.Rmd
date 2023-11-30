@@ -62,6 +62,8 @@ Bird beak anatomy can vary greatly in size and shape depending on habitat and di
 - Strong with Downward Point: Hooking onto meat easier.
 
 - Long/Thin & Spear-like Tip: Fish Catching.
+
+Bird beak anatomy is shown in figure 1.
 :::
 
 :::{}
@@ -70,8 +72,6 @@ include_graphics("Birds/bird_beak.png")
 ```
 :::
 ::::
-
-Bird beak anatomy is shown in figure 1.
 
 ### The Diets of Birds
 
