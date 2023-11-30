@@ -5,6 +5,53 @@
 #add graphs of count trophic types to the report
 
 
+
+trophic_colors <- c("Herbivore" = "darkgreen",
+                    "Carnivore" = "tomato3",
+                    "Omnivore" = "steelblue",
+                    "Scavenger" = "wheat")
+
+pie_chart_general_trophic <- birds_data %>%
+  filter(!is.na(General_Trophic)) %>%
+  ggplot(aes(x = "", fill = General_Trophic)) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  guides(fill = guide_legend(title = "Trophic Type", ncol = 1, keywidth=0.2)) +  # Change legend name
+  theme(axis.text = element_blank(),  # Remove axis text
+        axis.title = element_blank(),  # Remove axis title
+        legend.position = "left")  
+
+
+pie_chart_niche_trophic <- birds_data %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  ggplot(aes(x = "", fill = Niche_Trophic)) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar(theta = "y") +
+  #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  guides(fill = guide_legend(title = element_blank(), ncol = 3, keywidth=0.2)) +  # Change legend name
+  theme(axis.text = element_blank(),  # Remove axis text
+        axis.title = element_blank(),  # Remove axis title
+        legend.position = "right")
+
+
+grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
+             widths = c(1, 1.75))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #bar chart of the beak data against trophic
 birds_data %>%
   select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
@@ -82,16 +129,3 @@ autoplot(roc_Vertivore) +
 birds_predict_v%>%
   roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 
-#cutoff probability
-
-cutoff_prob <- 0.51
-
-bird_pred <- birds_predict_I %>%
-  mutate(
-    invertivore      = if_else(Invertivore_Status == "Invertivore", "Bird is Invertivore", "Bird is not Invertivore"),
-    invertivore_pred = if_else(.pred_Invertivore > cutoff_prob, "Bird labelled Invertivore", "Bird labelled not Invertivore")
-  ) %>%
-  count(invertivore_pred, invertivore) %>%
-  pivot_wider(names_from = invertivore, values_from = n)
-
-kable(bird_pred, col.names = c("", "Bird is not Invertivore", "Bird is Invertivore"))
