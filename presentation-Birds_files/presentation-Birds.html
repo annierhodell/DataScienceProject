@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Investigating the Correlation Between the Diet of Birds and Their Beak Measurement</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Group 32   Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay" />
+    <meta name="date" content="2023-11-30" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Investigating the Correlation Between the Diet of Birds and Their Beak Measurement
+]
+.author[
+### Group 32 <br> Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay
+]
+.institute[
+### University of Edinburgh
+]
+.date[
+### 2023-11-30
+]
+
+---
+
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+background-position: top center
+
+
+
+
+
+
+
+
+
+
+
+#Our Data
+We chose the AVONET data set (2) which outlines functional trait data for all birds including data on:
+- Species
+- Habitat
+- Trophic (diet)
+- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length...
+
+
+
+```
+## # A tibble: 11,009 × 7
+##    Species_Name   Family Beak_Nares_Length Beak_Depth Beak_Width General_Trophic
+##    &lt;chr&gt;          &lt;chr&gt;              &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;          
+##  1 Accipiter alb… Accip…              17.8       14.7       10.6 Carnivore      
+##  2 Accipiter bad… Accip…              12.1       11.6        8.8 Carnivore      
+##  3 Accipiter bic… Accip…              13.7       12.7        8.6 Carnivore      
+##  4 Accipiter bra… Accip…              14         11.9        8.9 Carnivore      
+##  5 Accipiter bre… Accip…              12.1       11.1        8.7 Carnivore      
+##  6 Accipiter but… Accip…              11.9       12          6.6 Carnivore      
+##  7 Accipiter cas… Accip…              11.5       10.9        8.3 Carnivore      
+##  8 Accipiter cir… Accip…              10.6        9.6        7.7 Carnivore      
+##  9 Accipiter col… Accip…              11.2       11          8.6 Carnivore      
+## 10 Accipiter coo… Accip…              13.9       13.2        8.6 Carnivore      
+## # ℹ 10,999 more rows
+## # ℹ 1 more variable: Niche_Trophic &lt;chr&gt;
+```
+
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+
+#Steps We Took to Tidy The Data
+
+##Firstly, we checked the Data for NA's
+
+```r
+birds_data_og %&gt;% 
+  select(where(~ any(is.na(.)))) %&gt;% 
+  summarise(
+    across(everything(),
+           ~sum(is.na(.))))
+```
+
+```
+## # A tibble: 1 × 13
+##   Sequence Mass.Refs.Other Traits.inferred Reference.species Habitat Migration
+##      &lt;int&gt;           &lt;int&gt;           &lt;int&gt;             &lt;int&gt;   &lt;int&gt;     &lt;int&gt;
+## 1       10           10294           10140             10140      98        23
+## # ℹ 7 more variables: Trophic.Level &lt;int&gt;, Trophic.Niche &lt;int&gt;,
+## #   Min.Latitude &lt;int&gt;, Max.Latitude &lt;int&gt;, Centroid.Latitude &lt;int&gt;,
+## #   Centroid.Longitude &lt;int&gt;, Range.Size &lt;int&gt;
+```
+
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Then we Selected the Columns that were Useful to our Investigation
+
+
+```r
+birds_data_select &lt;- birds_data_og %&gt;%
+  select(Species1, Family1, Order1, Avibase.ID1, Total.individuals, Female, Male, Unknown,
+         Complete.measures, Beak.Length_Culmen, Beak.Length_Nares, Beak.Width, Beak.Depth, 
+         Tarsus.Length, Wing.Length, Kipps.Distance, Secondary1, `Hand-Wing.Index`, Tail.Length, 
+         Mass, Habitat, Habitat.Density, Migration, Trophic.Level, Trophic.Niche, 
+         Primary.Lifestyle, Range.Size) 
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##We then Renamed the Column's that had Unclear Names
+
+```r
+birds_data_rename &lt;- birds_data_select%&gt;%
+  rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
+         "Species_ID" = "Avibase.ID1", "Unknown_M/F" = "Unknown", 
+         "Secondary_Length" = "Secondary1","Avg_Mass" = "Mass",
+         "Hand_Wing_Index" = "Hand-Wing.Index","Complete_Measures" = "Complete.measures", 
+         "Total_Individuals" = "Total.individuals","Beak_Culmen_Length" = "Beak.Length_Culmen", 
+         "Beak_Nares_Length" = "Beak.Length_Nares","Beak_Width" = "Beak.Width", 
+         "Beak_Depth" = "Beak.Depth", "Tarsus_Length" = "Tarsus.Length",
+         "Wing_Length" = "Wing.Length", "Kipps_Distance" = "Kipps.Distance", 
+         "Tail_Length" = "Tail.Length","Habitat_Density" = "Habitat.Density", 
+         "General_Trophic" = "Trophic.Level", "Niche_Trophic" = "Trophic.Niche", 
+         "Primary_Lifestyle" = "Primary.Lifestyle","Range_Size" = "Range.Size")
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Finally we Relocated the Species ID to come Before the Species Name
+
+```r
+birds_data_relocate &lt;- birds_data_rename%&gt;%
+  relocate(Species_ID, .before = Species_Name)
+```
+
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+class: center, middle
+
+#Investigating the Correlation Between the Diet of Birds and Their Beak Measurement
+
+Our aim is to prove that birds with similar diets will have similar beak sizes.
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+class:center, middle
+##What Is A Bird's Beak Measurements
+&lt;img src="Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg" width="50%" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Data on Types of Diets
+
+Our data had two options for the 'Type of diet' for the birds:
+
+- General Trophic which included: Carnivore, Herbivore, Omnivore and Scavenger
+
+- Niche Tropic which included: Aquatic Predator, Grainivore, Herbivore terrestrial, Nectarivore, Scavenger, Frugivore, Herbivore Aquatic, Invertivore, Omnivore and Vertivore
+
+
+&lt;img src="presentation-Birds_files/figure-html/pie chart-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Variance in Beak Data Between the General Trophics
+
+- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics.
+- Since there is so little data for scavenger birds, we were unable to use that for our model.
+&lt;img src="presentation-Birds_files/figure-html/bar chart of general trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Variance in Beak Data Between the Niche Tropics
+
+- There is a clearer distinction between the different niche trophics than there was for the general trophics
+
+
+&lt;img src="presentation-Birds_files/figure-html/bar chart of niche trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##How much Data is there for each Trophic
+
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+
+&lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##What is an Invertivore?
+- Invertivores are generally carnivores although many are omnivores
+- They eat invertebrates such as insects, worms, and arachnids
+- More than 60% of its diet is made up of these invertebrates
+- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
+- They are most commonly found in the Shrubland and Woodland habitats
+
+
+&lt;img src="Invertivore image.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Comparison of Invertivores against Not Invertivores
+
+- There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
+&lt;img src="presentation-Birds_files/figure-html/bar chart of invertivores vs not invertivores-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+class:center, middle
+#Our Model
+Predicting whether a bird is an invertivore or not based on the length, depth, and width of their beak.
+
+We have decided to use a logistical model for this since we are predicting a discrete variable.
+
+---
+##Data Splitting
+- In order to create our model, we first split our data into test data and training data
+
+
+
+```r
+# Set seed for reproducibility
+set.seed(5956)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data_2 &lt;- initial_split(birds_model_2, prop = 0.8)
+train_data_2 &lt;- training(split_data_2)
+test_data_2 &lt;- testing(split_data_2)
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+##We Modelled Invertivore based on just the Beak Length to see if it had a Similar Effect
+
+
+`$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$`
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+
+
+
+
+
+##ROC Curve for Model of Invertivore Status from Length
+
+
+&lt;img src="presentation-Birds_files/figure-html/printing roc curve-1.png" width="80%" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##Prediciting Whether a Bird is an Invertivore
+
+```r
+#Area under curve
+birds_predict_I1%&gt;%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.681
+```
+
+- This calculates the area under the curve. 
+- Our value for this area 0.6806375 which is greater than 0.5 which means it functions as a better predictor than random chance
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+##Equation of our Model
+
+- Since the AUC value for the model wasn't as high as we might want, we decided to compare it with a new model which uses beak length along with beak width and beak depth to predict whether the bird was an invertivore.
+
+`$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$`
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+##Prediciting Whether a Bird is an Invertivore
+
+&lt;img src="presentation-Birds_files/figure-html/Graph for Model for Carnivore-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+##Prediciting Whether a Bird is an Invertivore
+
+
+```r
+#Area under curve
+birds_predict_v%&gt;%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.740
+```
+
+- This calculates the area under the curve. 
+- Our value for this area 0.74 which is greater than 0.5 but higher than 0.681 for the original model
+- This demonstrates that modelling Invertivore status using all three predictors for beak data is a better model and has a higher predictive power than just using the peak length.
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+#Results of our Investigation
+- Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an Invertivore.
+&lt;img src="presentation-Birds_files/figure-html/printing both roc curves-1.png" width="80%" /&gt;
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+#Advantages and Limitations of our Model
+- AOC of the model with all beak variables is higher than with just one.
+- According to Occam's Razor, among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.
+- However, since the model using all three types of beak data has a higher AUC, it is still the better predictor and so is the model that we selected.
+-Another limitation of our model is that, since a logistic model can only predict yes or no, and can't predict multiple variables simultaneously so we can't predict which type of niche trophic the bird is if it isn't an invertivore, only that it isn't.
+
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##References
+
+1 (Burleydam garden Centre):
+
+- Burleydam Garden Centre, published 15/01/21, *What are the Different Types of Bird Beaks?*, electronic outdoor wildlife sight with descriptions on different bird beak types, available at URL: &lt;https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/&gt;, accessed on 28/11/23.
+
+2 (BirdLife 2020):
+
+- Accessed from figshare (URL: &lt;https://figshare.com/s/b990722d72a26b5bfead?file=38429885)&gt;, accessed on 27/11/2023.
+
+- HBW-BirdLife Version 5.0 (December 2020). *Handbook of the Birds of the World and BirdLife International (2020)*. Handbook of the Birds of the World and BirdLife International digital checklist of the birds of the world. Version 5. Available at: &lt;http://datazone.birdlife.org/userfiles/file/Species/Taxonomy/HBW-BirdLife_Checklist_v5_Dec20.zip&gt;    
+
+Figure 1: 
+
+- Kayla Fisk, published: 15/12/22, *Bird Anatomy: Beak*, image of eagle head with labelled beak anatomy. Available at URL: &lt;https://kaylafisk.com/tag/drawing/&gt;, accessed on 27/11/23.
+
+Figure 2: 
+
+- Pongthanin Thanisantipan, *Watercolor painted beautiful bird, Hand drawn colorful bird Free PNG*, Vecteezy, image of water colour bird originally without labels, lables added by our own team, Available at URL: &lt;https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird&gt;, accessed on 28/11/23.
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
