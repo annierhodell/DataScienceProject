@@ -313,6 +313,27 @@ birds_data %>%
 
 see about the mean etc
 
+pie chart about niche levels
+
+```{r include=FALSE, pie chart niche, echo=FALSE}
+#Pie chart of the Niche trophic levels proportions
+
+birds_data %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  ggplot(aes(x = "", fill = Niche_Trophic)) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = Niche_colours, name = "Trophic Type") + 
+  labs(title = "Distribution of Niche Trophic Types") +
+  theme(axis.text = element_blank(),  # Remove axis text
+        axis.title = element_blank(),  # Remove axis title
+        legend.position = "bottom")
+
+
+```
+As u can see there is alot about Invertivores, so choose that one.
+
+
 ### Modelling the Data
 
 In order to answer our question of is it possible to predict diet based on beak measurements, we will need to use a logistic regression model since this is a discrete variable case.

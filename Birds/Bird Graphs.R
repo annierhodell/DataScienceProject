@@ -71,7 +71,7 @@ birds_data %>%
   ggplot(aes(x = "", fill = Niche_Trophic)) +
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
-  #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  scale_fill_manual(values = Niche_colours, name = "Trophic Type") +  # Assign colors and change legend name
   guides(fill = guide_legend(title = "Trophic Type")) +  # Change legend name
   labs(title = "Distribution of Trophic Types") +
   theme(axis.text = element_blank(),  # Remove axis text
