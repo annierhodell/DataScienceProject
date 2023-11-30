@@ -47,50 +47,11 @@ birds_data <- birds_data_og %>%
 
 In this project we want to investigate the correlation between the diets and beak measurements of birds. We want to figure out if you can predict a bird diet based on their beak measurements alone.
 
-### Our Data
-
-Our main data set for this project is an AVONET Supplementary Data Set called "birds_data". It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
-
-We will be focusing on the following variables of this data set that are useful in our project:
-
-:::: {style="display: flex;"}
-
-:::{}
-
-- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
-
-- Total Individuals: Number of individual birds measured for each species.
-
-- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
-
-- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
-
-- Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
-
-- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 2).
-
-:::
-
-:::{}
-
-```{r fig 21, echo = FALSE, out.width = "75%", fig.align = "right", fig.cap= "figure 2: Bird Measurements Taken"}
-include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
-```
-
-:::
-
-::::
-
-- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
-
-- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
-
 ### The Bird Beak
 :::: {style="display: flex;"}
 :::{}
 
-A bird's beak anatomy can vary greatly in size and shape depending on its habitat and diet. A bird uses its for more than just eating, they are also used to build nests and sometimes to fight of other creatures invading their territory. 
-
+A bird's beak anatomy can vary greatly in size and shape depending on its habitat and diet.
 Depending on the function a beak is required to carry out for a certain diet, the beak shape and size can vary greatly (1). e.g.
 
 - A cone shaped beak is used for picking up and cracking seeds easily.
@@ -112,19 +73,17 @@ include_graphics("Birds/bird_beak.png")
 :::
 ::::
 
-The bird beak is made up of the cere, nare, culmen, maxilla, mandible and gape fillange (see fig. 1). It's useful to note that both the nare and culmen are lengths of the beak that can be measured easily. They differ only as the nare is from nostril to tip whereas the culmen starts from the skull.
+The bird beak is made up of the cere, nare, culmen, maxilla, mandible and gape fillange (see fig. 1).
 
 ### The Diets of Birds
 
-The different diet of birds can be sorted into different trophic level. A trophic level defines the hierarchy of an organism in a ecosystem. The main three trophic levels we will be looking at are:
+The different diet of birds can be sorted into different trophic level. A trophic level defines the hierarchy of an organism in a ecosystem. The main two trophic levels are:
 
-- Carnivore: A species whose diet consists of at least 70% of food from consuming live animals.
+- Carnivore: A species whose diet consists of >70% of food from consuming live animals.
 
-- Herbivore: A species whose diet consists of at least 70% of food from consuming plants. 
+- Herbivore: A species whose diet consists >70% of food from consuming plants. 
 
-We decided to leave out scavenger birds since they make up less than 1% of our data and so using them may of led to false predictions.
-
-We also left out omnivores, this was due to the overlapping diets that they have in correlation to Carnivores and Herbivores. An omnivore is a species whose diet consists of a mixed consumption of plants and animals at an approximately equal rate. This means that their beak measurements doesn't have as definite relationships as the Carnivores and Herbivores, which may have also lead to false predictions.
+We decided to leave out scavenger birds since they make up <1% of our data and so using them may of led to false predictions.
 
 The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource.
 
@@ -140,7 +99,6 @@ niche_table
 kable(niche_table[1:10, ])
 ```
 
-<<<<<<< HEAD
 ### Our Data
 
 Our main data set for this project is an AVONET Supplementary Data Set called "birds_data" (2). It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
@@ -179,8 +137,6 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 
 - Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
-=======
->>>>>>> e46b92f625cc05d551911f7c5529341c8ff68a70
 # Methods 
 
 ### Data Tidying
@@ -327,9 +283,7 @@ birds_data %>%
         x = "Mean Measurement (mm)",
         y = "Niche Trophic Level")+
   scale_fill_manual(name = "Measurement",
-                    values = c("Width" = "blue", "Length" = "green", "Depth" = "red"))
-        #the colours need changing
-
+                    values = c("Width" = "coral", "Length" = "maroon", "Depth" = "pink"))
 
 ```
 
@@ -361,11 +315,7 @@ The majority of our Trophic Niche data is the invertivores, so we will be using 
 
 In order to answer our question of is it possible to predict diet based on beak measurements, we will need to use a logistic regression model since this is a discrete variable case.
 
-For our model we will be predicting whether or not a species of bird is a certain trophic level based on its predicting factors of beak length, beak depth and beak width.
-
-Initially, we wanted to try and see whether one predictor (just beak depth) would be a better predictor model than the three predictors, length, width and depth. 
-
-Our first model, model-I1, uses only beak Nares Length as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model for Invertivores that uses all 3 predictor values (beak length, width and depth).
+Our first model, model-I1, uses only beak depth as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model, model-I for Invertivores that uses all 3 predictor values (beak length, width and depth).
 
 ```{r include=FALSE, model-data, echo=FALSE}
 #creating a new data set, with a yes no column for Invertivore
@@ -387,7 +337,7 @@ train_data_2 <- training(split_data_2)
 test_data_2 <- testing(split_data_2)
 ```
 
-```{r include=FALSE, model-1, echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE, model-1, echo=FALSE}
 #model for predicting Invertivore based off one factor (model 1)
 
 birds_rec_I1 <- recipe(Invertivore_Status ~ Beak_Nares_Length, data = train_data_2) %>%
@@ -457,18 +407,26 @@ roc_I <- autoplot(roc_Invertivore) +
 
 ```
 
-```{r equations-1-c, include=FALSE}
-tidy(birds_fit_I)
+Here is the tidy model of model-I1, using 1 variable:
+
+```{r equations, echo=FALSE}
 tidy(birds_fit_I1)
+```
+
+
+birds_fit_I1 model equation:
+
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
+
+Here is the tidy model of model-I, using 3 variables:
+
+```{r equations-1-c, echo=FALSE}
+tidy(birds_fit_I)
 ```
 
 birds_fit_I model equation:
 
 $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$
-
-birds_fir_I1 model equation:
-
-$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
 
 The ROC of models I1 and 1 are below:
 
@@ -477,7 +435,6 @@ grid.arrange(ROC_I1, roc_I, ncol = 2)
 ```
 
 ```{r AUC Values, include=FALSE}
-#this is how we found the AUC values and then copied them into the table.
 #Area under curve for model I1
 birds_predict_I1%>%
   roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
@@ -488,22 +445,7 @@ birds_predict_I%>%
 
 #needs to be seen in report somehow
 
-Model_table <- tibble(
-  "Model" = c("model with 1 variable", "Model with 3 variables"),
-  "AUC vlue" = c("0.7395973", "0.6806375"))
-
-
 ```
-
-```{r Model-table, echo = FALSE, results='asis'}
-kable(Model_table[1:2, ])
-```
-
-
-### What This Means
-
-The ROC Curve on the left model_I1 is a good model. It's area under the curve for the ROC graph is above 0.5, which means that our model is better at predicting whether a bird is an Invertivore or not than random chance. The Curve itself is above the diagonal
-
 
 # Discussion
 
@@ -554,8 +496,6 @@ bird_pred_I1 <- birds_predict_I1 %>%
 kable(bird_pred_I1, col.names = c("", "Bird is not Invertivore", "Bird is Invertivore"))
 
 ```
-
-i did a word count and its currently at 1646
 
 # References
 
