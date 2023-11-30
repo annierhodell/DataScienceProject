@@ -323,7 +323,7 @@ For our model we will be predicting whether or not a species of bird is a certai
 
 Initially, we wanted to try and see whether one predictor (just beak depth) would be a better predictor model than the three predictors, length, width and depth. 
 
-Our first model, model-1, uses only beak depth as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model for Invertivores that uses all 3 predictor values (beak length, width and depth).
+Our first model, model-I1, uses only beak Nares Length as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model for Invertivores that uses all 3 predictor values (beak length, width and depth).
 
 ```{r include=FALSE, model-data, echo=FALSE}
 #creating a new data set, with a yes no column for Invertivore
@@ -435,6 +435,7 @@ grid.arrange(ROC_I1, roc_I, ncol = 2)
 ```
 
 ```{r AUC Values, include=FALSE}
+#this is how we found the AUC values and then copied them into the table.
 #Area under curve for model I1
 birds_predict_I1%>%
   roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
@@ -445,7 +446,22 @@ birds_predict_I%>%
 
 #needs to be seen in report somehow
 
+Model_table <- tibble(
+  "Model" = c("model with 1 variable", "Model with 3 variables"),
+  "AUC vlue" = c("0.7395973", "0.6806375"))
+
+
 ```
+
+```{r Model-table, echo = FALSE, results='asis'}
+kable(Model_table[1:2, ])
+```
+
+
+### What This Means
+
+The ROC Curve on the left model_I1 is a good model. It's area under the curve for the ROC graph is above 0.5, which means that our model is better at predicting whether a bird is an Invertivore or not than random chance. The Curve itself is above the diagonal
+
 
 # Discussion
 
