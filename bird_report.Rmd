@@ -89,15 +89,17 @@ We also left out omnivores, this was due to the overlapping diets that they have
 
 The main trophic levels can be sub categorised into more niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, Invertivores to make our model. To be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource.
 
-```{r niche-table, echo=FALSE}
+```{r niche-table_data, echo=TRUE}
 niche_table <- tibble(
   trophic_niche = c("Frugivore", "Granivore", "Nectarivore", "Herbivore", "Herbivore Aquatic", "Invertivore", "Vertivore", "Aquatic Predator", "Scavenger", "Omnivore"),
   diet_description = c("fruit", "seeds or nuts", "nectar", "plant materials in non-aquatic systems, including leaves, buds, whole flowers etc.", "plant materials in aquatic systems, including algae and aquatic plant leaves.", "invertebrates in terrestrial systems, including insects, worms, arachnids, etc.", "vertebrate animals in terrestrial systems, including mammals, birds, reptiles etc.", "vertebrate and invertebrate animals in aquatic systems, including fish, crustacea, molluscs, etc.", "carrion, offal or refuse.", "Species using multiple niches, within or across trophic levels, in relatively equal proportions.")
   )
-
-view(niche_table)
 ```
 
+```{r niche-table, echo = FALSE}
+kable(head(niche_table), format = "html") %>%
+  print(n = 10)
+```
 
 ### Our Data
 
