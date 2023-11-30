@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Investigating the Correlation Between The Diet of Birds and Their Beak Measurement</title>
+    <title>Investigating the Correlation Between the Diet of Birds and Their Beak Measurement</title>
     <meta charset="utf-8" />
     <meta name="author" content="Group 32   Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay" />
     <meta name="date" content="2023-11-30" />
@@ -13,7 +13,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
+# Investigating the Correlation Between the Diet of Birds and Their Beak Measurement
 ]
 .author[
 ### Group 32 <br> Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay
@@ -41,12 +41,12 @@ background-position: top center
 
 
 #Our Data
-We chose the AVONET data set which outlines functional trait data for all birds including data on:
+We chose the AVONET data set (2) which outlines functional trait data for all birds including data on:
 - Species
 - Habitat
 - Trophic (diet)
-- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length
-...
+- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length...
+
 
 
 ```
@@ -71,9 +71,9 @@ We chose the AVONET data set which outlines functional trait data for all birds 
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
 
-#Steps We Took To Tidy The Data
+#Steps We Took to Tidy The Data
 
-##Firstly we checked the data for NA's
+##Firstly, we checked the Data for NA's
 
 ```r
 birds_data_og %&gt;% 
@@ -95,7 +95,7 @@ birds_data_og %&gt;%
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Then we selected the columns that were useful to our investiagtion
+##Then we Selected the Columns that were Useful to our Investigation
 
 
 ```r
@@ -108,7 +108,7 @@ birds_data_select &lt;- birds_data_og %&gt;%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##We then renamed the column's that had unclear names
+##We then Renamed the Column's that had Unclear Names
 
 ```r
 birds_data_rename &lt;- birds_data_select%&gt;%
@@ -126,7 +126,7 @@ birds_data_rename &lt;- birds_data_select%&gt;%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Finally we relocated the Species ID to come before the Species Name
+##Finally we Relocated the Species ID to come Before the Species Name
 
 ```r
 birds_data_relocate &lt;- birds_data_rename%&gt;%
@@ -137,7 +137,7 @@ birds_data_relocate &lt;- birds_data_rename%&gt;%
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 
-#Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
+#Investigating the Correlation Between the Diet of Birds and Their Beak Measurement
 
 Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
@@ -147,7 +147,7 @@ class:center, middle
 &lt;img src="Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg" width="50%" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Data on types of diets
+##Data on Types of Diets
 
 Our data had two options for the 'Type of diet' for the birds:
 
@@ -159,31 +159,38 @@ Our data had two options for the 'Type of diet' for the birds:
 &lt;img src="presentation-Birds_files/figure-html/pie chart-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Variance in beak data between the general trophics
+##Variance in Beak Data Between the General Trophics
 
-- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
-
+- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics.
+- Since there is so little data for scavenger birds, we were unable to use that for our model.
 &lt;img src="presentation-Birds_files/figure-html/bar chart of general trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Variance in Beak data between the Niche Tropics
+##Variance in Beak Data Between the Niche Tropics
 
-- There is a more clear distinction between the different niche trophics than there was for the general trophics
+- There is a clearer distinction between the different niche trophics than there was for the general trophics
 
 
 &lt;img src="presentation-Birds_files/figure-html/bar chart of niche trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##How much data is there for each trophic
-
-- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
-
-
+##How much Data is there for each Trophic
 
 - Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
 
 &lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+##What is an Invertivore?
+- Invertivores are generally carnivores although many are omnivores
+- They eat invertebrates such as insects, worms, and arachnids
+- More than 60% of its diet is made up of these invertebrates
+- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
+- They are most commonly found in the Shrubland and Woodland habitats
+
+
+&lt;img src="Invertivore image.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Comparison of Invertivores against Not Invertivores
@@ -192,28 +199,30 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 &lt;img src="presentation-Birds_files/figure-html/bar chart of invertivores vs not invertivores-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##What is an invertivore?
-- Invertivores are generally carnivores although many are omnivores
-- They eat invertibrates such as insects, worms and arachnids
-- More than 60% of its diet is made up of these invertibrates
-- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
-- They are most commonly found in the Shrubland and Woodland habitats
-
-
-&lt;img src="Invertivore image.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
-
-
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 #Our Model
-Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
-We have decided to use a logistical model for this since we are predicting a discrete variable
+Predicting whether a bird is an invertivore or not based on the length, depth, and width of their beak.
 
+We have decided to use a logistical model for this since we are predicting a discrete variable.
+
+---
+##Data Splitting
+- In order to create our model, we first split our data into test data and training data
+
+
+
+```r
+# Set seed for reproducibility
+set.seed(5956)
+# Create an initial split (e.g., 80% training, 20% testing)
+split_data_2 &lt;- initial_split(birds_model_2, prop = 0.8)
+train_data_2 &lt;- training(split_data_2)
+test_data_2 &lt;- testing(split_data_2)
+```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-##We modeled Invertivore based on just the beak length to see if it had a similar effect
+##We Modelled Invertivore based on just the Beak Length to see if it had a Similar Effect
 
 
 `$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$`
@@ -225,7 +234,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 
 
 
-##ROC curve for model of Invertivore Status from length
+##ROC Curve for Model of Invertivore Status from Length
 
 
 &lt;img src="presentation-Birds_files/figure-html/printing roc curve-1.png" width="80%" /&gt;
@@ -251,9 +260,9 @@ birds_predict_I1%&gt;%
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-##Equation of our model
+##Equation of our Model
 
-- Since the AUC value for the model wasn't as high as we might want, we decided to compare it with a new model which uses beak length along with beak width and beak depth to predict whether the bird was an invertivore
+- Since the AUC value for the model wasn't as high as we might want, we decided to compare it with a new model which uses beak length along with beak width and beak depth to predict whether the bird was an invertivore.
 
 `$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$`
 ---
@@ -283,21 +292,20 @@ birds_predict_v%&gt;%
 
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 but higher than 0.681 for the original model
-- This demonstrates that modeling Invertivore status using all three predictors for beak data is a better model and has a higher predictive power than just using the peak length.
+- This demonstrates that modelling Invertivore status using all three predictors for beak data is a better model and has a higher predictive power than just using the peak length.
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
 #Results of our Investigation
-- Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an Invertivore
-- 
+- Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an Invertivore.
 &lt;img src="presentation-Birds_files/figure-html/printing both roc curves-1.png" width="80%" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Advantages and Limitations of our model
-- AOC of the model with all beak variables is higher than with just one
-- According to Occam's Razor, among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected
-- However, since the model using all three types of beak data has a higher AUC, it is still the better predictor and so is the model that we selected
--Another limitation of our model is that, since a logistic model can only predict yes or no, and can't predict multiple variables simultaneously so we can't predict which type of niche trophic the bird is if it isn't a invertivore, only that it isn't 
+#Advantages and Limitations of our Model
+- AOC of the model with all beak variables is higher than with just one.
+- According to Occam's Razor, among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.
+- However, since the model using all three types of beak data has a higher AUC, it is still the better predictor and so is the model that we selected.
+-Another limitation of our model is that, since a logistic model can only predict yes or no, and can't predict multiple variables simultaneously so we can't predict which type of niche trophic the bird is if it isn't an invertivore, only that it isn't.
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
@@ -305,7 +313,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 
 1 (Burleydam garden Centre):
 
-- Burleydam Garden Centre, published 15/01/21, *What are the Different Types of Bird Beaks?*, electronic outdoor wildlife sight with descriptions on different bird beak types, available at URL: &lt;https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/&gt;, accessed on 28/11/23
+- Burleydam Garden Centre, published 15/01/21, *What are the Different Types of Bird Beaks?*, electronic outdoor wildlife sight with descriptions on different bird beak types, available at URL: &lt;https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/&gt;, accessed on 28/11/23.
 
 2 (BirdLife 2020):
 
@@ -315,11 +323,11 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 
 Figure 1: 
 
-- Kayla Fisk, published: 15/12/22, *Bird Anatomy: Beak*, image of eagle head with labelled beak anatomy. Avaiable at URL: &lt;https://kaylafisk.com/tag/drawing/&gt;, accessed on 27/11/23
+- Kayla Fisk, published: 15/12/22, *Bird Anatomy: Beak*, image of eagle head with labelled beak anatomy. Available at URL: &lt;https://kaylafisk.com/tag/drawing/&gt;, accessed on 27/11/23.
 
 Figure 2: 
 
-- Pongthanin Thanisantipan, *Watercolor painted beautiful bird, Hand drawn colorful bird Free PNG*, Vecteezy, image of water colour bird originally without labels, lables added by our own team, Avaiable at URL: &lt;https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird&gt;, accessed on 28/11/23
+- Pongthanin Thanisantipan, *Watercolor painted beautiful bird, Hand drawn colorful bird Free PNG*, Vecteezy, image of water colour bird originally without labels, lables added by our own team, Available at URL: &lt;https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird&gt;, accessed on 28/11/23.
 
 
     </textarea>
