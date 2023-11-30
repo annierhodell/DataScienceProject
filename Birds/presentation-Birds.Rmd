@@ -55,6 +55,20 @@ birds_data <- birds_data_og %>%
   relocate(Species_ID, .before = Species_Name)
 ```
 
+##Our Data
+We chose the AVONET data set which outlines functional trait data for all birds including data on:
+- Species
+- Habitat
+- Trophic (diet)
+- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length
+...
+
+```{r showing the data, echo=FALSE}
+birds_data %>%
+  select(Species_Name, Family, Beak_Nares_Length, Beak_Depth, Beak_Width, General_Trophic, Niche_Trophic) %>%
+  print(n = 10)
+```
+---
 #Steps We Took To Tidy The Data
 
 ##Firstly we checked the data for NA's
@@ -167,7 +181,7 @@ grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
 ---
 ##Varience in beak data between the general trophics
 
-- There is not a huge difference between the different general trophics so we decided to look more specifically at the niche trophics
+- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
 
 ```{r bar chart of general trophics, echo=FALSE, out.width="50%", class='middle', fig.align='center'}
 birds_data %>%
@@ -185,6 +199,27 @@ birds_data %>%
        x = "Beak Data",
        y = "Trophic")
 
+```
+---
+##Variance in Beak data between the Niche Tropics
+
+- There is a more clear distinction between the different niche trophics than there was for the general trophics
+
+```{r bar chart of niche trophics, echo = FALSE, out.width="50%", class='middle', fig.align='center'}
+birds_data %>%
+  select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
+  filter(!is.na(Niche_Trophic)) %>%
+  group_by(Niche_Trophic) %>%
+  summarise(Width = mean(Beak_Width), Depth = mean(Beak_Depth), Length = mean(Beak_Nares_Length)) %>%
+  gather(key = variable, value = Value, Width, Length, Depth) %>%
+  ggplot() +
+  geom_col(mapping = aes(y = Niche_Trophic,
+                         x = Value,
+                         fill = variable),
+           position = "dodge")+
+  labs(title = "Beak Data against Niche Trophic",
+       x = "Beak Data",
+       y = "Trophic")
 ```
 ---
 ##How much data is there for each trophic
@@ -205,7 +240,7 @@ birds_data %>%
 ---
 ##Comparison of Invertivores against Not Invertivores
 
-- Comparing the average beak data of Invertivores to Not Invertivores
+- There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
 ```{r bar chart of invertivores vs not invertivores, echo=FALSE, out.width= "60%", fig.align='center', class='middle'}
 birds_data %>%
   select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
@@ -226,19 +261,25 @@ birds_data %>%
 ```
 ---
 class:center, middle
-#Our model
-modeling whether a bird is an invertivore or not based of the length, depth and width of their beak
+#Our Model
+Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
 
 ---
 ##What is an invertivore?
 - An invertivore is a type of carnivore 
 - More than 60% of its diet is made up of invertibrates
-- The most common breeds of invertivore in our data set are 
+- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
+- They are most commonly found in the Shrubland and Woodland habitats
 
 ```{r facts abour invertivores, echo=FALSE, include=FALSE}
-birds_data %>%
-  filter(Niche_Trophic == "Invertivore") %>%
-  count(Species_Name)
+#birds_data %>%
+#  filter(Niche_Trophic == "Invertivore") %>%
+#  count(Species_Name) %>%
+#  arrange(desc(n))
+#birds_data %>%
+#  filter(Niche_Trophic == "Invertivore") %>%
+#  count(Habitat) %>%
+#  arrange(desc(n))
 ```
 ---
 

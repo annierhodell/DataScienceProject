@@ -4,7 +4,7 @@
     <title>Investigating the Corellation Between The Diet of Birds and Their Beak Measurement</title>
     <meta charset="utf-8" />
     <meta name="author" content="A-Team   Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay" />
-    <meta name="date" content="2023-11-29" />
+    <meta name="date" content="2023-11-30" />
     <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ### University of Edinburgh
 ]
 .date[
-### 2023-11-29
+### 2023-11-30
 ]
 
 ---
@@ -34,6 +34,33 @@ class: center, middle, inverse, title-slide
 
 
 
+##Our Data
+We chose the AVONET data set which outlines functional trait data for all birds including data on:
+- Species
+- Habitat
+- Trophic (diet)
+- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length
+...
+
+
+```
+## # A tibble: 11,009 × 7
+##    Species_Name   Family Beak_Nares_Length Beak_Depth Beak_Width General_Trophic
+##    &lt;chr&gt;          &lt;chr&gt;              &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;          
+##  1 Accipiter alb… Accip…              17.8       14.7       10.6 Carnivore      
+##  2 Accipiter bad… Accip…              12.1       11.6        8.8 Carnivore      
+##  3 Accipiter bic… Accip…              13.7       12.7        8.6 Carnivore      
+##  4 Accipiter bra… Accip…              14         11.9        8.9 Carnivore      
+##  5 Accipiter bre… Accip…              12.1       11.1        8.7 Carnivore      
+##  6 Accipiter but… Accip…              11.9       12          6.6 Carnivore      
+##  7 Accipiter cas… Accip…              11.5       10.9        8.3 Carnivore      
+##  8 Accipiter cir… Accip…              10.6        9.6        7.7 Carnivore      
+##  9 Accipiter col… Accip…              11.2       11          8.6 Carnivore      
+## 10 Accipiter coo… Accip…              13.9       13.2        8.6 Carnivore      
+## # ℹ 10,999 more rows
+## # ℹ 1 more variable: Niche_Trophic &lt;chr&gt;
+```
+---
 #Steps We Took To Tidy The Data
 
 ##Firstly we checked the data for NA's
@@ -119,9 +146,15 @@ Our data had two options for the 'Type of diet' for the birds:
 ---
 ##Varience in beak data between the general trophics
 
-- There is not a huge difference between the different general trophics so we decided to look more specifically at the niche trophics
+- There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
 
 &lt;img src="presentation-Birds_files/figure-html/bar chart of general trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+##Variance in Beak data between the Niche Tropics
+
+- There is a more clear distinction between the different niche trophics than there was for the general trophics
+
+&lt;img src="presentation-Birds_files/figure-html/bar chart of niche trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 ##How much data is there for each trophic
 &lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
@@ -129,12 +162,20 @@ Our data had two options for the 'Type of diet' for the birds:
 ---
 ##Comparison of Invertivores against Not Invertivores
 
-- Comparing the average beak data of Invertivores to Not Invertivores
+- There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
 &lt;img src="presentation-Birds_files/figure-html/bar chart of invertivores vs not invertivores-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 class:center, middle
-#Our model
-modeling whether a bird is an invertivore or not based of the length, depth and width of their beak
+#Our Model
+Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
+
+---
+##What is an invertivore?
+- An invertivore is a type of carnivore 
+- More than 60% of its diet is made up of invertibrates
+- Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
+- They are most commonly found in the Shrubland and Woodland habitats
+
 
 ---
 
@@ -163,8 +204,11 @@ birds_predict_v%&gt;%
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
+class: center, middle
+##Results of our Investigation
 
-#Results of our Investigation
+- Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an invertivore
+- 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
