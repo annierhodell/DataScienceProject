@@ -27,7 +27,8 @@ class: center, middle, inverse, title-slide
 
 ---
 
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+background-position: top center
 
 
 
@@ -60,7 +61,11 @@ We chose the AVONET data set which outlines functional trait data for all birds 
 ## # ℹ 10,999 more rows
 ## # ℹ 1 more variable: Niche_Trophic &lt;chr&gt;
 ```
+
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+
 #Steps We Took To Tidy The Data
 
 ##Firstly we checked the data for NA's
@@ -84,6 +89,7 @@ birds_data_og %&gt;%
 ```
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Then we selected the columns that were useful to our investiagtion
 
 
@@ -96,6 +102,7 @@ birds_data_select &lt;- birds_data_og %&gt;%
          Primary.Lifestyle, Range.Size) 
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #We then renamed the column's that had unclear names
 
 ```r
@@ -113,6 +120,7 @@ birds_data_rename &lt;- birds_data_select%&gt;%
          "Primary_Lifestyle" = "Primary.Lifestyle","Range_Size" = "Range.Size")
 ```
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Finally we relocated the Species ID to come before the Species Name
 
 ```r
@@ -121,18 +129,19 @@ birds_data_relocate &lt;- birds_data_rename%&gt;%
 ```
 
 ---
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 
 ##Investigating the Corellation Between The Diet of Birds and Their Beak Measurement
 
 Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
-
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 ##What Is A Bird's Beak Measurements
 &lt;img src="Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg" width="50%" /&gt;
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Data on types of diets
 
 Our data had two options for the 'Type of diet' for the birds:
@@ -144,34 +153,46 @@ Our data had two options for the 'Type of diet' for the birds:
 
 &lt;img src="presentation-Birds_files/figure-html/pie chart-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Varience in beak data between the general trophics
 
 - There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
 
 &lt;img src="presentation-Birds_files/figure-html/bar chart of general trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Variance in Beak data between the Niche Tropics
 
 - There is a more clear distinction between the different niche trophics than there was for the general trophics
 
+
 &lt;img src="presentation-Birds_files/figure-html/bar chart of niche trophics-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##How much data is there for each trophic
+<<<<<<< HEAD
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+
+=======
 
 - Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 &lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##Comparison of Invertivores against Not Invertivores
 
 - There is a clear difference between the beak data for invertivores vs not invertivores so we decided to use this data to base our model
 &lt;img src="presentation-Birds_files/figure-html/bar chart of invertivores vs not invertivores-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class:center, middle
 #Our Model
 Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##What is an invertivore?
 - An invertivore is a type of carnivore 
 - More than 60% of its diet is made up of invertibrates
@@ -179,6 +200,10 @@ Predicting whether a bird is an invertivore or not based of the length, depth an
 - They are most commonly found in the Shrubland and Woodland habitats
 
 
+<<<<<<< HEAD
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+=======
 &lt;img src="Invertivore image.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
 
 
@@ -187,6 +212,7 @@ Predicting whether a bird is an invertivore or not based of the length, depth an
 
 `$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$`
 ---
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 #Prediciting Whether a Bird is an Invertivore
 
 
@@ -194,7 +220,12 @@ Predicting whether a bird is an invertivore or not based of the length, depth an
 
 &lt;img src="presentation-Birds_files/figure-html/Graph for Model for Carnivore-1.png" width="80%" /&gt;
 ---
+<<<<<<< HEAD
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+#Prediciting Whether a Bird is a Invertivore
+=======
 #Prediciting Whether a Bird is an Invertivore
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 
 ```r
 #Area under curve
@@ -212,6 +243,9 @@ birds_predict_v%&gt;%
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
+<<<<<<< HEAD
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+=======
 #We also modeled Invertivore based on just the beak length to see if it had a similar effect
 
 
@@ -242,6 +276,7 @@ birds_predict_I1%&gt;%
 - Our value for this area 0.6806375 which is greater than 0.5 but lower than 0.74 for the original model
 - This demonstrates that modeling Invertivore status using all three predictors for beak data is a better model and has a higher predictive power than just using the peak length.
 ---
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 class: center, middle
 ##Results of our Investigation
 
