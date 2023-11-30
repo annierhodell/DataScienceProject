@@ -1,5 +1,5 @@
 ---
-title: "Investigating the Correllation Between The Diet of Birds and Their Beak Measurement"
+title: "Investigating the Correlation Between The Diet of Birds and Their Beak Measurement"
 #subtitle: "Presentation subtitle (if any)"
 author: "Group 32 <br> Alice Bullard, Alice Miller, Annie O'Dell, Anna Scollay"
 institute: "University of Edinburgh"
@@ -141,7 +141,7 @@ birds_data_relocate <- birds_data_rename%>%
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 
-##Investigating the Corellation Between The Diet of Birds and Their Beak Measurement
+##Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
 
 Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
@@ -168,6 +168,17 @@ trophic_colors <- c("Herbivore" = "darkgreen",
                     "Omnivore" = "steelblue",
                     "Scavenger" = "wheat")
 
+Niche_colors <- c("Aquatic predator" = "lightseagreen",
+                   "Frugivore" = "thistle",
+                   "Granivore" = "peachpuff",
+                   "Herbivore aquatic" = "turquoise4",
+                   "Herbivore terrestrial" = "seagreen3",
+                   "Invertivore" = "indianred",
+                   "Nectarivore" = "mistyrose",
+                   "Omnivore" = "skyblue",
+                   "Scavenger" = "plum",
+                   "Vertivore" = "lightcoral")
+
 pie_chart_general_trophic <- birds_data %>%
   filter(!is.na(General_Trophic)) %>%
   ggplot(aes(x = "", fill = General_Trophic)) +
@@ -187,7 +198,7 @@ pie_chart_niche_trophic <- birds_data %>%
   ggplot(aes(x = "", fill = Niche_Trophic)) +
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
-  #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
+  scale_fill_manual(values = Niche_colors, name = "Trophic Type") +  # Assign colors and change legend name
   guides(fill = guide_legend(title = element_blank(),ncol = 2, keywidth=0.2, keyheight=0.5)) +  # Change legend name
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
@@ -299,15 +310,10 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-class:center, middle
-#Our Model
-Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
-
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##What is an invertivore?
 - An invertivore is a type of carnivore 
-- More than 60% of its diet is made up of invertibrates
+- They eat invertibrates such as insects, worms and arachnids
+- More than 60% of its diet is made up of these invertibrates
 - Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
 - They are most commonly found in the Shrubland and Woodland habitats
 
@@ -327,16 +333,21 @@ include_graphics("Invertivore image.jpeg")
 #  arrange(desc(n))
 ```
 ---
-
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+class:center, middle
+#Our Model
+Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
 
-##Equation of our model
-
-$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#Prediciting Whether a Bird is an Invertivore
+#We modeled Invertivore based on just the beak length to see if it had a similar effect
+
+
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
 ```{r Bird Model data tidying, include=FALSE}
 birds_model_2 <- birds_data %>%
   select(Niche_Trophic, Beak_Width, Beak_Depth, Beak_Nares_Length) %>%
@@ -380,37 +391,6 @@ roc_Invertivore <- birds_predict_v %>%
   roc_curve(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
 ```
 
-```{r Graph for Model for Carnivore, echo=FALSE, class="middle", fig.align='center'}
-# Plot ROC for Invertivore
-ROC_v <- autoplot(roc_Invertivore) +
-  labs(title = "ROC Curve for prediciting Invertivores",
-       subtitle = "Using Beak Nares Length, Width and Depth")+
-    theme(title = element_text(size=8))
-
-ROC_v
-```
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-
-#Prediciting Whether a Bird is an Invertivore
-
-```{r area under the curve for carnivore, echo=TRUE}
-#Area under curve
-birds_predict_v%>%
-  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
-```
-
-- This calculates the area under the curve. 
-- Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-
-#We also modeled Invertivore based on just the beak length to see if it had a similar effect
-
-
-$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
----
-background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
 ##ROC curve for model of Invertivore Status from length
 ```{r model of Invertivore based on beak length, echo=FALSE}
@@ -461,7 +441,42 @@ birds_predict_I1%>%
 ```
 
 - This calculates the area under the curve. 
-- Our value for this area 0.6806375 which is greater than 0.5 but lower than 0.74 for the original model
+- Our value for this area 0.6806375 which is greater than 0.5 which means it functions as a better predictor than random chance
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+##Equation of our model
+
+- Since the AUC value for the model wasn't as high as we might want, we decided to compare it with a new model which uses beak length along with beak width and beak depth to predict whether the bird was an invertivore
+
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+#Prediciting Whether a Bird is an Invertivore
+
+```{r Graph for Model for Carnivore, echo=FALSE, class="middle", fig.align='center'}
+# Plot ROC for Invertivore
+ROC_v <- autoplot(roc_Invertivore) +
+  labs(title = "ROC Curve for prediciting Invertivores",
+       subtitle = "Using Beak Nares Length, Width and Depth")+
+    theme(title = element_text(size=8))
+
+ROC_v
+```
+---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+#Prediciting Whether a Bird is an Invertivore
+
+```{r area under the curve for carnivore, echo=TRUE}
+#Area under curve
+birds_predict_v%>%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+```
+
+- This calculates the area under the curve. 
+- Our value for this area 0.74 which is greater than 0.5 but higher than 0.681 for the original model
 - This demonstrates that modeling Invertivore status using all three predictors for beak data is a better model and has a higher predictive power than just using the peak length.
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
