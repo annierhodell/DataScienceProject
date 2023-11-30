@@ -230,6 +230,17 @@ class:center, middle
 modeling whether a bird is an invertivore or not based of the length, depth and width of their beak
 
 ---
+##What is an invertivore?
+- An invertivore is a type of carnivore 
+- More than 60% of its diet is made up of invertibrates
+- The most common breeds of invertivore in our data set are 
+
+```{r facts abour invertivores, echo=FALSE, include=FALSE}
+birds_data %>%
+  filter(Niche_Trophic == "Invertivore") %>%
+  count(Species_Name)
+```
+---
 
 #Prediciting Whether a Bird is an Invertivore
 ```{r Bird Model data tidying, include=FALSE}
@@ -293,5 +304,8 @@ birds_predict_v%>%
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
+class: center, middle
+##Results of our Investigation
 
-#Results of our Investigation
+- Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an invertivore
+- 
