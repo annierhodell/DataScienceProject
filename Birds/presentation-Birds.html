@@ -170,8 +170,13 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##How much data is there for each trophic
+<<<<<<< HEAD
 - Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
 
+=======
+
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 &lt;img src="presentation-Birds_files/figure-html/pie chart of niche trophics-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -195,8 +200,19 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 - They are most commonly found in the Shrubland and Woodland habitats
 
 
+<<<<<<< HEAD
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+=======
+&lt;img src="Invertivore image.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+---
+##Equation of our model
+
+`$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$`
+---
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 #Prediciting Whether a Bird is an Invertivore
 
 
@@ -204,8 +220,12 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 
 &lt;img src="presentation-Birds_files/figure-html/Graph for Model for Carnivore-1.png" width="80%" /&gt;
 ---
+<<<<<<< HEAD
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Prediciting Whether a Bird is a Invertivore
+=======
+#Prediciting Whether a Bird is an Invertivore
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 
 ```r
 #Area under curve
@@ -223,7 +243,19 @@ birds_predict_v%&gt;%
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
+<<<<<<< HEAD
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+=======
+#We also modeled Invertivore based on just the beak length to see if it had a similar effect
+
+
+`$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$`
+---
+#ROC curve for the model of Invertivore predicted just from beak length
+
+&lt;img src="presentation-Birds_files/figure-html/model of Invertivore based on beak length-1.png" width="80%" /&gt;
+---
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 class: center, middle
 ##Results of our Investigation
 

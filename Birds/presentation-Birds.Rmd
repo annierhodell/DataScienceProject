@@ -236,8 +236,13 @@ birds_data %>%
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##How much data is there for each trophic
+<<<<<<< HEAD
 - Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
 
+=======
+
+- Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 ```{r pie chart of niche trophics, echo=FALSE, out.width= "60%", fig.align='center', class='middle'}
 birds_data %>%
   filter(!is.na(Niche_Trophic)) %>%
@@ -289,6 +294,11 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 - Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
 - They are most commonly found in the Shrubland and Woodland habitats
 
+
+```{r image of bird, echo=FALSE, out.width= "40%",class="middle", fig.align="center"}
+include_graphics("Invertivore image.jpeg")
+```
+
 ```{r facts abour invertivores, echo=FALSE, include=FALSE}
 #birds_data %>%
 #  filter(Niche_Trophic == "Invertivore") %>%
@@ -300,7 +310,14 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 #  arrange(desc(n))
 ```
 ---
+<<<<<<< HEAD
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+=======
+##Equation of our model
+
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 1.171 - 0.016(Beak Nares Length) + 0.151(Beak Width) - 0.271(Beak Depth)$$
+---
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 #Prediciting Whether a Bird is an Invertivore
 ```{r Bird Model data tidying, include=FALSE}
 birds_model_2 <- birds_data %>%
@@ -353,8 +370,12 @@ autoplot(roc_Invertivore) +
 
 ```
 ---
+<<<<<<< HEAD
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 #Prediciting Whether a Bird is a Invertivore
+=======
+#Prediciting Whether a Bird is an Invertivore
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 ```{r area under the curve for carnivore, echo=TRUE}
 #Area under curve
 birds_predict_v%>%
@@ -364,7 +385,62 @@ birds_predict_v%>%
 - This calculates the area under the curve. 
 - Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
 ---
+<<<<<<< HEAD
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+=======
+#We also modeled Invertivore based on just the beak length to see if it had a similar effect
+
+
+$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
+---
+#ROC curve for the model of Invertivore predicted just from beak length
+
+```{r model of Invertivore based on beak length, echo=FALSE, fig.width="40%"}
+#model for predicting Invertivore based off one factor (model 1)
+
+birds_rec_I1 <- recipe(Invertivore_Status ~ Beak_Nares_Length, data = train_data_2) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+birds_mod_I1 <- logistic_reg() %>%
+  set_engine("glm")
+
+birds_wflow_I1 <- workflow() %>%
+  add_recipe(birds_rec_I1) %>%
+  add_model(birds_mod_I1)
+
+#fit 1
+birds_fit_I1 <- birds_wflow_I1 %>%
+  fit(data = train_data_2)
+
+#tidy(birds_fit_I1)
+
+# Making the predictor
+birds_predict_I1 <- predict(birds_fit_I1, test_data_2, type = "prob") %>%
+  bind_cols(test_data_2)
+
+# ROC for Invertivore
+roc_Invertivore_I1 <- birds_predict_I1 %>%
+  roc_curve(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+
+# Plot ROC for Invertivore
+ROC_I1 <- autoplot(roc_Invertivore_I1) +
+  labs(title = "ROC curve for Predicting Invertivores",
+       subtitle = "based off beak nares length")
+
+ROC_I1
+```
+---
+#Prediciting Whether a Bird is an Invertivore
+```{r area under the curve for carnivore, echo=TRUE}
+#Area under curve
+birds_predict_I1%>%
+  roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
+```
+
+- This calculates the area under the curve. 
+- Our value for this area 0.74 which is greater than 0.5 which is said to be random choice.
+---
+>>>>>>> 3e4be4b2151ac2c96aff471fbd09bfc04bc48bf6
 class: center, middle
 ##Results of our Investigation
 
