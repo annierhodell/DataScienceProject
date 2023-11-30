@@ -179,36 +179,13 @@ Niche_colors <- c("Aquatic predator" = "lightseagreen",
                    "Scavenger" = "plum",
                    "Vertivore" = "lightcoral")
 
-pie_chart_general_trophic <- birds_data %>%
-  filter(!is.na(General_Trophic)) %>%
-  ggplot(aes(x = "", fill = General_Trophic)) +
-  geom_bar(width = 1, stat = "count") +
-  coord_polar(theta = "y") +
-  scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = element_blank(), ncol = 3, keywidth=0.2, keyheight=0.5)) +  # Change legend name
-  theme(axis.text = element_blank(),  # Remove axis text
-        axis.title = element_blank(),  # Remove axis title
-        legend.position = "bottom",
-        legend.text = element_text(size =10),
-        legend.title = element_text(size = 12))  
-
-
-pie_chart_niche_trophic <- birds_data %>%
-  filter(!is.na(Niche_Trophic)) %>%
-  ggplot(aes(x = "", fill = Niche_Trophic)) +
-  geom_bar(width = 1, stat = "count") +
-  coord_polar(theta = "y") +
-  scale_fill_manual(values = Niche_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = element_blank(),ncol = 2, keywidth=0.2, keyheight=0.5)) +  # Change legend name
-  theme(axis.text = element_blank(),  # Remove axis text
-        axis.title = element_blank(),  # Remove axis title
-        legend.position = "bottom",
-        legend.text = element_text(size = 10),
-        legend.title = element_text(size = 12))
-
-
-grid.arrange(pie_chart_general_trophic, pie_chart_niche_trophic, ncol = 2,
-             widths = c(10, 13))
+birds_data %>%
+  filter(General_Trophic != "NA" & Niche_Trophic != "NA") %>%
+  ggplot(mapping = aes(x = General_Trophic, fill = Niche_Trophic)) +
+  scale_fill_manual(values = Niche_colors, name = "Niche Trophic Type")+
+  geom_bar() +
+  labs(title = "Frequency of Trophic Level Species", x = "Trophic Level", y = "Number of Species", fill = "Trophic Niche") +
+  theme_bw()
 
 #find a way to move the figure up on the presentation
 ```
@@ -277,11 +254,11 @@ birds_data %>%
   ggplot(aes(x = "", fill = Niche_Trophic)) +
   geom_bar(width = 1, stat = "count") +
   coord_polar(theta = "y") +
-  #scale_fill_manual(values = trophic_colors, name = "Trophic Type") +  # Assign colors and change legend name
-  guides(fill = guide_legend(title = "Trophic Type", nrow = 3)) +  # Change legend name
+  scale_fill_manual(values = Niche_colors, name = "Trophic Type") + 
+  guides(fill = guide_legend(title = "Trophic Type", nrow = 3)) + 
   labs(title = "Distribution of Trophic Types") +
-  theme(axis.text = element_blank(),  # Remove axis text
-        axis.title = element_blank(),  # Remove axis title
+  theme(axis.text = element_blank(),  
+        axis.title = element_blank(),  
         legend.position = "bottom")
 ```
 
@@ -311,7 +288,7 @@ birds_data %>%
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##What is an invertivore?
-- An invertivore is a type of carnivore 
+- Invertivores are generally carnivores although many are omnivores
 - They eat invertibrates such as insects, worms and arachnids
 - More than 60% of its diet is made up of these invertibrates
 - Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
@@ -337,6 +314,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 class:center, middle
 #Our Model
 Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
+We have decided to use a logistical model for this since we are predicting a discrete variable
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
@@ -495,6 +473,25 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 - According to 
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##References
+
+1 (Burleydam garden Centre):
+
+- Burleydam Garden Centre, published 15/01/21, *What are the Different Types of Bird Beaks?*, electronic outdoor wildlife sight with descriptions on different bird beak types, available at URL: <https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/>, accessed on 28/11/23
+
+2 (BirdLife 2020):
+
+- Accessed from figshare (URL: <https://figshare.com/s/b990722d72a26b5bfead?file=38429885)>, accessed on 27/11/2023.
+
+- HBW-BirdLife Version 5.0 (December 2020). *Handbook of the Birds of the World and BirdLife International (2020)*. Handbook of the Birds of the World and BirdLife International digital checklist of the birds of the world. Version 5. Available at: <http://datazone.birdlife.org/userfiles/file/Species/Taxonomy/HBW-BirdLife_Checklist_v5_Dec20.zip>    
+
+Figure 1: 
+
+- Kayla Fisk, published: 15/12/22, *Bird Anatomy: Beak*, image of eagle head with labelled beak anatomy. Avaiable at URL: <https://kaylafisk.com/tag/drawing/>, accessed on 27/11/23
+
+Figure 2: 
+
+- Pongthanin Thanisantipan, *Watercolor painted beautiful bird, Hand drawn colorful bird Free PNG*, Vecteezy, image of water colour bird originally without labels, lables added by our own team, Avaiable at URL: <https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird>, accessed on 28/11/23
 
 
