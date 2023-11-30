@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-<<<<<<< HEAD
     <title>Investigating the Correlation Between The Diet of Birds and Their Beak Measurement</title>
-=======
-    <title>Investigating the Correllation Between The Diet of Birds and Their Beak Measurement</title>
->>>>>>> cde756accc0e2380b2b6f51e2b5c0950b2b8983f
     <meta charset="utf-8" />
     <meta name="author" content="Group 32   Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay" />
     <meta name="date" content="2023-11-30" />
@@ -17,11 +13,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-<<<<<<< HEAD
 # Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
-=======
-# Investigating the Correllation Between The Diet of Birds and Their Beak Measurement
->>>>>>> cde756accc0e2380b2b6f51e2b5c0950b2b8983f
 ]
 .author[
 ### Group 32 <br> Alice Bullard, Alice Miller, Annie O’Dell, Anna Scollay
@@ -48,7 +40,7 @@ background-position: top center
 
 
 
-##Our Data
+#Our Data
 We chose the AVONET data set which outlines functional trait data for all birds including data on:
 - Species
 - Habitat
@@ -134,7 +126,7 @@ birds_data_rename &lt;- birds_data_select%&gt;%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Finally we relocated the Species ID to come before the Species Name
+##Finally we relocated the Species ID to come before the Species Name
 
 ```r
 birds_data_relocate &lt;- birds_data_rename%&gt;%
@@ -145,7 +137,7 @@ birds_data_relocate &lt;- birds_data_rename%&gt;%
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 class: center, middle
 
-##Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
+#Investigating the Correlation Between The Diet of Birds and Their Beak Measurement
 
 Our aim is to prove that birds with similar diets will have similar beak sizes.
 ---
@@ -201,7 +193,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##What is an invertivore?
-- An invertivore is a type of carnivore 
+- Invertivores are generally carnivores although many are omnivores
 - They eat invertibrates such as insects, worms and arachnids
 - More than 60% of its diet is made up of these invertibrates
 - Some examples of breeds of invertivore in our data set are Abroscopus albogularis and Acanthidops bairdi
@@ -216,11 +208,12 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 class:center, middle
 #Our Model
 Predicting whether a bird is an invertivore or not based of the length, depth and width of their beak
+We have decided to use a logistical model for this since we are predicting a discrete variable
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#We modeled Invertivore based on just the beak length to see if it had a similar effect
+##We modeled Invertivore based on just the beak length to see if it had a similar effect
 
 
 `$$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$`
@@ -238,7 +231,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 &lt;img src="presentation-Birds_files/figure-html/printing roc curve-1.png" width="80%" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Prediciting Whether a Bird is an Invertivore
+##Prediciting Whether a Bird is an Invertivore
 
 ```r
 #Area under curve
@@ -266,13 +259,13 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#Prediciting Whether a Bird is an Invertivore
+##Prediciting Whether a Bird is an Invertivore
 
 &lt;img src="presentation-Birds_files/figure-html/Graph for Model for Carnivore-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-#Prediciting Whether a Bird is an Invertivore
+##Prediciting Whether a Bird is an Invertivore
 
 
 ```r
@@ -294,19 +287,39 @@ birds_predict_v%&gt;%
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-##Results of our Investigation
-
+#Results of our Investigation
 - Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an Invertivore
 - 
 &lt;img src="presentation-Birds_files/figure-html/printing both roc curves-1.png" width="80%" /&gt;
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Advantages and Limitations of our model
+#Advantages and Limitations of our model
 - AOC of the model with all beak variables is higher than with just one
-- According to 
+- According to Occam's Razor, among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected
+- However, since the model using all three types of beak data has a higher AUC, it is still the better predictor and so is the model that we selected
+-Another limitation of our model is that, since a logistic model can only predict yes or no, and can't predict multiple variables simultaneously so we can't predict which type of niche trophic the bird is if it isn't a invertivore, only that it isn't 
 
 ---
+background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&amp;w=2342&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 ##References
+
+1 (Burleydam garden Centre):
+
+- Burleydam Garden Centre, published 15/01/21, *What are the Different Types of Bird Beaks?*, electronic outdoor wildlife sight with descriptions on different bird beak types, available at URL: &lt;https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/&gt;, accessed on 28/11/23
+
+2 (BirdLife 2020):
+
+- Accessed from figshare (URL: &lt;https://figshare.com/s/b990722d72a26b5bfead?file=38429885)&gt;, accessed on 27/11/2023.
+
+- HBW-BirdLife Version 5.0 (December 2020). *Handbook of the Birds of the World and BirdLife International (2020)*. Handbook of the Birds of the World and BirdLife International digital checklist of the birds of the world. Version 5. Available at: &lt;http://datazone.birdlife.org/userfiles/file/Species/Taxonomy/HBW-BirdLife_Checklist_v5_Dec20.zip&gt;    
+
+Figure 1: 
+
+- Kayla Fisk, published: 15/12/22, *Bird Anatomy: Beak*, image of eagle head with labelled beak anatomy. Avaiable at URL: &lt;https://kaylafisk.com/tag/drawing/&gt;, accessed on 27/11/23
+
+Figure 2: 
+
+- Pongthanin Thanisantipan, *Watercolor painted beautiful bird, Hand drawn colorful bird Free PNG*, Vecteezy, image of water colour bird originally without labels, lables added by our own team, Avaiable at URL: &lt;https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird&gt;, accessed on 28/11/23
 
 
     </textarea>
