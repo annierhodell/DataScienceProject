@@ -47,13 +47,51 @@ birds_data <- birds_data_og %>%
 
 In this project we want to investigate the correlation between the diets and beak measurements of birds. We want to figure out if you can predict a bird diet based on their beak measurements alone.
 
+### Our Data
+
+Our main data set for this project is an AVONET Supplementary Data Set called "birds_data". It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
+
+We will be focusing on the following variables of this data set that are useful in our project:
+
+:::: {style="display: flex;"}
+
+:::{}
+
+- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
+
+- Total Individuals: Number of individual birds measured for each species.
+
+- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
+
+- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
+
+- Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
+
+- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 2).
+
+:::
+
+:::{}
+
+```{r fig 21, echo = FALSE, out.width = "75%", fig.align = "right", fig.cap= "figure 2: Bird Measurements Taken"}
+include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
+```
+
+:::
+
+::::
+
+- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
+
+- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
+
 ### The Bird Beak
 :::: {style="display: flex;"}
 :::{}
 
 A bird's beak anatomy can vary greatly in size and shape depending on its habitat and diet. A bird uses its for more than just eating, they are also used to build nests and sometimes to fight of other creatures invading their territory. 
 
-Depending on the function a beak is required to carry out for a certain diet, the beak shape and size can vary greatly. e.g.
+Depending on the function a beak is required to carry out for a certain diet, the beak shape and size can vary greatly (1). e.g.
 
 - A cone shaped beak is used for picking up and cracking seeds easily.
 
@@ -102,9 +140,10 @@ niche_table
 kable(niche_table[1:10, ])
 ```
 
+<<<<<<< HEAD
 ### Our Data
 
-Our main data set for this project is an AVONET Supplementary Data Set called "birds_data". It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
+Our main data set for this project is an AVONET Supplementary Data Set called "birds_data" (2). It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
 
 We will be focusing on the following variables of this data set that are useful in our project:
 
@@ -140,6 +179,8 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 
 - Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
+=======
+>>>>>>> e46b92f625cc05d551911f7c5529341c8ff68a70
 # Methods 
 
 ### Data Tidying
@@ -296,7 +337,7 @@ This further shows how birds with more variation in their diets have a higher va
 
 This pie chart shows the proportion of niche trophics our data includes:
 
-```{r echo=FALSE, piechartniche}
+```{r echo=FALSE, piechartniche, fig.align='center'}
 #Pie chart of the Niche trophic levels proportions
 
 birds_data %>%
@@ -308,7 +349,8 @@ birds_data %>%
   labs(title = "Distribution of Niche Trophic Types") +
   theme(axis.text = element_blank(),  # Remove axis text
         axis.title = element_blank(),  # Remove axis title
-        legend.position = "bottom")
+        legend.position = "bottom",
+        legend.text = element_text(size = 5))
 
 
 ```
@@ -376,7 +418,7 @@ roc_Invertivore_I1 <- birds_predict_I1 %>%
 
 # Plot ROC for Invertivore
 ROC_I1 <- autoplot(roc_Invertivore_I1) +
-  labs(title = "ROC for Predicting Invertivores",
+  labs(title = "ROC Curve for Predicting Invertivores",
        subtitle = "Using Beak Nares Length") +
   theme(text = element_text(size=8))
 ```
@@ -409,8 +451,8 @@ roc_Invertivore <- birds_predict_I %>%
 
 # Plot ROC for Invertivore
 roc_I <- autoplot(roc_Invertivore) +
-  labs(title = "ROC for Prediciting Invertivores",
-       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")+
+  labs(title = "ROC Curve for Prediciting Invertivores",
+       subtitle = "Using Beak Nares Length, Beak Width, Beak Depth")+
     theme(text = element_text(size=8))
 
 ```
@@ -515,9 +557,23 @@ kable(bird_pred_I1, col.names = c("", "Bird is not Invertivore", "Bird is Invert
 
 i did a word count and its currently at 1646
 
-references:
-- figure 1: https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
+# References
 
-- bird beaks: https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/
+1 (Burleydam garden Centre):
 
-- fig 1: https://kaylafisk.com/tag/drawing/
+- Burleydam Garden Centre, published 15/01/21, *What are the Different Types of Bird Beaks?*, electronic outdoor wildlife sight with descriptions on different bird beak types, available at URL: <https://burleydamgardencentre.co.uk/blog/what-are-the-different-types-of-bird-beaks/>, accessed on 28/11/23
+
+2 (BirdLife 2020):
+
+- Accessed from figshare (URL: <https://figshare.com/s/b990722d72a26b5bfead?file=38429885)>, accessed on 27/11/2023.
+
+- HBW-BirdLife Version 5.0 (December 2020). *Handbook of the Birds of the World and BirdLife International (2020)*. Handbook of the Birds of the World and BirdLife International digital checklist of the birds of the world. Version 5. Available at: <http://datazone.birdlife.org/userfiles/file/Species/Taxonomy/HBW-BirdLife_Checklist_v5_Dec20.zip>    
+
+Figure 1: 
+
+- Kayla Fisk, published: 15/12/22, *Bird Anatomy: Beak*, image of eagle head with labelled beak anatomy. Avaiable at URL: <https://kaylafisk.com/tag/drawing/>, accessed on 27/11/23
+
+Figure 2: 
+
+- Pongthanin Thanisantipan, *Watercolor painted beautiful bird, Hand drawn colorful bird Free PNG*, Vecteezy, image of water colour bird originally without labels, lables added by our own team, Avaiable at URL: <https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird>, accessed on 28/11/23
+
