@@ -322,6 +322,7 @@ split_data_2 <- initial_split(birds_model_2, prop = 0.8)
 train_data_2 <- training(split_data_2)
 test_data_2 <- testing(split_data_2)
 ```
+- We then made a workflow, fitted it to our training data and created the predictor based off the test data.
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
