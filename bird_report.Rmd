@@ -47,6 +47,44 @@ birds_data <- birds_data_og %>%
 
 In this project we want to investigate the correlation between the diets and beak measurements of birds. We want to figure out if you can predict a bird diet based on their beak measurements alone.
 
+### Our Data
+
+Our main data set for this project is an AVONET Supplementary Data Set called "birds_data". It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
+
+We will be focusing on the following variables of this data set that are useful in our project:
+
+:::: {style="display: flex;"}
+
+:::{}
+
+- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
+
+- Total Individuals: Number of individual birds measured for each species.
+
+- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
+
+- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
+
+- Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
+
+- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 2).
+
+:::
+
+:::{}
+
+```{r fig 21, echo = FALSE, out.width = "75%", fig.align = "right", fig.cap= "figure 2: Bird Measurements Taken"}
+include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
+```
+
+:::
+
+::::
+
+- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
+
+- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
+
 ### The Bird Beak
 :::: {style="display: flex;"}
 :::{}
@@ -102,6 +140,7 @@ niche_table
 kable(niche_table[1:10, ])
 ```
 
+<<<<<<< HEAD
 ### Our Data
 
 Our main data set for this project is an AVONET Supplementary Data Set called "birds_data" (2). It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
@@ -140,6 +179,8 @@ include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_b
 
 - Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
+=======
+>>>>>>> e46b92f625cc05d551911f7c5529341c8ff68a70
 # Methods 
 
 ### Data Tidying
@@ -324,7 +365,7 @@ For our model we will be predicting whether or not a species of bird is a certai
 
 Initially, we wanted to try and see whether one predictor (just beak depth) would be a better predictor model than the three predictors, length, width and depth. 
 
-Our first model, model-1, uses only beak depth as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model for Invertivores that uses all 3 predictor values (beak length, width and depth).
+Our first model, model-I1, uses only beak Nares Length as a predictor value to predict whether the bird is an Invertivore or not. We then made a second model for Invertivores that uses all 3 predictor values (beak length, width and depth).
 
 ```{r include=FALSE, model-data, echo=FALSE}
 #creating a new data set, with a yes no column for Invertivore
@@ -436,6 +477,7 @@ grid.arrange(ROC_I1, roc_I, ncol = 2)
 ```
 
 ```{r AUC Values, include=FALSE}
+#this is how we found the AUC values and then copied them into the table.
 #Area under curve for model I1
 birds_predict_I1%>%
   roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")
@@ -446,7 +488,22 @@ birds_predict_I%>%
 
 #needs to be seen in report somehow
 
+Model_table <- tibble(
+  "Model" = c("model with 1 variable", "Model with 3 variables"),
+  "AUC vlue" = c("0.7395973", "0.6806375"))
+
+
 ```
+
+```{r Model-table, echo = FALSE, results='asis'}
+kable(Model_table[1:2, ])
+```
+
+
+### What This Means
+
+The ROC Curve on the left model_I1 is a good model. It's area under the curve for the ROC graph is above 0.5, which means that our model is better at predicting whether a bird is an Invertivore or not than random chance. The Curve itself is above the diagonal
+
 
 # Discussion
 

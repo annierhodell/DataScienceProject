@@ -13,10 +13,12 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 background-position: top center
+
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
 library(tidyverse)
@@ -56,6 +58,18 @@ birds_data <- birds_data_og %>%
   relocate(Species_ID, .before = Species_Name)
 ```
 
+```{r Background image, include=FALSE}
+
+#Background image
+style_xaringan(
+  title_slide_background_image = "Background photo of birds.jpeg",
+  inverse_text_color = "white",
+  inverse_text_shadow = TRUE)
+  
+```
+
+
+
 ##Our Data
 We chose the AVONET data set which outlines functional trait data for all birds including data on:
 - Species
@@ -87,7 +101,7 @@ birds_data_og %>%
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Then we selected the columns that were useful to our investiagtion
+##Then we selected the columns that were useful to our investiagtion
 
 ```{r data Tidying select, echo=TRUE}
 birds_data_select <- birds_data_og %>%
@@ -100,7 +114,7 @@ birds_data_select <- birds_data_og %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#We then renamed the column's that had unclear names
+##We then renamed the column's that had unclear names
 ```{r rename data tidying, echo=TRUE}
 birds_data_rename <- birds_data_select%>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
@@ -365,10 +379,12 @@ roc_Invertivore <- birds_predict_v %>%
 
 ```{r Graph for Model for Carnivore, echo=FALSE}
 # Plot ROC for Invertivore
-autoplot(roc_Invertivore) +
+ROC_v <- autoplot(roc_Invertivore) +
   labs(title = "ROC Curve for prediciting Invertivores",
-       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")+
+    theme(title = element_text(size=8))
 
+ROC_v
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
@@ -391,13 +407,9 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 
 $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
 ---
-
-##ROC curve for model of Invertivore Status from length
-
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-
-
+##ROC curve for model of Invertivore Status from length
 ```{r model of Invertivore based on beak length, echo=FALSE}
 #model for predicting Invertivore based off one factor (model 1)
 
@@ -428,7 +440,9 @@ roc_Invertivore_I1 <- birds_predict_I1 %>%
 # Plot ROC for Invertivore
 ROC_I1 <- autoplot(roc_Invertivore_I1) +
   labs(title = "ROC curve for Predicting Invertivores",
-       subtitle = "based off beak nares length")
+       subtitle = "based off beak nares length")+
+    theme(title = element_text(size=8))
+
 ```
 
 ```{r printing roc curve, echo=FALSE}
@@ -453,3 +467,6 @@ class: center, middle
 
 - Our model had an ROC value of 0.74 when using the three different types of beak data to predict whether or not the bird is an Invertivore
 - 
+```{r printing both roc curves, echo=FALSE, include=TRUE}
+grid.arrange(ROC_v, ROC_I1, ncol = 2)
+```
