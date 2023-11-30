@@ -71,12 +71,12 @@ style_xaringan(
 
 
 #Our Data
-We chose the AVONET data set which outlines functional trait data for all birds including data on:
+We chose the AVONET data set (2) which outlines functional trait data for all birds including data on:
 - Species
 - Habitat
 - Trophic (diet)
-- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length
-...
+- Different Beak size data including: Beak width, Beak Depth and two measures of Beak length...
+
 
 ```{r showing the data, echo=FALSE}
 birds_data %>%
@@ -90,7 +90,7 @@ background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb
 
 #Steps We Took to Tidy The Data
 
-##Firstly, we checked the data for NA's
+##Firstly, we checked the Data for NA's
 ```{r data tidying code, echo=TRUE}
 birds_data_og %>% 
   select(where(~ any(is.na(.)))) %>% 
@@ -101,7 +101,7 @@ birds_data_og %>%
 
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Then we selected the columns that were useful to our investigation
+##Then we Selected the Columns that were Useful to our Investigation
 
 ```{r data Tidying select, echo=TRUE}
 birds_data_select <- birds_data_og %>%
@@ -114,7 +114,7 @@ birds_data_select <- birds_data_og %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##We then renamed the column's that had unclear names
+##We then Renamed the Column's that had Unclear Names
 ```{r rename data tidying, echo=TRUE}
 birds_data_rename <- birds_data_select%>%
   rename("Species_Name" = "Species1", "Family" = "Family1", "Order" = "Order1",
@@ -131,7 +131,7 @@ birds_data_rename <- birds_data_select%>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Finally we relocated the Species ID to come before the Species Name
+##Finally we Relocated the Species ID to come Before the Species Name
 ```{r relocate data tidying, include=TRUE}
 birds_data_relocate <- birds_data_rename%>%
   relocate(Species_ID, .before = Species_Name)
@@ -153,7 +153,7 @@ include_graphics("Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jp
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Data on types of diets
+##Data on Types of Diets
 
 Our data had two options for the 'Type of diet' for the birds:
 
@@ -191,7 +191,7 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Variance in beak data between the general trophics
+##Variance in Beak Data Between the General Trophics
 
 - There is not a huge difference between the different general trophics, as shown below, so we decided to look more specifically at the niche trophics
 
@@ -216,7 +216,7 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##Variance in Beak data between the Niche Tropics
+##Variance in Beak Data between the Niche Tropics
 
 - There is a clearer distinction between the different niche trophics than there was for the general trophics
 
@@ -240,7 +240,7 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##How much data is there for each trophic
+##How much Data is there for each Trophic
 
 - Since there is the most data for Invertivores, we decided to focus predicting whether or not a bird was an Invertivore or not based on beak measurements for our models.
 
@@ -283,7 +283,7 @@ birds_data %>%
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-##What is an invertivore?
+##What is an Invertivore?
 - Invertivores are generally carnivores although many are omnivores
 - They eat invertebrates such as insects, worms, and arachnids
 - More than 60% of its diet is made up of these invertebrates
@@ -315,7 +315,7 @@ We have decided to use a logistical model for this since we are predicting a dis
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-##We modelled Invertivore based on just the beak length to see if it had a similar effect
+##We Modelled Invertivore based on just the Beak Length to see if it had a Similar Effect
 
 
 $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
@@ -366,7 +366,7 @@ roc_Invertivore <- birds_predict_v %>%
 ```
 
 
-##ROC curve for model of Invertivore Status from length
+##ROC Curve for Model of Invertivore Status from Length
 ```{r model of Invertivore based on beak length, echo=FALSE}
 #model for predicting Invertivore based off one factor (model 1)
 
@@ -419,7 +419,7 @@ birds_predict_I1%>%
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-##Equation of our model
+##Equation of our Model
 
 - Since the AUC value for the model wasn't as high as we might want, we decided to compare it with a new model which uses beak length along with beak width and beak depth to predict whether the bird was an invertivore.
 
@@ -462,7 +462,7 @@ grid.arrange(ROC_v, ROC_I1, ncol = 2)
 ```
 ---
 background-image: url(https://images.unsplash.com/photo-1470167494176-c2e966a4eb3d?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-#Advantages and Limitations of our model
+#Advantages and Limitations of our Model
 - AOC of the model with all beak variables is higher than with just one.
 - According to Occam's Razor, among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.
 - However, since the model using all three types of beak data has a higher AUC, it is still the better predictor and so is the model that we selected.
