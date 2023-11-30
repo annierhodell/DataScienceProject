@@ -222,6 +222,19 @@ grid.arrange(boxpt_Length_2, boxpt_Width_2, boxpt_Depth_2, ncol = 3)
 
 
 
+cutoff_prob <- 0.4
+
+bird_pred <- birds_predict_I %>%
+  mutate(
+    invertivore      = if_else(Invertivore_Status == "Invertivore", "Bird is Invertivore", "Bird is not Invertivore"),
+    invertivore_pred = if_else(.pred_Invertivore > cutoff_prob, "Bird labelled Invertivore", "Bird labelled not Invertivore")
+  ) %>%
+  count(invertivore_pred, invertivore) %>%
+  pivot_wider(names_from = invertivore, values_from = n)
+
+kable(bird_pred, col.names = c("", "Bird is not Invertivore", "Bird is Invertivore"))
+
+
 
 
 
