@@ -465,6 +465,10 @@ birds_predict_I%>%
 
 ```{r model-o, include=FALSE}
 
+#model for nectarivores maybe?
+
+
+
 
 ```
 
@@ -493,7 +497,7 @@ stuff about what this means :)
 Advantages:
 
 In terms of context researches prob have a similar model or method so that they can tell what birds eat without observation. e.g looking at bones. kind of how they do with dinosaurs.
-The thought behind out model is that birds beaks have evolved and taken on different beak shapes to best eat there chosen food type. Models like this could be used in conjuction with other methods.
+The thought behind out model is that birds beaks have evolved and taken on different beak shapes to best eat there chosen food type. Models like this could be used in conjunction with other methods.
 
 Limitations:
 
@@ -519,6 +523,24 @@ kable(bird_pred, col.names = c("", "Bird is not Invertivore", "Bird is Invertivo
 
 ```
 
+```{r cutoff table I1, echo=FALSE, fig.align='center'}
+
+#cutoff table for model 1, i was curious if it would have less false positives but no.
+
+
+cutoff_prob <- 0.3
+
+bird_pred_I1 <- birds_predict_I1 %>%
+  mutate(
+    invertivore      = if_else(Invertivore_Status == "Invertivore", "Bird is Invertivore", "Bird is not Invertivore"),
+    invertivore_pred = if_else(.pred_Invertivore > cutoff_prob, "Bird labelled Invertivore", "Bird labelled not Invertivore")
+  ) %>%
+  count(invertivore_pred, invertivore) %>%
+  pivot_wider(names_from = invertivore, values_from = n)
+
+kable(bird_pred_I1, col.names = c("", "Bird is not Invertivore", "Bird is Invertivore"))
+
+```
 
 references:
 - figure 1: https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
