@@ -51,19 +51,19 @@ In this project we want to investigate the correlation between the diets and bea
 :::: {style="display: flex;"}
 :::{}
 
-Bird beak anatomy can vary greatly in size and shape depending on habitat and diet (1). e.g.
+Bird beak anatomy can vary greatly in size and shape depending on habitat and diet (1), examples of this are:
 
-- Cone Shape: Picking up and cracking seeds easily.
+- Cone Shape: used for picking up and cracking seeds easily.
 
-- Broader/Flatter: Larger surface area for bug catching in the air.
+- Broader and Flatter: a larger surface area is better for bug catching in the air.
 
-- Tweezer-like: Bug eating off the ground.
+- Tweezer-like: ideal for eating bugs off the ground.
 
-- Strong with Downward Point: Hooking onto meat easier.
+- Strong Beak with a Downward Point: for hooking onto meat in order to eat it.
 
-- Long/Thin & Spear-like Tip: Fish Catching.
+- Long and Thin with a Spear-like Tip: nimble for fish catching.
 
-Bird beak anatomy is shown in figure 1.
+Bird beak anatomy consist of many parts (see fig 1), the main beak measurements we're looking at refer to the nares (nostrils). 
 :::
 
 :::{}
@@ -75,11 +75,11 @@ include_graphics("Birds/images/bird_beak.png")
 
 ### The Diets of Birds
 
-The different diets of birds are sorted into different trophic levels. A trophic level defines an organism's hierarchy in a ecosystem. The main three trophic levels are carnivores (eating >70% meat), omnivores (eating equal amounts of plants & meat) and herbivores (eating >70% plants).
+The different diets of birds are sorted into different trophic levels. A trophic level defines an organism's hierarchy in a ecosystem. The main three trophic levels are carnivores (diet consisting of consuming at least 70% meat), omnivores (diet consisting of consuming equal amounts of plants & meat) and herbivores (diet consisting of consuming at least 70% plants).
 
-We've left out scavenger birds since they make up <1% of our data, so using them may lead to false predictions.
+We have left out scavenger birds as a main trophic level as they only make up <1% of our data, so using them may lead to false predictions.
 
-The main trophic levels can be sub-categorised into niche trophics. Within these categories we found there to be a clearer link between the beak measurements and diets therefore we looked at the most common one, invertivores, to make our model. 
+The main trophic levels can be sub-categorised into niche trophics. Within these categories we found there to be more variation and a clearer link between the beak measurements and diets therefore we looked at the most common one, invertivores, to make our model (see "Niche Trophic Level" in "The Investigation Process" section).
 
 In order to be categorised as one the following trophic levels the species must get at least 60% of its diet from the corresponding food resource:
 
@@ -97,7 +97,7 @@ kable(niche_table[1:10, ])
 
 ### Our Data
 
-Our main data set is the AVONET Supplementary Data Set called "birds_data" (2). It contains different bird species measurements and behavior; i.e. their habitat, diet and migration patterns. 
+Our main data set is the AVONET Supplementary Data Set called "birds_data" (2). It contains different bird species measurements and behavior; i.e. their habitat, diet and migration patterns. naturally, we will be focusing on beak measurements and the different trophics.
 
 :::: {style="display: flex;"}
 
@@ -105,7 +105,7 @@ Our main data set is the AVONET Supplementary Data Set called "birds_data" (2). 
 
 The following variables are to be useful in our project:
 
-- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length as beak width and depth also refers to the nostril location, whereas the culmen length refers to the skull.
+- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length as beak width and depth also refers to the nostril location, whereas the culmen length only refers to the skull.
 
 - Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
 
@@ -135,7 +135,7 @@ In order to tidy our original data set we checked for official NAs and located t
 
 ### Data Science Techniques
 
-During our project we have used a multitude of data science techniques. The main ones we have used are as follows:
+During our project we have used a multitude of data science techniques. The primary ones we have used are as follows:
 
 - We have tidied and wrangled the data in order to make it clear and concise for analysing.
 
@@ -143,7 +143,7 @@ During our project we have used a multitude of data science techniques. The main
 
 - For data visualisation we have created many graphs to demonstrate our findings and data.
 
-- For our model, we're using logistic regression as we're predicting a catagorical value. 
+- For our model, we're using logistic regression as we're predicting a catagorical value from continuous values. 
 
 # Results 
 
@@ -214,11 +214,11 @@ boxpt_Depth_1 <- birds_data %>%
 grid.arrange(boxpt_Length_1, boxpt_Width_1, boxpt_Depth_1, ncol = 3)  
 ```
 
-Discounting the limited data for scavenger birds, these box plots shows that beak measurements don't differ greatly between trophic levels on average. 
+Discounting the limited data for scavenger birds, these box plots show that beak measurements don't differ greatly between trophic levels on average. 
 
 #### Niche Trophic Level
 
-As from above you can see that there wasn't a clear distinction of the bird measurements between different general trophic levels. So we decided to have a look at the niche trophic levels.
+As from above you can see that there wasn't a clear distinction of the bird measurements between different general trophic levels. So we decided to have a look at the niche trophic levels to see if they had more variation.
 
 ```{r boxplots 2, echo = FALSE, fig.align='center'}
 boxpt_Length_2<- birds_data %>%
@@ -248,9 +248,9 @@ boxpt_Depth_2 <- birds_data %>%
 grid.arrange(boxpt_Length_2, boxpt_Width_2, boxpt_Depth_2, ncol = 3)
 ```
 
-The trophic with the least varied measurements across the beak are the nectarivores whereas the trophics with the most variation are the aquatic predators, scavengers, omnivores and herbivore terrestrials. This makes sense as nectarivores have a very niche diet, only really consisting of nectar, compared to the much more varied diet of scavengers and omnivores. This shows that a more varied diet creates higher beak size variation across the trophic levels.
+The trophic with the least varied measurements across the beak are the nectarivores whereas the trophics with the most variation are the aquatic predators, scavengers, omnivores and herbivore terrestrials. This makes sense as nectarivores have a very niche diet, only really consisting of nectar, compared to the much more varied diet of scavengers and omnivores. This shows that a more varied diet creates higher beak size variation across the trophic levels, which is what we'd expect.
 
-The following graph summaries these mean beak data sets into values for each niche trophic level:
+Another way to visualise this is in the following graph which summaries these mean beak data sets into values for each niche trophic level:
 
 ```{r niche trophic barchart, echo=FALSE, fig.align='center'}
 birds_data %>%
@@ -274,7 +274,7 @@ birds_data %>%
                     values = c("Width" = "coral", "Length" = "maroon", "Depth" = "pink"))
 ```
 
-This further shows how birds with more variation in their diets have a higher variation of beak sizes and shapes.
+This further clearly shows how birds with more variation in their diets have a higher variation of beak sizes and shapes.
 
 This pie chart shows the proportion of niche trophics our data includes:
 
@@ -292,11 +292,11 @@ birds_data %>%
         legend.text = element_text(size = 5))
 ```
 
-The majority of our trophic niche data is the invertivores, so we will be using that data for our model.
+Almost 50% of our trophic niche data is the invertivores, so we will be using that data for our model.
 
 ### Modelling the Data
 
-In order to answer our question of is it possible to predict diet based on beak measurements, we will need to use a logistic regression model since this is a discrete variable case.
+In order to answer our question of is it possible to predict diet based on beak measurements, we will need to use a logistic regression model since we are looking at a discrete variable case.
 
 Our first model, model-I1, uses only beak depth as a predictor value to predict whether the bird is an invertivore or not. We then made a second model, model-I for invertivores that uses all 3 predictor values (beak length, width and depth).
 
