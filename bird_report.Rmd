@@ -376,8 +376,9 @@ roc_Invertivore_I1 <- birds_predict_I1 %>%
 
 # Plot ROC for Invertivore
 ROC_I1 <- autoplot(roc_Invertivore_I1) +
-  labs(title = "ROC curve for Predicting Invertivores",
-       subtitle = "based off beak nares length")
+  labs(title = "ROC for Predicting Invertivores",
+       subtitle = "Using Beak Nares Length") +
+  theme(text = element_text(size=8))
 ```
 
 ```{r model-c, include=FALSE}
@@ -408,8 +409,10 @@ roc_Invertivore <- birds_predict_I %>%
 
 # Plot ROC for Invertivore
 roc_I <- autoplot(roc_Invertivore) +
-  labs(title = "ROC Curve for prediciting Invertivores",
-       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")
+  labs(title = "ROC for Prediciting Invertivores",
+       subtitle = "Using Beak Nares Length, Beak Width and Beak Depth")+
+    theme(text = element_text(size=8))
+
 ```
 
 ```{r equations-1-c, include=FALSE}
@@ -425,7 +428,7 @@ birds_fir_I1 model equation:
 
 $$\log_{e}(\frac{p_{i}}{1-p_{i}}) = 0.809 - 0.058(Beak Nares Length)$$
 
-The ROC of models 1 and c are below:
+The ROC of models I1 and 1 are below:
 
 ```{r model-c&1, echo=FALSE, fig.align='center'}
 grid.arrange(ROC_I1, roc_I, ncol = 2)
