@@ -224,7 +224,6 @@ autoplot(roc_Invertivoreall) +
 
 
 
-
 #Area under curve
 birds_predict_v%>%
   roc_auc(truth = Invertivore_Status, ".pred_Invertivore", event_level = "second")

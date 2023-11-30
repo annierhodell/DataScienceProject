@@ -542,6 +542,8 @@ kable(bird_pred_I1, col.names = c("", "Bird is not Invertivore", "Bird is Invert
 
 ```
 
+i did a word count and its currently at 1646
+
 references:
 - figure 1: https://www.vecteezy.com/png/25217819-watercolor-painted-beautiful-bird-hand-drawn-colorful-bird
 
