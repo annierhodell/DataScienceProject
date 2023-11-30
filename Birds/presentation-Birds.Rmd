@@ -62,7 +62,8 @@ birds_data <- birds_data_og %>%
 #Background image
 style_xaringan(
   title_slide_background_image = "Background photo of birds.jpeg",
-  inverse_text_color = "#005513",)
+  inverse_text_color = "white",
+  inverse_text_shadow = TRUE)
   
 ```
 
