@@ -47,6 +47,44 @@ birds_data <- birds_data_og %>%
 
 In this project we want to investigate the correlation between the diets and beak measurements of birds. We want to figure out if you can predict a bird diet based on their beak measurements alone.
 
+### Our Data
+
+Our main data set for this project is an AVONET Supplementary Data Set called "birds_data". It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
+
+We will be focusing on the following variables of this data set that are useful in our project:
+
+:::: {style="display: flex;"}
+
+:::{}
+
+- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
+
+- Total Individuals: Number of individual birds measured for each species.
+
+- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
+
+- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
+
+- Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
+
+- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 2).
+
+:::
+
+:::{}
+
+```{r fig 21, echo = FALSE, out.width = "75%", fig.align = "right", fig.cap= "figure 2: Bird Measurements Taken"}
+include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
+```
+
+:::
+
+::::
+
+- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
+
+- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
+
 ### The Bird Beak
 :::: {style="display: flex;"}
 :::{}
@@ -101,44 +139,6 @@ niche_table
 ```{r niche-table, echo = FALSE, results='asis'}
 kable(niche_table[1:10, ])
 ```
-
-### Our Data
-
-Our main data set for this project is an AVONET Supplementary Data Set called "birds_data". It contains different bird species measurements and behavior; such as their habitat, diet and migration patterns. 
-
-We will be focusing on the following variables of this data set that are useful in our project:
-
-:::: {style="display: flex;"}
-
-:::{}
-
-- Species ID: Unique identifier for species (or species group) linking to the Avibase dataset which provide detailed information on taxonomy, synonymy and distribution for the world's birds.
-
-- Total Individuals: Number of individual birds measured for each species.
-
-- Complete Measures: Number of measured birds with a complete set of morphometric trait measurements.
-
-- Beak Length: The nares length is measured from the front edge of the nostril to the tip of the beak (see fig 2). We've chosen to focus on nares length over culmen length (the length from the tip of the beak to the base of the skull) as beak width and depth also refer to the nostril location, whereas the culmen length refers to the skull.
-
-- Beak Width: Width of the beak at the front edge of the nostrils (see fig 2).
-
-- Beak Depth: Depth of the beak at the front edge of the nostrils (see fig 2).
-
-:::
-
-:::{}
-
-```{r fig 2, echo = FALSE, out.width = "75%", fig.align = "right", fig.cap= "figure 2: Bird Measurements Taken"}
-include_graphics("Birds/Watercolor_painted_beautiful_bird,_Hand_drawn_colorful_bird.jpg")
-```
-
-:::
-
-::::
-
-- General Trophic: Main diet level groups (Carnivore, Omnivore, Herbivore, Scavenger)
-
-- Niche Trophic: Niche diet level, sub categories of Tropic Level groups.
 
 # Methods 
 
