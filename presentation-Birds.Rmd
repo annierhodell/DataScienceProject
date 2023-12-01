@@ -60,8 +60,8 @@ birds_data <- birds_data_og %>%
 ```{r Background image, include=FALSE}
 #Background image
 style_xaringan(
-  title_slide_background_image = "Background photo of birds.jpeg",
-  inverse_text_color = "white",
+  title_slide_background_image = "Birds/images/Background Photo.jpeg",
+  inverse_text_color = "#FFFFFF",
   inverse_text_shadow = TRUE)
 ```
 
